@@ -2,11 +2,6 @@ cmake_minimum_required(VERSION 3.13)
 project(UniSockets)
 
 set(CMAKE_CXX_STANDARD 17)
-
-set(
-        INCLUDE_DIRS
-
-)
 set(
         SOURCE_FILES
         main.cpp
@@ -25,9 +20,11 @@ if(UNIX)
             "SocketWrapperLin.h"
     )
 endif()
+#add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
+set(CMAKE_BUILD_TYPE Release)
 
-include_directories(${INCLUDE_DIRS})
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
+add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCE_FILES})
+
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
 endif()
