@@ -20,11 +20,10 @@ if(UNIX)
             "SocketWrapperLin.h"
     )
 endif()
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
-#set(CMAKE_BUILD_TYPE Release)
-
-#add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCE_FILES})
+#add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
+add_library(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
 endif()
+
