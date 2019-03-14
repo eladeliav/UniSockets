@@ -3,6 +3,14 @@
 int main()
 {
     std::cout << "Hello, World!" << std::endl;
-    UniSocket uniSock(5400, SOMAXCONN);
+    try
+    {
+        UniSocket uniSock(5400, SOMAXCONN);
+    }catch(UniSocketException& e)
+    {
+        std::cout << e._errorMsg << std::endl;
+    }
+
+
     return 0;
 }

@@ -99,7 +99,7 @@ SocketWrapper::SocketWrapper(const int& port, const int& maxCon)
 
     int result = ::bind((SOCKET)this->_socket, (SOCKADDR*)&this->_address, sizeof(SOCKADDR_IN));
     if(result == SOCKET_ERROR)
-        throw UniSocketException("Failed to bind socket");
+        throw UniSocketException("Failed to bind socket to port ");
 
     result = ::listen((SOCKET)this->_socket, maxCon);
     if(result == SOCKET_ERROR)
