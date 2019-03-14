@@ -21,12 +21,15 @@ if(UNIX)
     )
 endif()
 #add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
-# Sources
-file(GLOB Library_SOURCES ${SOURCE_FILES}.cpp)
-file(GLOB Library_HEADER ${SOURCE_FILES}.hpp)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-# Executable
-add_library(${PROJECT_NAME} ${Library_SOURCES} ${Library_HEADERS})
+add_library(
+        UniSockets
+        STATIC
+        ${SOURCE_FILES}
+)
+#https://stackoverflow.com/questions/42456284/how-to-link-shared-library-dll-with-cmake-in-windows
+#add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
