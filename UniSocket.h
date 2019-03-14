@@ -5,7 +5,7 @@
 #pragma once
 #include <string>
 #if WIN32
-#include "SocketWrapperWin.h:
+#include "SocketWrapperWin.h"
 #else
 #include "SocketWrapperLin.h"
 #endif

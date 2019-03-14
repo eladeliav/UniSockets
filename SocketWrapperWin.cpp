@@ -132,7 +132,7 @@ SocketWrapper::SocketWrapper(const SOCKADDR_IN& address, const int& sock)
 
 SocketWrapper SocketWrapper::accept()
 {
-    int len = sizeof(struct SOCKADDR_IN);
+    int len = sizeof(SOCKADDR_IN);
 
     int conn = (int)::accept((SOCKET)this->_socket, (SOCKADDR*)&this->_address, &len);
     if(conn == INVALID_SOCKET)
