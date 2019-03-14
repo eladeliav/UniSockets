@@ -4,7 +4,11 @@
 
 #pragma once
 #include <string>
+#if WIN32
+#include "SocketWrapperWin.h:
+#else
 #include "SocketWrapperLin.h"
+#endif
 #define SIZE_HEADER_SPLITTER ":\n"
 
 class UniSocketException :public std::exception
