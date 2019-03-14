@@ -1,3 +1,0 @@
-D:/Programming/VisualStudioProjects/CPP/UniSockets/cmake-build-debug/CMakeFiles/UniSockets.dir
-D:/Programming/VisualStudioProjects/CPP/UniSockets/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Programming/VisualStudioProjects/CPP/UniSockets/cmake-build-debug/CMakeFiles/rebuild_cache.dir
