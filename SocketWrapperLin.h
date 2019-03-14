@@ -1,19 +1,19 @@
 //
-// Created by elade on 3/14/2019.
+// Created by Elad Eliav on 2019-03-14.
 //
 #pragma once
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 #include <string>
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-#include <winsock2.h>
-#include <ws2tcpip.h>
 
 class SocketWrapper
 {
 private:
-    SOCKADDR_IN _address;
+    sockaddr_in _address;
     int _socket;
-
-    bool initWinsock(WSADATA& wsaData);
 
 public:
     std::string ip = "127.0.0.1";
@@ -27,7 +27,7 @@ public:
 
     //server constructor
     SocketWrapper(const int& port, const int& maxCon);
-    SocketWrapper(const SOCKADDR_IN& address, const int& sock);
+    SocketWrapper(const sockaddr_in& address, const int& sock);
     SocketWrapper accept();
 
 };

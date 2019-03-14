@@ -7,16 +7,27 @@ set(
         INCLUDE_DIRS
 
 )
-
 set(
         SOURCE_FILES
         main.cpp
-        UniSocket.cpp
         UniSocket.h
-        SocketWrapperWin.cpp
-        SocketWrapperWin.h
+        UniSocket.cpp
 )
+if(WIN32)
+    list(APPEND SOURCE_FILES
+            "SocketWrapperWin.cpp"
+            "SocketWrapperWin.h"
+    )
+endif()
+if(UNIX)
+    list(APPEND SOURCE_FILES
+            "SocketWrapperLin.cpp"
+            "SocketWrapperLin.h"
+    )
+endif()
 
 include_directories(${INCLUDE_DIRS})
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
+if(WIN32)
+    target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
+endif()

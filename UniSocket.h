@@ -2,17 +2,12 @@
 // Created by elade on 3/14/2019.
 //
 
-#ifndef UNISOCKETS_UNISOCKET_H
-#define UNISOCKETS_UNISOCKET_H
-
+#pragma once
 #include <string>
-#if defined(_WIN32)
-#include "SocketWrapperWin.h"
-#endif
-
+#include "SocketWrapperLin.h"
 #define SIZE_HEADER_SPLITTER ":\n"
 
-class UniSocketException
+class UniSocketException :public std::exception
 {
 public:
     std::string _errorMsg;
@@ -40,5 +35,3 @@ public:
     UniSocket accept(void);
 };
 
-
-#endif //UNISOCKETS_UNISOCKET_H
