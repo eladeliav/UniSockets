@@ -4,6 +4,7 @@
 #include "UniSocket.h"
 #include "SocketWrapperWin.h"
 #include <ws2tcpip.h>
+#include <iostream>
 
 using namespace std;
 
@@ -95,11 +96,15 @@ SocketWrapper::SocketWrapper(const int& port, const int& maxCon)
 
     this->_address.sin_family = AF_INET;
     this->_address.sin_addr.s_addr = ::inet_addr(ip.c_str());
-    this->_address.sin_port = htons(port);
+    this->_address.sin_port = htons((u_short) port);
 
     int result = ::bind((SOCKET)this->_socket, (SOCKADDR*)&this->_address, sizeof(SOCKADDR_IN));
     if(result == SOCKET_ERROR)
+    {
+        cout << WSAGetLastError();
         throw UniSocketException("Failed to bind socket to port ");
+    }
+
 
     result = ::listen((SOCKET)this->_socket, maxCon);
     if(result == SOCKET_ERROR)

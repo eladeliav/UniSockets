@@ -19,7 +19,7 @@ private:
     bool initWinsock(WSADATA& wsaData);
 
 public:
-    std::string ip;
+    std::string ip = "127.0.0.1";
     // empty, client constructors
     SocketWrapper();
     SocketWrapper(const std::string& ip, const int& port);
