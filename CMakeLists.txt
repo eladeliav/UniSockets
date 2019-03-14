@@ -5,15 +5,18 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(
         INCLUDE_DIRS
-        "D:\\Programming\\VisualStudioProjects\\various includes"
-        "D:\\Programming\\VisualStudioProjects\\boost_1_69_0"
+
 )
 
 set(
         SOURCE_FILES
         main.cpp
-        main.h
+        UniSocket.cpp
+        UniSocket.h
+        SocketWrapperWin.cpp
+        SocketWrapperWin.h
 )
 
 include_directories(${INCLUDE_DIRS})
-add_executable(UniSockets ${SOURCE_FILES})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
+target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
