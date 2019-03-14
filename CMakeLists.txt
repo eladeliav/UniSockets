@@ -21,7 +21,12 @@ if(UNIX)
     )
 endif()
 #add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
-add_library(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
+# Sources
+file(GLOB Library_SOURCES ${SOURCE_FILES}.cpp)
+file(GLOB Library_HEADER ${SOURCE_FILES}.hpp)
+
+# Executable
+add_library(${PROJECT_NAME} ${Library_SOURCES} ${Library_HEADERS})
 
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
