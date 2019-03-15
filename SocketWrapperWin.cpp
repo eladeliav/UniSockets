@@ -190,9 +190,7 @@ SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
 
 SocketWrapper SocketWrapper::accept()
 {
-    int len = sizeof(SOCKADDR_IN);
-
-    int conn = (int) ::accept((SOCKET)this->_socket, (SOCKADDR * ) & this->_address, &len);
+    int conn = static_cast<int>(::accept((SOCKET)this->_socket, nullptr, nullptr));
     if (conn == INVALID_SOCKET)
         throw UniSocketException("Failed to accept socket");
 
@@ -202,9 +200,7 @@ SocketWrapper SocketWrapper::accept()
 
 SocketWrapper SocketWrapper::accept(int& result)
 {
-    int len = sizeof(SOCKADDR_IN);
-
-    int conn = (int) ::accept((SOCKET)this->_socket, (SOCKADDR * ) & this->_address, &len);
+    int conn = static_cast<int>(::accept((SOCKET)this->_socket, nullptr, nullptr));
     result = conn;
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
