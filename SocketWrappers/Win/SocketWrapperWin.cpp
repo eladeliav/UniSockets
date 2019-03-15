@@ -1,38 +1,54 @@
 //
-// Created by Elad Eliav on 2019-03SOCKET_ERROR4.
+// Created by elade on 3/14/2019.
 //
-
-#include "SocketWrapperLin.h"
-#include "UniSocket.h"
+#include "../../UniSocket.h"
+#include "SocketWrapperWin.h"
+#include <ws2tcpip.h>
 #include <iostream>
 
-using std::string;
-
-#define SOCKET_ERROR -1
+using namespace std;
 
 SocketWrapper::SocketWrapper()
-{}
+{
+
+}
 
 SocketWrapper::SocketWrapper(const string &ip, const int &port)
 {
+    WSADATA wsaData;
+    if (!initWinsock(wsaData))
+        throw UniSocketException("Failed to initialize winsock");
+
     this->ip = ip;
-    this->_socket = ::socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_socket == SOCKET_ERROR)
+    this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
+    if (this->_socket == INVALID_SOCKET)
         throw UniSocketException("Failed to initialize socket");
 
     this->_address.sin_family = AF_INET;
     this->_address.sin_addr.s_addr = ::inet_addr(ip.c_str());
     this->_address.sin_port = htons(port);
 
-    int result = connect(_socket, (struct sockaddr *) &_address, sizeof(_address));
+    int result = ::connect((SOCKET)
+    this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
-        throw UniSocketException("Failed to connect to ip");
+    {
+        string message = "Failed to connect to ip " + ip + ":" + std::to_string(port);
+        throw UniSocketException(message);
+    }
+}
+
+bool SocketWrapper::initWinsock(WSADATA &wsaData)
+{
+    //initializing winsock
+    int iResult = ::WSAStartup(MAKEWORD(2, 2), &wsaData);
+    return iResult == 0;
 }
 
 void SocketWrapper::send(const string &data)
 {
-    string msg = std::to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
-    ::send(this->_socket, msg.c_str(), msg.length(), 0);
+    string msg = to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
+    ::send((SOCKET)
+    this->_socket, msg.c_str(), (int) msg.length(), 0);
 }
 
 string SocketWrapper::recv()
@@ -46,60 +62,68 @@ string SocketWrapper::recv()
     {
         do
         {
-            bytesReceived = static_cast<int>(::recv(this->_socket, &tmpBuf, 1, 0));
+            bytesReceived = ::recv((SOCKET)
+            this->_socket, &tmpBuf, 1, 0);
             if (bytesReceived > 0)
             {
                 result += tmpBuf;
             } else
             {
-                throw UniSocketException("Timed out");
+                throw UniSocketException("Timed out while receiving");
             }
         } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
-        int startIndex = static_cast<int>(result.find(SIZE_HEADER_SPLITTER));
+        int startIndex = (int) result.find(SIZE_HEADER_SPLITTER);
         dataSize = stoi(result.substr(0, static_cast<unsigned long long int>(startIndex)));
         result.clear();
         readHeader = true;
     }
     char *dataBuf = new char[dataSize + 1];
-    ::recv(this->_socket, dataBuf, static_cast<size_t>(dataSize), MSG_WAITALL);
+    ::recv((SOCKET)
+    this->_socket, dataBuf, dataSize, MSG_WAITALL);
     readHeader = false;
     return dataBuf;
 }
 
 void SocketWrapper::close()
 {
-    int result = ::close(this->_socket);
-    if (result == -1)
-    {
-        std::cout << "Failed to close socket" << std::endl;
-        throw UniSocketException("Failed to close socket properly");
-    }
-
+    WSACleanup();
+    closesocket((SOCKET)
+    this->_socket);
 }
 
+//server
 SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
 {
+    WSADATA wsaData;
+    if (!initWinsock(wsaData))
+        throw UniSocketException("Failed to initialize winsock");
+
     this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_socket == SOCKET_ERROR)
+    if (this->_socket == INVALID_SOCKET)
         throw UniSocketException("Failed to initialize socket");
 
     this->_address.sin_family = AF_INET;
     this->_address.sin_addr.s_addr = ::inet_addr(ip.c_str());
     this->_address.sin_port = htons((u_short) port);
 
-    int result = ::bind(this->_socket, reinterpret_cast<const sockaddr *>(&this->_address), sizeof(_address));
+    int result = ::bind((SOCKET)
+    this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
-        string message = "Failed to bind socket to port " + std::to_string(port);
-        throw UniSocketException(message);
+        throw UniSocketException("Failed to bind socket to port " + std::to_string(port));
     }
 
-    result = ::listen(this->_socket, maxCon);
+
+    result = ::listen((SOCKET)
+    this->_socket, maxCon);
     if (result == SOCKET_ERROR)
-        throw UniSocketException("Failed to listen on port ");
+    {
+        string message = "Failed to listen on port " + std::to_string(port);
+        throw UniSocketException(message);
+    }
 }
 
-string extractIp(sockaddr_in &address)
+string extractIp(SOCKADDR_IN &address)
 {
     char buff[18];
     sprintf(buff,
@@ -112,7 +136,7 @@ string extractIp(sockaddr_in &address)
     return buff;
 }
 
-SocketWrapper::SocketWrapper(const sockaddr_in &address, const int &sock)
+SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
 {
     this->_socket = sock;
     this->_address = address;
@@ -121,14 +145,13 @@ SocketWrapper::SocketWrapper(const sockaddr_in &address, const int &sock)
 
 SocketWrapper SocketWrapper::accept()
 {
-    int len = sizeof(struct sockaddr_in);
+    int len = sizeof(SOCKADDR_IN);
 
-    int conn = (int) ::accept(this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
-                              reinterpret_cast<socklen_t *>(&len));
-    if (conn == SOCKET_ERROR)
+    int conn = (int) ::accept((SOCKET)
+    this->_socket, (SOCKADDR * ) & this->_address, &len);
+    if (conn == INVALID_SOCKET)
         throw UniSocketException("Failed to accept new client");
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
     return newClient;
 }
-
