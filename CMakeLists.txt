@@ -8,7 +8,6 @@ set(
 )
 set(
         SOURCE_FILES
-        main.cpp
         UniSocket.h
         UniSocket.cpp
 )
@@ -47,7 +46,6 @@ add_library(
         SHARED
         ${SOURCE_FILES}
 )
-#add_executable(${PROJECT_NAME} main.cpp ${SOURCE_FILES})
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} ws2_32)

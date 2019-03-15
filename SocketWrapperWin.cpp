@@ -31,7 +31,10 @@ SocketWrapper::SocketWrapper(const string &ip, const int &port)
     int result = ::connect((SOCKET)
     this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
-        throw UniSocketException("Failed to connect to ip");
+    {
+        string message = "Failed to connect to ip " + ip + ":" + std::to_string(port);
+        throw UniSocketException(message);
+    }
 }
 
 bool SocketWrapper::initWinsock(WSADATA &wsaData)
@@ -66,7 +69,7 @@ string SocketWrapper::recv()
                 result += tmpBuf;
             } else
             {
-                throw UniSocketException("Timed out");
+                throw UniSocketException("Timed out while receiving");
             }
         } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
         int startIndex = (int) result.find(SIZE_HEADER_SPLITTER);
@@ -107,15 +110,17 @@ SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
     this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
-        cout << WSAGetLastError();
-        throw UniSocketException("Failed to bind socket to port ");
+        throw UniSocketException("Failed to bind socket to port " + std::to_string(port));
     }
 
 
     result = ::listen((SOCKET)
     this->_socket, maxCon);
     if (result == SOCKET_ERROR)
-        throw UniSocketException("Failed to listen on port " + port);
+    {
+        string message = "Failed to listen on port " + std::to_string(port);
+        throw UniSocketException(message);
+    }
 }
 
 string extractIp(SOCKADDR_IN &address)
