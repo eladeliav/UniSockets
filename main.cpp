@@ -9,7 +9,7 @@ int main()
         UniSocket uniSock(5400, SOMAXCONN);
     }catch(UniSocketException& e)
     {
-        std::cout << e._errorMsg << std::endl;
+        std::cout << e << std::endl;
     }
 
 

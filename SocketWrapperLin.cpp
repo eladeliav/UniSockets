@@ -82,7 +82,8 @@ SocketWrapper::SocketWrapper(const int& port, const int& maxCon)
     int result = ::bind(this->_socket, reinterpret_cast<const sockaddr *>(&this->_address), sizeof(_address));
     if(result == SOCKET_ERROR)
     {
-        throw UniSocketException("Failed to bind socket to port ");
+        string message = "Failed to bind socket to port " + std::to_string(port);
+        throw UniSocketException(message);
     }
 
 

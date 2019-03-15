@@ -13,9 +13,11 @@
 
 class UniSocketException :public std::exception
 {
-public:
+private:
     std::string _errorMsg;
+public:
     UniSocketException(std::string errorMsg);
+    friend std::ostream& operator<<(std::ostream& os, const UniSocketException& uniSockExcept);
 };
 
 class UniSocket

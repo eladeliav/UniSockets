@@ -19,7 +19,11 @@ if(WIN32)
     )
     list(APPEND JUST_HEADERS
             "SocketWrapperWin.h")
-endif()
+    set(OUTPUT_INCLUDE_DIR "D:/Programming/VisualStudioProjects/various includes/UniSockets/include/")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
+    endif()
 if(UNIX)
     list(APPEND SOURCE_FILES
             "SocketWrapperLin.cpp"
@@ -27,20 +31,22 @@ if(UNIX)
     )
     list(APPEND JUST_HEADERS
             "SocketWrapperLin.h")
-endif()
-#add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
-message("${JUST_HEADERS}")
+    set(OUTPUT_INCLUDE_DIR "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/include/")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
+    endif()
+
+message("include output: ${OUTPUT_INCLUDE_DIR}")
+message("lib output: ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 file(COPY ${JUST_HEADERS}
-        DESTINATION "D:/Programming/VisualStudioProjects/various includes/UniSockets/include/")
+        DESTINATION ${OUTPUT_INCLUDE_DIR})
 
 add_library(
         UniSockets
-        SHARED
+        STATIC
         ${SOURCE_FILES}
 )
-#https://stackoverflow.com/questions/42456284/how-to-link-shared-library-dll-with-cmake-in-windows
-#add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)

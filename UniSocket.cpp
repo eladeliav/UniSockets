@@ -3,6 +3,7 @@
 //
 
 #include "UniSocket.h"
+#include <iostream>
 
 UniSocketException::UniSocketException(std::string errorMsg)
 {
@@ -63,4 +64,10 @@ UniSocket UniSocket::accept(void) {
     SocketWrapper sw = _sock.accept();
     UniSocket us = UniSocket(sw.ip, sw);
     return us;
+}
+
+std::ostream& operator<<(std::ostream& os, const UniSocketException& uniSockExcept)
+{
+    os << uniSockExcept._errorMsg << std::endl;
+    return os;
 }
