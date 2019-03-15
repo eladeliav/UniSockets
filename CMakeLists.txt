@@ -41,20 +41,12 @@ message("include output: ${OUTPUT_INCLUDE_DIR}")
 message("lib output: ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 file(COPY ${JUST_HEADERS}
         DESTINATION ${OUTPUT_INCLUDE_DIR})
-if(UNIX)
+
 add_library(
         ${PROJECT_NAME}
-        STATIC
+        SHARED
         ${SOURCE_FILES}
 )
-    endif()
-if(WIN32)
-    add_library(
-            ${PROJECT_NAME}
-            SHARED
-            ${SOURCE_FILES}
-    )
-        endif()
 #add_executable(${PROJECT_NAME} main.cpp ${SOURCE_FILES})
 
 if (WIN32)
