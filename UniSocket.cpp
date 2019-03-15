@@ -83,7 +83,7 @@ UniSocket::UniSocket(
 
 UniSocket::~UniSocket(void)
 {
-    _sock.close();
+    //_sock.close();
 }
 
 UniSocket UniSocket::accept(void)
