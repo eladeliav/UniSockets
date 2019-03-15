@@ -15,6 +15,7 @@ SocketWrapper::SocketWrapper()
 
 SocketWrapper::SocketWrapper(const string &ip, const int &port)
 {
+    _empty = false;
     this->ip = ip;
     this->_socket = ::socket(AF_INET, SOCK_STREAM, 0);
     if (this->_socket == SOCKET_ERROR)
@@ -79,6 +80,7 @@ void SocketWrapper::close()
 
 SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
 {
+    _empty = false;
     this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
     if (this->_socket == SOCKET_ERROR)
         throw UniSocketException("Failed to initialize socket");
@@ -114,6 +116,7 @@ string extractIp(sockaddr_in &address)
 
 SocketWrapper::SocketWrapper(const sockaddr_in &address, const int &sock)
 {
+    _empty = false;
     this->_socket = sock;
     this->_address = address;
     ip = extractIp(_address);
@@ -125,10 +128,21 @@ SocketWrapper SocketWrapper::accept()
 
     int conn = (int) ::accept(this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
                               reinterpret_cast<socklen_t *>(&len));
+    SocketWrapper empty;
     if (conn == SOCKET_ERROR)
-        throw UniSocketException("Failed to accept new client");
+        return empty;
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
     return newClient;
 }
 
+SocketWrapper::SocketWrapper(const int &sock)
+{
+    _empty = false;
+    this->_socket = sock;
+}
+
+bool SocketWrapper::valid()
+{
+    return !_empty && this->_socket != INVALID_SOCKET;
+}

@@ -14,9 +14,9 @@ class SocketWrapper
 {
 private:
     sockaddr_in _address;
-    int _socket;
-
+    _empty = true;
 public:
+    int _socket;
     std::string ip = "127.0.0.1";
 
     // empty, client constructors
@@ -33,8 +33,12 @@ public:
     //server constructor
     SocketWrapper(const int &port, const int &maxCon);
 
+    SocketWrapper(const int& sock);
+
     SocketWrapper(const sockaddr_in &address, const int &sock);
 
     SocketWrapper accept();
+
+    bool valid();
 
 };

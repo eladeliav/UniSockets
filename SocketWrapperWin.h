@@ -14,11 +14,11 @@ class SocketWrapper
 {
 private:
     SOCKADDR_IN _address;
-    int _socket;
-
     bool initWinsock(WSADATA &wsaData);
+    bool _empty = true;
 
 public:
+    int _socket;
     std::string ip = "127.0.0.1";
 
     // empty, client constructors
@@ -36,7 +36,10 @@ public:
     SocketWrapper(const int &port, const int &maxCon);
 
     SocketWrapper(const SOCKADDR_IN &address, const int &sock);
+    SocketWrapper(const int& sock);
 
     SocketWrapper accept();
+
+    bool valid();
 
 };

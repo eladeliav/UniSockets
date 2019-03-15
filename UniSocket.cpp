@@ -83,3 +83,24 @@ std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExce
     os << uniSockExcept._errorMsg << std::endl;
     return os;
 }
+
+UniSocket::UniSocket(const SocketWrapper &ref)
+{
+    this->_sock = ref;
+}
+
+bool operator==(const UniSocket& lhs, const UniSocket& rhs)
+{
+    return lhs._sock._socket == rhs._sock._socket;
+}
+
+bool operator!=(const UniSocket& lhs, const UniSocket& rhs)
+{
+    return !(lhs==rhs);
+}
+
+
+bool UniSocket::valid()
+{
+    return this->_sock._socket != -1;
+}

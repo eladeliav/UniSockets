@@ -7,12 +7,11 @@
 #include <string>
 
 #if _WIN32
-#include "SocketWrapperWin.h"
+    #include "SocketWrapperWin.h"
 #else
-
-#include "SocketWrapperLin.h"
-
+    #include "SocketWrapperLin.h"
 #endif
+
 #define SIZE_HEADER_SPLITTER ":\n"
 
 class UniSocketException : public std::exception
@@ -36,7 +35,8 @@ public:
     UniSocket(const std::string &ip, const SocketWrapper &sock);
 
     UniSocket(); //empty socket
-    UniSocket(const UniSocket &ref); //copy constructor
+    UniSocket(const SocketWrapper& ref);
+    UniSocket(const UniSocket& ref); //copy constructor
     ~UniSocket();
 
     std::string getIp(); //get ip of socket
@@ -49,5 +49,11 @@ public:
     void close();
 
     UniSocket accept(void);
+
+    bool valid();
+
+    friend bool operator==(const UniSocket& lhs, const UniSocket& rhs);
+    friend bool operator!=(const UniSocket& lhs, const UniSocket& rhs);
+    friend class UniSocketSet;
 };
 

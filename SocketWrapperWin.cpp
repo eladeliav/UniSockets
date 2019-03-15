@@ -6,7 +6,7 @@
 #include <ws2tcpip.h>
 #include <iostream>
 
-using namespace std;
+using std::string;
 
 SocketWrapper::SocketWrapper()
 {
@@ -15,6 +15,7 @@ SocketWrapper::SocketWrapper()
 
 SocketWrapper::SocketWrapper(const string &ip, const int &port)
 {
+    _empty = false;
     WSADATA wsaData;
     if (!initWinsock(wsaData))
         throw UniSocketException("Failed to initialize winsock");
@@ -46,7 +47,7 @@ bool SocketWrapper::initWinsock(WSADATA &wsaData)
 
 void SocketWrapper::send(const string &data)
 {
-    string msg = to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
+    string msg = std::to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
     ::send((SOCKET)
     this->_socket, msg.c_str(), (int) msg.length(), 0);
 }
@@ -94,6 +95,7 @@ void SocketWrapper::close()
 //server
 SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
 {
+    _empty = false;
     WSADATA wsaData;
     if (!initWinsock(wsaData))
         throw UniSocketException("Failed to initialize winsock");
@@ -138,6 +140,7 @@ string extractIp(SOCKADDR_IN &address)
 
 SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
 {
+    _empty=false;
     this->_socket = sock;
     this->_address = address;
     ip = extractIp(_address);
@@ -149,9 +152,21 @@ SocketWrapper SocketWrapper::accept()
 
     int conn = (int) ::accept((SOCKET)
     this->_socket, (SOCKADDR * ) & this->_address, &len);
+    SocketWrapper empty;
     if (conn == INVALID_SOCKET)
-        throw UniSocketException("Failed to accept new client");
+        return empty;
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
     return newClient;
+}
+
+SocketWrapper::SocketWrapper(const int &sock)
+{
+    _empty=false;
+    this->_socket = sock;
+}
+
+bool SocketWrapper::valid()
+{
+    return !_empty && this->_socket != INVALID_SOCKET;
 }
