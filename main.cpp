@@ -1,13 +1,24 @@
 #include <iostream>
 #include "UniSocket.h"
 
+using std::string;
+
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
     try
     {
-        UniSocket uniSock(5400, SOMAXCONN);
-    }catch(UniSocketException& e)
+        UniSocket client("127.0.0.1", 2600);
+        string sendString;
+
+        do
+        {
+            std::cout << ">";
+            std::cin >> sendString;
+            client.send(sendString);
+            std::cout << "The Server sent back: " << client.recv() << std::endl;
+        }while(sendString != "EXIT");
+        client.close();
+    }catch(UniSocketException e)
     {
         std::cout << e << std::endl;
     }

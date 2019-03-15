@@ -3,7 +3,7 @@ project(UniSocketsTesting LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-if(UNIX)
+if (UNIX)
     set(
             INCLUDE_DIRS
             "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/include/"
@@ -12,9 +12,9 @@ if(UNIX)
             MY_LIB_PATH
             "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/"
     )
-endif()
+endif ()
 
-if(WIN32)
+if (WIN32)
     set(
             INCLUDE_DIRS
             "D:/Programming/VisualStudioProjects/various includes/UniSockets/include/"
@@ -23,7 +23,7 @@ if(WIN32)
             MY_LIB_PATH
             "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/"
     )
-endif()
+endif ()
 
 #include header files
 
