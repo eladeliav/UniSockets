@@ -25,8 +25,10 @@ public:
     SocketWrapper(const std::string &ip, const int &port);
 
     void send(const std::string &data);
+    void send(const std::string& data, int& result);
 
     std::string recv();
+    std::string recv(int& r);
 
     void close();
 
@@ -38,6 +40,8 @@ public:
     SocketWrapper(const sockaddr_in &address, const int &sock);
 
     SocketWrapper accept();
+
+    SocketWrapper accept(int& result);
 
     bool valid();
 

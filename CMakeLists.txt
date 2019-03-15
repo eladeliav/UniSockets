@@ -5,11 +5,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(
         JUST_HEADERS
         UniSocket.h
+        UniSocketSet.h
 )
 set(
         SOURCE_FILES
         UniSocket.h
         UniSocket.cpp
+        UniSocketSet.h
+        UniSocketSet.cpp
 )
 if (WIN32)
     list(APPEND SOURCE_FILES

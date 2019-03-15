@@ -34,6 +34,7 @@ public:
     UniSocket(const int &port, const int &maxCon); //server socket
     UniSocket(const std::string &ip, const SocketWrapper &sock);
 
+    UniSocket(const int& fd);
     UniSocket(); //empty socket
     UniSocket(const SocketWrapper& ref);
     UniSocket(const UniSocket& ref); //copy constructor
@@ -43,12 +44,16 @@ public:
 
     // send, receive, close
     void send(const std::string &data);
+    void send(const std::string& data, int& result);
 
     std::string recv();
+    std::string recv(int& result);
 
     void close();
 
     UniSocket accept(void);
+
+    UniSocket accept(int& result);
 
     bool valid();
 

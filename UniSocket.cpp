@@ -19,14 +19,29 @@ UniSocket::UniSocket(
     _sock = SocketWrapper(_ip, port);
 }
 
+UniSocket::UniSocket(const int &fd)
+{
+    _sock = SocketWrapper(fd);
+}
+
 void UniSocket::send(const std::string &data)
 {
     _sock.send(data);
 }
 
+void UniSocket::send(const std::string &data, int& result)
+{
+    _sock.send(data, result);
+}
+
 std::string UniSocket::recv()
 {
     return _sock.recv();
+}
+
+std::string UniSocket::recv(int& result)
+{
+    return _sock.recv(result);
 }
 
 void UniSocket::close(void)
@@ -74,6 +89,13 @@ UniSocket::~UniSocket(void)
 UniSocket UniSocket::accept(void)
 {
     SocketWrapper sw = _sock.accept();
+    UniSocket us = UniSocket(sw.ip, sw);
+    return us;
+}
+
+UniSocket UniSocket::accept(int& result)
+{
+    SocketWrapper sw = _sock.accept(result);
     UniSocket us = UniSocket(sw.ip, sw);
     return us;
 }

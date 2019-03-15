@@ -36,6 +36,12 @@ void SocketWrapper::send(const string &data)
     ::send(this->_socket, msg.c_str(), msg.length(), 0);
 }
 
+void SocketWrapper::send(const string &data, int& result)
+{
+    string msg = std::to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
+    result = ::send(this->_socket, msg.c_str(), msg.length(), 0);
+}
+
 string SocketWrapper::recv()
 {
     static bool readHeader = false;
@@ -60,6 +66,39 @@ string SocketWrapper::recv()
         dataSize = stoi(result.substr(0, static_cast<unsigned long long int>(startIndex)));
         result.clear();
         readHeader = true;
+    }
+    char *dataBuf = new char[dataSize + 1];
+    ::recv(this->_socket, dataBuf, static_cast<size_t>(dataSize), MSG_WAITALL);
+    readHeader = false;
+    return dataBuf;
+}
+
+std::string recv(int& r)
+{
+    r = 0;
+    static bool readHeader = false;
+    static string result;
+    static int dataSize = 0;
+    int bytesReceived = 0;
+    char tmpBuf = '\0';
+    if (!readHeader)
+    {
+        do
+        {
+            bytesReceived = static_cast<int>(::recv(this->_socket, &tmpBuf, 1, 0));
+            if (bytesReceived > 0)
+            {
+                result += tmpBuf;
+            } else
+            {
+                throw UniSocketException("Timed out");
+            }
+        } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
+        int startIndex = static_cast<int>(result.find(SIZE_HEADER_SPLITTER));
+        dataSize = stoi(result.substr(0, static_cast<unsigned long long int>(startIndex)));
+        result.clear();
+        readHeader = true;
+        r = static_cast<int>(result.size());
     }
     char *dataBuf = new char[dataSize + 1];
     ::recv(this->_socket, dataBuf, static_cast<size_t>(dataSize), MSG_WAITALL);
@@ -128,9 +167,20 @@ SocketWrapper SocketWrapper::accept()
 
     int conn = (int) ::accept(this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
                               reinterpret_cast<socklen_t *>(&len));
-    SocketWrapper empty;
     if (conn == SOCKET_ERROR)
-        return empty;
+        throw UniSocketException("Couldn't accept to socket");
+
+    SocketWrapper newClient = SocketWrapper(this->_address, conn);
+    return newClient;
+}
+
+SocketWrapper SocketWrapper::accept(int& result)
+{
+    int len = sizeof(struct sockaddr_in);
+
+    int conn = (int) ::accept(this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
+                              reinterpret_cast<socklen_t *>(&len));
+    result=conn;
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
     return newClient;
