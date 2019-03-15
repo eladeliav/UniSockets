@@ -33,3 +33,4 @@ cmake-build-debug/
 *.exe
 *.out
 *.app
+.idea/workspace.xml

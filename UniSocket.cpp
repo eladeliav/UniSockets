@@ -102,5 +102,5 @@ bool operator!=(const UniSocket& lhs, const UniSocket& rhs)
 
 bool UniSocket::valid()
 {
-    return this->_sock._socket != -1;
+    return this->_sock.valid();
 }
