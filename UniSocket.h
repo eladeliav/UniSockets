@@ -7,10 +7,10 @@
 #include <string>
 
 #if _WIN32
-#include "SocketWrappers/Win/SocketWrapperWin.h"
+#include "SocketWrapperWin.h"
 #else
 
-#include "SocketWrappers/Win/SocketWrapper.Lin.h"
+#include "SocketWrapperLin.h"
 
 #endif
 #define SIZE_HEADER_SPLITTER ":\n"

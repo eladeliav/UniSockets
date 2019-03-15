@@ -3,7 +3,7 @@
 //
 
 #include "SocketWrapperLin.h"
-#include "../../UniSocket.h"
+#include "UniSocket.h"
 #include <iostream>
 
 using std::string;
