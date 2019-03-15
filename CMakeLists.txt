@@ -41,16 +41,23 @@ message("include output: ${OUTPUT_INCLUDE_DIR}")
 message("lib output: ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 file(COPY ${JUST_HEADERS}
         DESTINATION ${OUTPUT_INCLUDE_DIR})
-
-#add_library(
-#        UniSockets
-#        STATIC
-#        ${SOURCE_FILES}
-#)
-
-add_executable(${PROJECT_NAME} main.cpp ${SOURCE_FILES})
+if(UNIX)
+add_library(
+        ${PROJECT_NAME}
+        STATIC
+        ${SOURCE_FILES}
+)
+    endif()
+if(WIN32)
+    add_library(
+            ${PROJECT_NAME}
+            SHARED
+            ${SOURCE_FILES}
+    )
+        endif()
+#add_executable(${PROJECT_NAME} main.cpp ${SOURCE_FILES})
 
 if (WIN32)
-    target_link_libraries(${CMAKE_PROJECT_NAME} ws2_32)
+    target_link_libraries(${PROJECT_NAME} ws2_32)
 endif ()
 
