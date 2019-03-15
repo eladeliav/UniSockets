@@ -8,13 +8,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <sys/select.h>
 #include <string>
 
 class SocketWrapper
 {
 private:
     sockaddr_in _address;
-    _empty = true;
+    bool _empty = true;
 public:
     int _socket;
     std::string ip = "127.0.0.1";

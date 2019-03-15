@@ -73,7 +73,7 @@ string SocketWrapper::recv()
     return dataBuf;
 }
 
-std::string recv(int& r)
+std::string SocketWrapper::recv(int& r)
 {
     r = 0;
     static bool readHeader = false;
@@ -195,5 +195,5 @@ SocketWrapper::SocketWrapper(const int &sock)
 
 bool SocketWrapper::valid()
 {
-    return !_empty && this->_socket != INVALID_SOCKET;
+    return !_empty && this->_socket > -1;
 }
