@@ -50,6 +50,8 @@ add_library(
         ${SOURCE_FILES}
 )
 
+#add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} ws2_32)
 endif ()

@@ -86,19 +86,20 @@ std::string recv(int& r)
         do
         {
             bytesReceived = static_cast<int>(::recv(this->_socket, &tmpBuf, 1, 0));
+            r+=bytesReceived;
             if (bytesReceived > 0)
             {
                 result += tmpBuf;
             } else
             {
-                throw UniSocketException("Timed out");
+                r=bytesReceived;
+               return "";
             }
         } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
         int startIndex = static_cast<int>(result.find(SIZE_HEADER_SPLITTER));
         dataSize = stoi(result.substr(0, static_cast<unsigned long long int>(startIndex)));
         result.clear();
         readHeader = true;
-        r = static_cast<int>(result.size());
     }
     char *dataBuf = new char[dataSize + 1];
     ::recv(this->_socket, dataBuf, static_cast<size_t>(dataSize), MSG_WAITALL);

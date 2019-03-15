@@ -10,6 +10,7 @@ class UniSocketSet
 {
 private:
     fd_set _set;
+    fd_set _copy;
 public:
 
     UniSocketSet();
@@ -21,5 +22,7 @@ public:
     UniSocket sockAt(const int& index);
 
     int select();
+
+    void broadcast(const std::string& msg, const UniSocket& ignoreSock);
 
 };
