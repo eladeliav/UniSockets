@@ -13,6 +13,7 @@ set(
         UniSocket.cpp
         UniSocketSet.h
         UniSocketSet.cpp
+        main.cpp
 )
 if (WIN32)
     list(APPEND SOURCE_FILES

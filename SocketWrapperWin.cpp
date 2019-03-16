@@ -94,38 +94,27 @@ string SocketWrapper::recv()
 
 std::string SocketWrapper::recv(int &r)
 {
-    r = 0;
-    static bool readHeader = false;
-    static string result;
-    static int dataSize = 0;
+    int size = 0;
     int bytesReceived = 0;
-    char tmpBuf = '\0';
-    if (!readHeader)
+    char sizeBuf[1];
+    string sizeString;
+    ZeroMemory(&sizeBuf, 1);
+    do
     {
-        do
+        bytesReceived = ::recv((SOCKET)this->_socket, sizeBuf, 1, 0);
+        if(bytesReceived > 0)
         {
-            bytesReceived = ::recv((SOCKET)
-                                           this->_socket, &tmpBuf, 1, 0);
-            r+=bytesReceived;
-            if (bytesReceived > 0)
-            {
-                result += tmpBuf;
-            } else
-            {
-                r = bytesReceived;
-                return "";
-            }
-        } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
-        int startIndex = (int) result.find(SIZE_HEADER_SPLITTER);
-        dataSize = stoi(result.substr(0, static_cast<unsigned long long int>(startIndex)));
-        result.clear();
-        readHeader = true;
-    }
-    char *dataBuf = new char[dataSize + 1];
-    ::recv((SOCKET)
-                   this->_socket, dataBuf, dataSize, MSG_WAITALL);
-    readHeader = false;
-    return dataBuf;
+            sizeString += sizeBuf;
+        }
+    }while(sizeString.find(SIZE_HEADER_SPLITTER) == string::npos);
+    int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
+    size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
+    int sizeSave = size; //because ZeroMemory also zeroes out the int for some reason
+    r = size;
+    char buf[size];
+    ZeroMemory(&sizeBuf, size);
+    ::recv((SOCKET)this->_socket, buf, sizeSave, 0);
+    return buf;
 }
 
 void SocketWrapper::close()

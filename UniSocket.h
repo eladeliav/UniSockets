@@ -12,7 +12,7 @@
     #include "SocketWrapperLin.h"
 #endif
 
-#define SIZE_HEADER_SPLITTER ":\n"
+#define SIZE_HEADER_SPLITTER ':'
 
 class UniSocketException : public std::exception
 {

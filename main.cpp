@@ -39,7 +39,7 @@ int main()
                 set.addSock(newClient);
                 newClient.send(WELCOME_MSG);
                 LOG("Someone Has Joined!");
-                //broadcast to other members that client joined
+                set.broadcast("Someone Has Joined!\r\n", newClient);
             } else
             {
                 receivedString = currentSock.recv(result);
@@ -47,8 +47,7 @@ int main()
                 {
                     LOG("Someone has left!");
                     set.removeSock(currentSock);
-                    string msg = "Someone Has Left!";
-                    set.broadcast(msg, currentSock);
+                    set.broadcast("Someone Has Left!\r\n", currentSock);
                 } else
                 {
                     LOG("Someone wrote: " + receivedString);
