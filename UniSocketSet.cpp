@@ -48,17 +48,6 @@ int UniSocketSet::select()
     return ::select(0, &_copy, nullptr, nullptr, nullptr);
 }
 
-template <class T>
-bool objectInVector(const T& obj, const vector<T>& vec)
-{
-    for(auto const& value: vec)
-    {
-        if(obj == value)
-            return true;
-    }
-    return false;
-}
-
 template <class T, size_t N>
 bool objectInArray(const T& obj, const array<T, N>& a)
 {
@@ -71,7 +60,7 @@ bool objectInArray(const T& obj, const array<T, N>& a)
 #if WIN32
 
 template <size_t N>
-void UniSocketSet::broadcast(const std::string &msg, const array<UniSocket, N>& ignoreSocks)
+void UniSocketSet::broadcast(const std::string &msg, array<UniSocket, N> ignoreSocks)
 {
     for (size_t i = 0; i < _set.fd_count; i++)
     {
