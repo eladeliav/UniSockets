@@ -57,10 +57,8 @@ bool objectInArray(const T& obj, const array<T, N>& a)
     return false;
 }
 
-#if WIN32
-
 template <size_t N>
-void UniSocketSet::broadcast(const std::string &msg, const std::array<UniSocket, N> &ignoreSocks)
+void UniSocketSet::broadcast(const std::string& msg, const std::array<UniSocket, N> &ignoreSocks)
 {
     for (size_t i = 0; i < _set.fd_count; i++)
     {
@@ -71,26 +69,3 @@ void UniSocketSet::broadcast(const std::string &msg, const std::array<UniSocket,
         }
     }
 }
-
-
-#else
-void UniSocketSet::broadcast(const std::string& msg, const UniSocket& ignoreSock)
-{
-    int max_sd = _set.fds_bits[0];
-    fd_set working_set;
-    memcpy(&working_set, &this->_set, sizeof(this->_set));
-
-    int rc = ::select(max_sd+1, &working_set, nullptr, nullptr, nullptr);
-    if(rc > 0)
-    {
-        for(int i = 0; i <= max_sd;++i)
-        {
-            if(FD_ISSET(i, &working_set) && i != ignoreSock._sock._socket)
-            {
-                UniSocket outSock(i);
-                outSock.send(msg);
-            }
-        }
-    }
-}
-#endif

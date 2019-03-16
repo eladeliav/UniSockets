@@ -30,5 +30,5 @@ public:
     int select();
 
     template <size_t N>
-    void broadcast(const std::string &msg, const std::array<UniSocket, N> &ignoreSocks);
+    void broadcast(const std::string& msg, const std::array<UniSocket, N> &ignoreSocks);
 };
