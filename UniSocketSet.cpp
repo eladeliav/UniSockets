@@ -60,7 +60,7 @@ bool objectInArray(const T& obj, const array<T, N>& a)
 #if WIN32
 
 template <size_t N>
-void UniSocketSet::broadcast(const std::string &msg, array<UniSocket, N> ignoreSocks)
+void UniSocketSet::broadcast(const std::string &msg, const std::array<UniSocket, N> &ignoreSocks)
 {
     for (size_t i = 0; i < _set.fd_count; i++)
     {
