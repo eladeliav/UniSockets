@@ -6,6 +6,7 @@ set(
         JUST_HEADERS
         UniSocket.h
         UniSocketSet.h
+        UnisocketException.h
 )
 set(
         SOURCE_FILES
@@ -13,7 +14,7 @@ set(
         UniSocket.cpp
         UniSocketSet.h
         UniSocketSet.cpp
-        main.cpp
+        UniSocketException.cpp
 )
 if (WIN32)
     list(APPEND SOURCE_FILES

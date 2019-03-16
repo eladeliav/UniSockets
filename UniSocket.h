@@ -5,24 +5,35 @@
 #pragma once
 
 #include <string>
+#include <map>
+#include "UniSocketException.h"
+
+using std::map;
 
 #if _WIN32
-    #include "SocketWrapperWin.h"
+
+#include "SocketWrapperWin.h"
+
 #else
-    #include "SocketWrapperLin.h"
+#include "SocketWrapperLin.h"
 #endif
 
 #define SIZE_HEADER_SPLITTER ':'
 
-class UniSocketException : public std::exception
+template <class T>
+struct UniSocketStruct
 {
-private:
-    std::string _errorMsg;
-public:
-    UniSocketException(std::string errorMsg);
+    T data;
+    int errorCode;
 
-    friend std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExcept);
+    UniSocketStruct(const T& data, const int& errorCode)
+    {
+        this->data = data;
+        this->errorCode = errorCode;
+    }
 };
+
+class UniSocket;
 
 class UniSocket
 {
@@ -34,31 +45,31 @@ public:
     UniSocket(const int &port, const int &maxCon); //server socket
     UniSocket(const std::string &ip, const SocketWrapper &sock);
 
-    UniSocket(const int& fd);
+    UniSocket(const int &fd);
+
     UniSocket(); //empty socket
-    UniSocket(const SocketWrapper& ref);
-    UniSocket(const UniSocket& ref); //copy constructor
+    UniSocket(const SocketWrapper &ref);
+
+    UniSocket(const UniSocket &ref); //copy constructor
     ~UniSocket();
 
     std::string getIp(); //get ip of socket
 
     // send, receive, close
-    void send(const std::string &data);
-    void send(const std::string& data, int& result);
+    int send(const std::string &data);
 
-    std::string recv();
-    std::string recv(int& result);
+    UniSocketStruct<std::string> recv();
 
     void close();
 
-    UniSocket accept(void);
-
-    UniSocket accept(int& result);
+    UniSocketStruct<UniSocket> accept(void);
 
     bool valid();
 
-    friend bool operator==(const UniSocket& lhs, const UniSocket& rhs);
-    friend bool operator!=(const UniSocket& lhs, const UniSocket& rhs);
+    friend bool operator==(const UniSocket &lhs, const UniSocket &rhs);
+
+    friend bool operator!=(const UniSocket &lhs, const UniSocket &rhs);
+
     friend class UniSocketSet;
 };
 

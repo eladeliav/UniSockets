@@ -5,10 +5,6 @@
 #include "UniSocket.h"
 #include <iostream>
 
-UniSocketException::UniSocketException(std::string errorMsg)
-{
-    this->_errorMsg = errorMsg;
-}
 
 UniSocket::UniSocket(
         const std::string &ip,
@@ -24,24 +20,33 @@ UniSocket::UniSocket(const int &fd)
     _sock = SocketWrapper(fd);
 }
 
-void UniSocket::send(const std::string &data)
+int UniSocket::send(const std::string &data)
 {
-    _sock.send(data);
+    try
+    {
+        _sock.send(data);
+    }
+    catch(UniSocketException& e)
+    {
+        //std::cout << e << std::endl;
+        return e.getError();
+    }
+    return 0;
 }
 
-void UniSocket::send(const std::string &data, int& result)
+UniSocketStruct<std::string> UniSocket::recv()
 {
-    _sock.send(data, result);
-}
-
-std::string UniSocket::recv()
-{
-    return _sock.recv();
-}
-
-std::string UniSocket::recv(int& result)
-{
-    return _sock.recv(result);
+    std::string receivedString;
+    try
+    {
+        receivedString = _sock.recv();
+    }
+    catch(UniSocketException& e)
+    {
+        //std::cout << e << std::endl;
+        return UniSocketStruct<std::string>("", e.getError());
+    }
+    return UniSocketStruct<std::string>(receivedString, 1);
 }
 
 void UniSocket::close(void)
@@ -86,24 +91,20 @@ UniSocket::~UniSocket(void)
     //_sock.close();
 }
 
-UniSocket UniSocket::accept(void)
+UniSocketStruct<UniSocket> UniSocket::accept(void)
 {
-    SocketWrapper sw = _sock.accept();
+    SocketWrapper sw;
+    try
+    {
+        sw = _sock.accept();
+    }
+    catch(UniSocketException& e)
+    {
+        //std::cout << e << std::endl;
+        return UniSocketStruct(UniSocket(), e.getError());
+    }
     UniSocket us = UniSocket(sw.ip, sw);
-    return us;
-}
-
-UniSocket UniSocket::accept(int& result)
-{
-    SocketWrapper sw = _sock.accept(result);
-    UniSocket us = UniSocket(sw.ip, sw);
-    return us;
-}
-
-std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExcept)
-{
-    os << uniSockExcept._errorMsg << std::endl;
-    return os;
+    return UniSocketStruct(us, 1);
 }
 
 UniSocket::UniSocket(const SocketWrapper &ref)
@@ -120,7 +121,6 @@ bool operator!=(const UniSocket& lhs, const UniSocket& rhs)
 {
     return !(lhs==rhs);
 }
-
 
 bool UniSocket::valid()
 {
