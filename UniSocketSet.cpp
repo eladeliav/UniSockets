@@ -3,6 +3,7 @@
 //
 
 #include "UniSocketSet.h"
+
 #ifndef _WIN32
 #define fd_array fds_bits
 #define fd_count fds_bits
@@ -46,18 +47,43 @@ int UniSocketSet::select()
     _copy = _set;
     return ::select(0, &_copy, nullptr, nullptr, nullptr);
 }
-#if WIN32
-void UniSocketSet::broadcast(const std::string& msg, const UniSocket& ignoreSock)
+
+template <class T>
+bool objectInVector(const T& obj, const vector<T>& vec)
 {
-    for(size_t i = 0; i < _set.fd_count;i++)
+    for(auto const& value: vec)
+    {
+        if(obj == value)
+            return true;
+    }
+    return false;
+}
+
+template <class T, size_t N>
+bool objectInArray(const T& obj, const array<T, N>& a)
+{
+    for(const T& i : a )
+        if(i == obj)
+            return true;
+    return false;
+}
+
+#if WIN32
+
+template <size_t N>
+void UniSocketSet::broadcast(const std::string &msg, const array<UniSocket, N>& ignoreSocks)
+{
+    for (size_t i = 0; i < _set.fd_count; i++)
     {
         UniSocket outSock(static_cast<const int &>(_set.fd_array[i]));
-        if(outSock != ignoreSock)
+        if (!objectInArray(outSock, ignoreSocks))
         {
             outSock.send(msg);
         }
     }
 }
+
+
 #else
 void UniSocketSet::broadcast(const std::string& msg, const UniSocket& ignoreSock)
 {

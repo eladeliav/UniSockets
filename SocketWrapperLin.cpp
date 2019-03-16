@@ -36,7 +36,7 @@ void SocketWrapper::send(const string &data)
     ::send(this->_socket, msg.c_str(), msg.length(), 0);
 }
 
-void SocketWrapper::send(const string &data, int& result)
+void SocketWrapper::send(const string &data, int &result)
 {
     string msg = std::to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
     result = ::send(this->_socket, msg.c_str(), msg.length(), 0);
@@ -73,7 +73,7 @@ string SocketWrapper::recv()
     return dataBuf;
 }
 
-std::string SocketWrapper::recv(int& r)
+std::string SocketWrapper::recv(int &r)
 {
     r = 0;
     static bool readHeader = false;
@@ -86,14 +86,14 @@ std::string SocketWrapper::recv(int& r)
         do
         {
             bytesReceived = static_cast<int>(::recv(this->_socket, &tmpBuf, 1, 0));
-            r+=bytesReceived;
+            r += bytesReceived;
             if (bytesReceived > 0)
             {
                 result += tmpBuf;
             } else
             {
-                r=bytesReceived;
-               return "";
+                r = bytesReceived;
+                return "";
             }
         } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
         int startIndex = static_cast<int>(result.find(SIZE_HEADER_SPLITTER));
@@ -175,13 +175,13 @@ SocketWrapper SocketWrapper::accept()
     return newClient;
 }
 
-SocketWrapper SocketWrapper::accept(int& result)
+SocketWrapper SocketWrapper::accept(int &result)
 {
     int len = sizeof(struct sockaddr_in);
 
     int conn = (int) ::accept(this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
                               reinterpret_cast<socklen_t *>(&len));
-    result=conn;
+    result = conn;
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
     return newClient;

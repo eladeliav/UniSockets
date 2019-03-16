@@ -20,13 +20,13 @@ using std::map;
 
 #define SIZE_HEADER_SPLITTER ':'
 
-template <class T>
+template<class T>
 struct UniSocketStruct
 {
     T data;
     int errorCode;
 
-    UniSocketStruct(const T& data, const int& errorCode)
+    UniSocketStruct(const T &data, const int &errorCode)
     {
         this->data = data;
         this->errorCode = errorCode;

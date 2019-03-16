@@ -26,9 +26,9 @@ int UniSocket::send(const std::string &data)
     {
         _sock.send(data);
     }
-    catch(UniSocketException& e)
+    catch (UniSocketException &e)
     {
-        //std::cout << e << std::endl;
+        std::cout << e << std::endl;
         return e.getError();
     }
     return 0;
@@ -41,9 +41,9 @@ UniSocketStruct<std::string> UniSocket::recv()
     {
         receivedString = _sock.recv();
     }
-    catch(UniSocketException& e)
+    catch (UniSocketException &e)
     {
-        //std::cout << e << std::endl;
+        std::cout << e << std::endl;
         return UniSocketStruct<std::string>("", e.getError());
     }
     return UniSocketStruct<std::string>(receivedString, 1);
@@ -98,9 +98,9 @@ UniSocketStruct<UniSocket> UniSocket::accept(void)
     {
         sw = _sock.accept();
     }
-    catch(UniSocketException& e)
+    catch (UniSocketException &e)
     {
-        //std::cout << e << std::endl;
+        std::cout << e << std::endl;
         return UniSocketStruct(UniSocket(), e.getError());
     }
     UniSocket us = UniSocket(sw.ip, sw);
@@ -112,14 +112,14 @@ UniSocket::UniSocket(const SocketWrapper &ref)
     this->_sock = ref;
 }
 
-bool operator==(const UniSocket& lhs, const UniSocket& rhs)
+bool operator==(const UniSocket &lhs, const UniSocket &rhs)
 {
     return lhs._sock._socket == rhs._sock._socket;
 }
 
-bool operator!=(const UniSocket& lhs, const UniSocket& rhs)
+bool operator!=(const UniSocket &lhs, const UniSocket &rhs)
 {
-    return !(lhs==rhs);
+    return !(lhs == rhs);
 }
 
 bool UniSocket::valid()

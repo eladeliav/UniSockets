@@ -19,9 +19,9 @@ int main()
             std::cin >> sendString;
             client.send(sendString);
             std::cout << "The Server sent back: " << client.recv() << std::endl;
-        }while(sendString != "EXIT");
+        } while (sendString != "EXIT");
         client.close();
-    }catch(UniSocketException e)
+    } catch (UniSocketException e)
     {
         std::cout << e << std::endl;
     }

@@ -18,8 +18,8 @@ int main()
             received = client.recv();
             std::cout << received << std::endl;
             client.send(received);
-        } while(received != "EXIT");
-    }catch(UniSocketException e)
+        } while (received != "EXIT");
+    } catch (UniSocketException e)
     {
         std::cout << e << std::endl;
     }

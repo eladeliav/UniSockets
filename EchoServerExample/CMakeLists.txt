@@ -36,7 +36,7 @@ include_directories(${INCLUDE_DIRS})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 #find dll
-if(APPLE)
+if (APPLE)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".dylib")
     find_library(
             UNISOCK_LIB_APPLE
@@ -47,8 +47,8 @@ if(APPLE)
     file(COPY ${UNISOCK_LIB_APPLE}
             DESTINATION ${EXECUTABLE_OUTPUT_PATH})
     set(UNISOCK_LIB_STATIC ${UNISOCK_LIB_APPLE})
-endif()
-if(UNIX AND NOT APPLE)
+endif ()
+if (UNIX AND NOT APPLE)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".so")
     find_library(
             UNISOCK_LIB_UNIX
@@ -59,8 +59,8 @@ if(UNIX AND NOT APPLE)
     file(COPY ${UNISOCK_LIB_UNIX}
             DESTINATION ${EXECUTABLE_OUTPUT_PATH})
     set(UNISOCK_LIB_STATIC ${UNISOCK_LIB_UNIX})
-endif()
-if(WIN32)
+endif ()
+if (WIN32)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
     find_library(
             UNISOCK_LIB_WIN
@@ -71,7 +71,7 @@ if(WIN32)
     file(COPY ${UNISOCK_LIB_WIN}
             DESTINATION ${EXECUTABLE_OUTPUT_PATH})
     set(UNISOCK_LIB_STATIC ${UNISOCK_LIB_WIN})
-endif()
+endif ()
 
 message("lib suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES}")
 

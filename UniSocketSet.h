@@ -3,6 +3,8 @@
 //
 
 #include "UniSocket.h"
+#include <array>
+using std::array;
 
 #pragma once
 
@@ -14,15 +16,19 @@ private:
 public:
 
     UniSocketSet();
+
     ~UniSocketSet();
 
     void clearSet();
-    void addSock(const UniSocket& sock);
-    void removeSock(const UniSocket& sock);
-    UniSocket sockAt(const int& index);
+
+    void addSock(const UniSocket &sock);
+
+    void removeSock(const UniSocket &sock);
+
+    UniSocket sockAt(const int &index);
 
     int select();
 
-    void broadcast(const std::string& msg, const UniSocket& ignoreSock);
-
+    template <size_t N>
+    void broadcast(const std::string &msg, const array<UniSocket, N>& ignoreSocks)
 };

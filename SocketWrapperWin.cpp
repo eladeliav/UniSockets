@@ -2,8 +2,6 @@
 // Created by elade on 3/14/2019.
 //
 #include "UniSocket.h"
-#include "SocketWrapperWin.h"
-#include <ws2tcpip.h>
 #include <iostream>
 
 using std::string;
@@ -30,7 +28,7 @@ SocketWrapper::SocketWrapper(const string &ip, const int &port)
     this->_address.sin_port = htons(port);
 
     int result = ::connect((SOCKET)
-    this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
+                                   this->_socket, (SOCKADDR *) &this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::CONNECT);
@@ -47,8 +45,8 @@ bool SocketWrapper::initWinsock(WSADATA &wsaData)
 void SocketWrapper::send(const string &data)
 {
     string msg = std::to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
-    int result = ::send((SOCKET)this->_socket, msg.c_str(), (int) msg.length(), 0);
-    if(result == SOCKET_ERROR)
+    int result = ::send((SOCKET) this->_socket, msg.c_str(), (int) msg.length(), 0);
+    if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
 }
 
@@ -62,26 +60,25 @@ std::string SocketWrapper::recv()
     ZeroMemory(&sizeBuf, 1);
     do
     {
-        bytesReceived = ::recv((SOCKET)this->_socket, sizeBuf, 1, 0);
-        if(bytesReceived > 0)
+        bytesReceived = ::recv((SOCKET) this->_socket, sizeBuf, 1, 0);
+        if (bytesReceived > 0)
         {
             sizeString += sizeBuf;
-        }
-        else if(bytesReceived == 0)
+        } else if (bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        }else
+        } else
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
-    }while(sizeString.find(SIZE_HEADER_SPLITTER) == string::npos);
+    } while (sizeString.find(SIZE_HEADER_SPLITTER) == string::npos);
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
     int sizeSave = size; //because ZeroMemory also zeroes out the int for some reason
     char buf[size];
     ZeroMemory(&sizeBuf, size);
-    ::recv((SOCKET)this->_socket, buf, sizeSave, 0);
+    ::recv((SOCKET) this->_socket, buf, sizeSave, 0);
     return buf;
 }
 
@@ -89,7 +86,7 @@ void SocketWrapper::close()
 {
     WSACleanup();
     closesocket((SOCKET)
-    this->_socket);
+                        this->_socket);
 }
 
 //server
@@ -109,7 +106,7 @@ SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
     this->_address.sin_port = htons((u_short) port);
 
     int result = ::bind((SOCKET)
-    this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
+                                this->_socket, (SOCKADDR *) &this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::BIND);
@@ -117,7 +114,7 @@ SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
 
 
     result = ::listen((SOCKET)
-    this->_socket, maxCon);
+                              this->_socket, maxCon);
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::LISTEN);
@@ -139,7 +136,7 @@ string extractIp(SOCKADDR_IN &address)
 
 SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
 {
-    _empty=false;
+    _empty = false;
     this->_socket = sock;
     this->_address = address;
     ip = extractIp(_address);
@@ -147,7 +144,7 @@ SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
 
 SocketWrapper SocketWrapper::accept()
 {
-    int conn = static_cast<int>(::accept((SOCKET)this->_socket, nullptr, nullptr));
+    int conn = static_cast<int>(::accept((SOCKET) this->_socket, nullptr, nullptr));
     if (conn == INVALID_SOCKET)
         throw UniSocketException(UniSocketException::ACCEPT);
 
@@ -157,7 +154,7 @@ SocketWrapper SocketWrapper::accept()
 
 SocketWrapper::SocketWrapper(const int &sock)
 {
-    _empty=false;
+    _empty = false;
     this->_socket = sock;
 }
 

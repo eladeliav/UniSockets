@@ -25,16 +25,16 @@ int main()
     int result = 0;
     string receivedString;
 
-    while(running)
+    while (running)
     {
         int socketCount = set.select();
-        for(int i = 0; i < socketCount;i++)
+        for (int i = 0; i < socketCount; i++)
         {
             UniSocket currentSock = UniSocket(set.sockAt(i));
-            if(listenSock == currentSock)
+            if (listenSock == currentSock)
             {
                 UniSocket newClient = listenSock.accept(result);
-                if(result <= -1)
+                if (result <= -1)
                     continue;
                 set.addSock(newClient);
                 newClient.send(WELCOME_MSG);
@@ -43,7 +43,7 @@ int main()
             } else
             {
                 receivedString = currentSock.recv(result);
-                if(result <= 0)
+                if (result <= 0)
                 {
                     LOG("Someone has left!");
                     set.removeSock(currentSock);

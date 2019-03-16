@@ -14,7 +14,9 @@ class SocketWrapper
 {
 private:
     SOCKADDR_IN _address;
+
     bool initWinsock(WSADATA &wsaData);
+
     bool _empty = true;
 
 public:
@@ -36,7 +38,8 @@ public:
     SocketWrapper(const int &port, const int &maxCon);
 
     SocketWrapper(const SOCKADDR_IN &address, const int &sock);
-    SocketWrapper(const int& sock);
+
+    SocketWrapper(const int &sock);
 
     SocketWrapper accept();
 
