@@ -5,54 +5,53 @@
 #include <string>
 #include "UniSocket.h"
 #include "UniSocketSet.h"
-#include <vector>
+#include <array>
 
 #define DEFAULT_PORT 5400
 #define DEFAULT_IP "127.0.0.1"
 #define DEFAULT_BUFFER_LEN 1024
 #define LOG(x) std::cout << x << std::endl
-#define WELCOME_MSG "Welcome to the chat room\r\n"
+#define WELCOME_MSG "Welcome to the chat room!\n"
 
 using std::string;
+using std::array;
 
 int main()
 {
     UniSocket listenSock(5400, SOMAXCONN);
 
-    UniSocketSet set;
-    set.addSock(listenSock);
+    UniSocketSet set(listenSock);
+    vector<UniSocket> readySockets;
     bool running = true;
-    int result = 0;
-    string receivedString;
 
-    while (running)
+    while(running)
     {
-        int socketCount = set.select();
-        for (int i = 0; i < socketCount; i++)
+        readySockets = set.getReadySockets();
+        for(UniSocket& currentSock : readySockets)
         {
-            UniSocket currentSock = UniSocket(set.sockAt(i));
-            if (listenSock == currentSock)
+            if(listenSock == currentSock)
             {
-                UniSocket newClient = listenSock.accept(result);
-                if (result <= -1)
+                UniSocketStruct newClientStruct = listenSock.accept();
+                UniSocket newClient = newClientStruct.data;
+                if(newClientStruct.errorCode <= 0)
                     continue;
                 set.addSock(newClient);
                 newClient.send(WELCOME_MSG);
                 LOG("Someone Has Joined!");
-                set.broadcast("Someone Has Joined!\r\n", newClient);
+                set.broadcast("Someone Has Joined!", array<UniSocket, 2>{newClient, listenSock});
             } else
             {
-                receivedString = currentSock.recv(result);
-                if (result <= 0)
+                UniSocketStruct receiveObj = currentSock.recv();
+                if(receiveObj.errorCode <= 0)
                 {
                     LOG("Someone has left!");
                     set.removeSock(currentSock);
-                    set.broadcast("Someone Has Left!\r\n", currentSock);
+                    set.broadcast("Someone Has Left!", array<UniSocket, 2>{currentSock, listenSock});
                 } else
                 {
-                    LOG("Someone wrote: " + receivedString);
-                    string msg = "Someone wrote: " + receivedString;
-                    set.broadcast(msg, currentSock);
+                    LOG("Someone wrote: " + receiveObj.data);
+                    string msg = "Someone wrote: " + receiveObj.data;
+                    set.broadcast(msg, array<UniSocket, 2>{currentSock, listenSock});
                 }
             }
         }

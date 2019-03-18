@@ -20,12 +20,12 @@ if (WIN32)
     list(APPEND SOURCE_FILES
             "SocketWrapperWin.cpp"
             "SocketWrapperWin.h"
-            "fd_setWin.h"
-            "fd_setWin.cpp"
+            "FDSetWrapperWin.h"
+            "FDSetWrapperWin.cpp"
             )
     list(APPEND JUST_HEADERS
             "SocketWrapperWin.h"
-            "fd_setWin.h"
+            "FDSetWrapperWin.h"
         )
     set(OUTPUT_INCLUDE_DIR "D:/Programming/VisualStudioProjects/various includes/UniSockets/include/")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
@@ -60,7 +60,7 @@ add_library(
         ${SOURCE_FILES}
 )
 
-#add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+#add_executable(${PROJECT_NAME} ${SOURCE_FILES} main.cpp)
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} ws2_32)

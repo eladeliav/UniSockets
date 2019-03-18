@@ -2,22 +2,28 @@
 // Created by elade on 3/15/2019.
 //
 
+#pragma once
+
 #include "UniSocket.h"
 #include <array>
+#include <vector>
+using std::vector;
 using std::array;
 
 #if _WIN32
-#include "fd_setWin.h"
+#include "FDSetWrapperWin.h"
 #else
 #include "FDSetWrapperLin.h"
 #endif
 
-#pragma once
+
 
 class UniSocketSet
 {
 private:
     FDSetWrapper _set;
+
+    vector<UniSocket> getAllFDS();
 public:
 
     UniSocketSet();
@@ -47,7 +53,7 @@ public:
     template<class T, size_t N>
     void broadcast(const std::string& msg, const array<T, N>& ignoreSocks)
     {
-        vector<UniSocket> readySocks = getReadySockets();
+        vector<UniSocket> readySocks = getAllFDS();
         for(UniSocket& outSock : readySocks)
         {
             if(!objectInArray(outSock, ignoreSocks))

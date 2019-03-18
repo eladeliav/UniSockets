@@ -51,3 +51,8 @@ UniSocketSet::UniSocketSet()
 {
 
 }
+
+vector<UniSocket> UniSocketSet::getAllFDS()
+{
+    return _set.getAllFDS();
+}
