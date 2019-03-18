@@ -14,7 +14,7 @@ private:
     int timeout = 3;
     int nfds = 1;
     int current_size = 0;
-
+    vector<UniSocket> getAllFDS();
 public:
     FDSetWrapper(const UniSocket& masterSock);
     FDSetWrapper(const UniSocket &masterSock, const int& timeout);
@@ -30,5 +30,7 @@ public:
     UniSocket sockAt(const int &index);
 
     vector<UniSocket> getReadySockets();
+
+    friend class UniSocketSet;
 };
 
