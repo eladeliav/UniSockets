@@ -90,8 +90,10 @@ vector<UniSocket> FDSetWrapper::getAllFDS()
 {
     vector<UniSocket> allSocks;
     current_size = nfds;
+    allSocks.reserve(static_cast<unsigned long>(current_size));
     for(int i = 0; i < current_size;i++)
     {
-        readySockets.emplace_back(fds[i].fd);
+        allSocks.emplace_back(fds[i].fd);
     }
+    return allSocks;
 }
