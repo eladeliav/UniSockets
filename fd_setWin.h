@@ -1,29 +1,24 @@
 //
-// Created by elade on 3/15/2019.
+// Created by Elad Eliav on 2019-03-18.
 //
 
+#pragma once
 #include "UniSocket.h"
 #include <array>
 using std::array;
 
-#if _WIN32
-#include "fd_setWin.h"
-#else
-#include "FDSetWrapperLin.h"
-#endif
-
-#pragma once
-
-class UniSocketSet
+class FDSetWrapper
 {
 private:
-    FDSetWrapper _set;
+    fd_set _master;
+    fd_set _copy;
+    UniSocket _masterFD;
+
 public:
 
-    UniSocketSet();
     UniSocketSet(const UniSocket& masterSock);
 
-    UniSocketSet(const UniSocket& masterSock, const int& timeout);
+    ~UniSocketSet();
 
     void clearSet();
 
@@ -33,7 +28,7 @@ public:
 
     UniSocket sockAt(const int &index);
 
-    vector<UniSocket> getReadySockets();
+    int select();
 
     template <class T, size_t N>
     bool objectInArray(const T& obj, const array<T, N>& a)
@@ -60,3 +55,4 @@ public:
 #else
 #endif
 };
+

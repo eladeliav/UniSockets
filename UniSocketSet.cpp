@@ -3,47 +3,51 @@
 //
 
 #include "UniSocketSet.h"
-
-#ifndef _WIN32
-#define fd_array fds_bits
-#define fd_count fds_bits
-#endif
-
-UniSocketSet::UniSocketSet()
-{
-    clearSet();
-}
-
-UniSocketSet::~UniSocketSet()
-{
-    clearSet();
-}
+#include <iostream>
 
 void UniSocketSet::clearSet()
 {
-    FD_ZERO(&this->_set);
+    this->_set.clearSet();
 }
 
 void UniSocketSet::addSock(const UniSocket &sock)
 {
-    FD_SET(sock._sock._socket, &this->_set);
+    this->_set.addSock(sock);
 }
 
 UniSocket UniSocketSet::sockAt(const int &index)
 {
-    int fd = static_cast<int>(_copy.fd_array[index]);
-    UniSocket us(fd);
-    return us;
+    return this->_set.sockAt(index);
 }
 
 void UniSocketSet::removeSock(const UniSocket &sock)
 {
-    FD_CLR(sock._sock._socket, &this->_set);
-    _copy = _set;
+    this->_set.removeSock(sock);
 }
 
-int UniSocketSet::select()
+vector<UniSocket> UniSocketSet::getReadySockets()
 {
-    _copy = _set;
-    return ::select(0, &_copy, nullptr, nullptr, nullptr);
+    try
+    {
+        return this->_set.getReadySockets();
+    }
+    catch(UniSocketException& e)
+    {
+        return vector<UniSocket>();
+    }
+}
+
+UniSocketSet::UniSocketSet(const UniSocket &masterSock)
+{
+    _set = FDSetWrapper(masterSock);
+}
+
+UniSocketSet::UniSocketSet(const UniSocket &masterSock, const int &timeout)
+{
+    _set = FDSetWrapper(masterSock, timeout);
+}
+
+UniSocketSet::UniSocketSet()
+{
+
 }

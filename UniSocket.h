@@ -6,14 +6,11 @@
 
 #include <string>
 #include <map>
+using std::map;
 #include "UniSocketException.h"
 
-using std::map;
-
 #if _WIN32
-
 #include "SocketWrapperWin.h"
-
 #else
 #include "SocketWrapperLin.h"
 #endif
@@ -71,5 +68,6 @@ public:
     friend bool operator!=(const UniSocket &lhs, const UniSocket &rhs);
 
     friend class UniSocketSet;
+    friend class FDSetWrapper;
 };
 

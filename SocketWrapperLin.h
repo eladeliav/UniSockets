@@ -4,18 +4,23 @@
 #pragma once
 
 #include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <sys/select.h>
+#include <sys/ioctl.h>
+#include <sys/poll.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
 #include <string>
 
 class SocketWrapper
 {
 private:
     sockaddr_in _address;
+
     bool _empty = true;
+
 public:
     int _socket;
     std::string ip = "127.0.0.1";
@@ -27,25 +32,20 @@ public:
 
     void send(const std::string &data);
 
-    void send(const std::string &data, int &result);
-
     std::string recv();
-
-    std::string recv(int &r);
 
     void close();
 
     //server constructor
     SocketWrapper(const int &port, const int &maxCon);
 
-    SocketWrapper(const int &sock);
-
     SocketWrapper(const sockaddr_in &address, const int &sock);
 
-    SocketWrapper accept();
+    SocketWrapper(const int &sock);
 
-    SocketWrapper accept(int &result);
+    SocketWrapper accept();
 
     bool valid();
 
 };
+

@@ -22,7 +22,8 @@ public:
         WINSOCK = -32,
         SOCKET_INIT = -420,
         CONNECT = -69,
-        DISCONNECTED = 0
+        DISCONNECTED = 0,
+        POLL = -123
     };
     const map<ErrorType, std::string> ERROR_MESSAGES = {
             {TIMED_OUT,    "Socket timed out while receiving"},
@@ -33,7 +34,8 @@ public:
             {WINSOCK,      "Failed to initialize winsock"},
             {SOCKET_INIT,  "Failed to initialize socket"},
             {CONNECT,      "Socket failed to connect"},
-            {DISCONNECTED, "Client disconnected"}
+            {DISCONNECTED, "Disconnected"},
+            {POLL, "Failed to find readable fds"}
     };
 private:
     ErrorType _errorType;

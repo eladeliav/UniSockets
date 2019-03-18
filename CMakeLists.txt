@@ -20,9 +20,13 @@ if (WIN32)
     list(APPEND SOURCE_FILES
             "SocketWrapperWin.cpp"
             "SocketWrapperWin.h"
+            "fd_setWin.h"
+            "fd_setWin.cpp"
             )
     list(APPEND JUST_HEADERS
-            "SocketWrapperWin.h")
+            "SocketWrapperWin.h"
+            "fd_setWin.h"
+        )
     set(OUTPUT_INCLUDE_DIR "D:/Programming/VisualStudioProjects/various includes/UniSockets/include/")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
@@ -32,9 +36,13 @@ if (UNIX)
     list(APPEND SOURCE_FILES
             "SocketWrapperLin.cpp"
             "SocketWrapperLin.h"
+            "FDSetWrapperLin.h"
+            "FDSetWrapperLin.cpp"
             )
     list(APPEND JUST_HEADERS
-            "SocketWrapperLin.h")
+            "SocketWrapperLin.h"
+            "FDSetWrapperLin.h"
+        )
     set(OUTPUT_INCLUDE_DIR "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/include/")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
