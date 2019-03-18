@@ -47,25 +47,3 @@ int UniSocketSet::select()
     _copy = _set;
     return ::select(0, &_copy, nullptr, nullptr, nullptr);
 }
-
-template <class T, size_t N>
-bool objectInArray(const T& obj, const array<T, N>& a)
-{
-    for(const T& i : a )
-        if(i == obj)
-            return true;
-    return false;
-}
-
-template <size_t N>
-void UniSocketSet::broadcast(const std::string& msg, const std::array<UniSocket, N> &ignoreSocks)
-{
-    for (size_t i = 0; i < _set.fd_count; i++)
-    {
-        UniSocket outSock(static_cast<const int &>(_set.fd_array[i]));
-        if (!objectInArray(outSock, ignoreSocks))
-        {
-            outSock.send(msg);
-        }
-    }
-}

@@ -29,6 +29,25 @@ public:
 
     int select();
 
-    template <size_t N>
-    void broadcast(const std::string& msg, const std::array<UniSocket, N> &ignoreSocks);
+    template <class T, size_t N>
+    bool objectInArray(const T& obj, const array<T, N>& a)
+    {
+        for(const T& i : a )
+            if(i == obj)
+                return true;
+        return false;
+    }
+
+    template <class T, size_t N>
+    void broadcast(const std::string& msg, const std::array<T, N> &ignoreSocks)
+    {
+        for (size_t i = 0; i < _set.fd_count; i++)
+        {
+            UniSocket outSock((int)_set.fd_array[i]);
+            if (!objectInArray(outSock, ignoreSocks))
+            {
+                outSock.send(msg);
+            }
+        }
+    }
 };
