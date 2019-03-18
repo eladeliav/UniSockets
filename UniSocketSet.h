@@ -44,19 +44,16 @@ public:
         return false;
     }
 
-#if _WIN32
-    template <class T, size_t N>
-    void broadcast(const std::string& msg, const std::array<T, N> &ignoreSocks)
+    template<class T, size_t N>
+    void broadcast(const std::string& msg, const array<T, N>& ignoreSocks)
     {
-        for (size_t i = 0; i < _set.fd_count; i++)
+        vector<UniSocket> readySocks = getReadySockets();
+        for(UniSocket& outSock : readySocks)
         {
-            UniSocket outSock((int)_set.fd_array[i]);
-            if (!objectInArray(outSock, ignoreSocks))
+            if(!objectInArray(outSock, ignoreSocks))
             {
                 outSock.send(msg);
             }
         }
     }
-#else
-#endif
 };

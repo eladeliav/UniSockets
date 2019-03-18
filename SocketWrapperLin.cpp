@@ -38,38 +38,42 @@ void SocketWrapper::send(const string &data)
         throw UniSocketException(UniSocketException::SEND);
 }
 
-std::string SocketWrapper::recv()
+string SocketWrapper::recv()
 {
-    int size = 0;
-    int bytesReceived = 0;
-    char sizeBuf[1];
-    string sizeString;
+    static bool headerReaded = false;
+    static string result;
+    static int datasize;
+    int len;
 
-    memset(&sizeBuf, 0, sizeof(sizeBuf));
-    do
+    if (!headerReaded)
     {
-        bytesReceived = static_cast<int>(::recv(this->_socket, sizeBuf, 1, 0));
-        if (bytesReceived > 0)
+        // header search
+        do
         {
-            sizeString += sizeBuf;
-        } else if (bytesReceived == 0)
-        {
-            throw UniSocketException(UniSocketException::DISCONNECTED);
-        } else
-        {
-            throw UniSocketException(UniSocketException::TIMED_OUT);
-        }
-    } while (sizeString.find(SIZE_HEADER_SPLITTER) == string::npos);
-
-    int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
-    size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
-    int sizeSave = size; //because ZeroMemory also zeroes out the int for some reason
-    char buf[size];
-    memset(&sizeBuf, 0, size);
-    ::recv(this->_socket, buf, sizeSave, 0);
-    return buf;
+            char tmp = '\0';
+            len = static_cast<int>(::recv(_socket, &tmp, 1, 0));
+            if (len > 0)
+            {
+                result += tmp;
+            }else if(len == 0)
+            {
+                throw UniSocketException(UniSocketException::DISCONNECTED);
+            }
+            else
+            {
+                throw UniSocketException(UniSocketException::TIMED_OUT);
+            }
+        } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
+        headerReaded = true;
+        int datastart = result.find(SIZE_HEADER_SPLITTER);
+        datasize = std::stoi(result.substr(0, datastart).c_str());
+        result.clear();
+    }
+    char data[datasize];
+    ::recv(_socket, data, datasize, 0);
+    headerReaded = false;
+    return data;
 }
-
 
 void SocketWrapper::close()
 {
@@ -84,8 +88,8 @@ SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     int on = 1;
-    int rc = setsockopt(_socket, SOL_SOCKET,  SO_REUSEADDR,
-                    (char *)&on, sizeof(on));
+    int rc = setsockopt(_socket, SOL_SOCKET, SO_REUSEADDR,
+                        (char *) &on, sizeof(on));
     if (rc < 0)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
