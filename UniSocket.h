@@ -16,6 +16,8 @@ using std::map;
 #endif
 
 #define SIZE_HEADER_SPLITTER ':'
+//TODO: fix linux recv/send system
+//TODO: fix glitch in linux where someone leaves and then their last msg is spammed and crashes the server
 
 template<class T>
 struct UniSocketStruct
