@@ -76,8 +76,9 @@ std::string SocketWrapper::recv()
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
     int sizeSave = size; //because ZeroMemory also zeroes out the int for some reason
-    char buf[size];
+    char buf[size + 1];
     ZeroMemory(&sizeBuf, size);
+    buf[size] = '\0';
     ::recv((SOCKET) this->_socket, buf, sizeSave, 0);
     return buf;
 }
