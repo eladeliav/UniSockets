@@ -47,7 +47,7 @@ std::string SocketWrapper::recv()
 
     do
     {
-        bytesReceived = ::recv((SOCKET) this->_socket, sizeBuf, 1, 0);
+        bytesReceived = ::recv(this->_socket, sizeBuf, 1, 0);
         if (bytesReceived > 0)
         {
             sizeString += *sizeBuf;
@@ -68,7 +68,7 @@ std::string SocketWrapper::recv()
     memset(buf, 0, sizeof(buf));
     buf[size] = '\0';
 
-    ::recv((SOCKET) this->_socket, buf, size, 0);
+    ::recv(this->_socket, buf, size, 0);
     return buf;
 }
 
