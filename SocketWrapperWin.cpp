@@ -54,10 +54,9 @@ std::string SocketWrapper::recv()
 {
     int size = 0;
     int bytesReceived = 0;
-    char sizeBuf[1];
+    char sizeBuf[1] = {'\0'};
     string sizeString;
 
-    ZeroMemory(&sizeBuf, 1);
     do
     {
         bytesReceived = ::recv((SOCKET) this->_socket, sizeBuf, 1, 0);
@@ -75,11 +74,9 @@ std::string SocketWrapper::recv()
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
-    int sizeSave = size; //because ZeroMemory also zeroes out the int for some reason
     char buf[size + 1];
-    ZeroMemory(&sizeBuf, size);
     buf[size] = '\0';
-    ::recv((SOCKET) this->_socket, buf, sizeSave, 0);
+    ::recv((SOCKET) this->_socket, buf, size, 0);
     return buf;
 }
 
