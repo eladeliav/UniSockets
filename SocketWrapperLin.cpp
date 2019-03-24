@@ -58,7 +58,7 @@ std::string SocketWrapper::recv()
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
-    } while (sizeString.find(SIZE_HEADER_SPLITTER) == string::npos);
+    } while (*sizeBuf != SIZE_HEADER_SPLITTER);
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
