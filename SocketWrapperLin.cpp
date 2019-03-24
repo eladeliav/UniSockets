@@ -38,42 +38,38 @@ void SocketWrapper::send(const string &data)
         throw UniSocketException(UniSocketException::SEND);
 }
 
-string SocketWrapper::recv()
+std::string SocketWrapper::recv()
 {
-    static bool headerReaded = false;
-    static string result;
-    static int datasize;
-    int len;
+    int size = 0;
+    int bytesReceived = 0;
+    char sizeBuf[1] = {'\0'};
+    string sizeString;
 
-    if (!headerReaded)
+    do
     {
-        // header search
-        do
+        bytesReceived = ::recv((SOCKET) this->_socket, sizeBuf, 1, 0);
+        if (bytesReceived > 0)
         {
-            char tmp = '\0';
-            len = static_cast<int>(::recv(_socket, &tmp, 1, 0));
-            if (len > 0)
-            {
-                result += tmp;
-            }else if(len == 0)
-            {
-                throw UniSocketException(UniSocketException::DISCONNECTED);
-            }
-            else
-            {
-                throw UniSocketException(UniSocketException::TIMED_OUT);
-            }
-        } while (result.find(SIZE_HEADER_SPLITTER) == string::npos);
-        headerReaded = true;
-        int datastart = result.find(SIZE_HEADER_SPLITTER);
-        datasize = std::stoi(result.substr(0, datastart).c_str());
-        result.clear();
-    }
-    char data[datasize + 1];
-    data[datasize] = '\0';
-    ::recv(_socket, data, datasize, 0);
-    headerReaded = false;
-    return data;
+            sizeString += *sizeBuf;
+        } else if (bytesReceived == 0)
+        {
+            throw UniSocketException(UniSocketException::DISCONNECTED);
+        } else
+        {
+            throw UniSocketException(UniSocketException::TIMED_OUT);
+        }
+    } while (sizeString.find(SIZE_HEADER_SPLITTER) == string::npos);
+
+    int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
+    size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
+
+    char buf[size + 1];
+
+    memset(buf, 0, sizeof(buf));
+    buf[size] = '\0';
+
+    ::recv((SOCKET) this->_socket, buf, size, 0);
+    return buf;
 }
 
 void SocketWrapper::close()
