@@ -69,7 +69,8 @@ string SocketWrapper::recv()
         datasize = std::stoi(result.substr(0, datastart).c_str());
         result.clear();
     }
-    char data[datasize];
+    char data[datasize + 1];
+    data[datasize] = '\0';
     ::recv(_socket, data, datasize, 0);
     headerReaded = false;
     return data;
