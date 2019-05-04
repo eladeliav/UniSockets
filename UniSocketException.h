@@ -20,8 +20,8 @@ public:
         BIND = -7,
         LISTEN = -9,
         WINSOCK = -32,
-        SOCKET_INIT = -420,
-        CONNECT = -69,
+        SOCKET_INIT = -400,
+        CONNECT = -60,
         DISCONNECTED = 0,
         POLL = -123
     };
