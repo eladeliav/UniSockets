@@ -42,15 +42,15 @@ bool SocketWrapper::initWinsock(WSADATA &wsaData)
     return iResult == 0;
 }
 
-void SocketWrapper::send(const string &data)
+void SocketWrapper::send(const char* data)
 {
-    string msg = std::to_string(data.length()) + SIZE_HEADER_SPLITTER + data;
+    string msg = std::to_string(strlen(data)) + SIZE_HEADER_SPLITTER + data;
     int result = ::send((SOCKET) this->_socket, msg.c_str(), (int) msg.length(), 0);
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
 }
 
-std::string SocketWrapper::recv()
+char * SocketWrapper::recv()
 {
     int size = 0;
     int bytesReceived = 0;
@@ -75,11 +75,7 @@ std::string SocketWrapper::recv()
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
 
-    char buf[size + 1];
-
-    memset(buf, 0, sizeof(buf));
-    buf[size] = '\0';
-
+    char* buf = new char[size]();
     ::recv((SOCKET) this->_socket, buf, size, 0);
     return buf;
 }

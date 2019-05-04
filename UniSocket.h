@@ -17,19 +17,8 @@ using std::map;
 
 #define SIZE_HEADER_SPLITTER ':'
 //TODO: fix glitch in linux where someone leaves and the server stops responding
-
-template<class T>
-struct UniSocketStruct
-{
-    T data;
-    int errorCode;
-
-    UniSocketStruct(const T &data, const int &errorCode)
-    {
-        this->data = data;
-        this->errorCode = errorCode;
-    }
-};
+//TODO: make send and recv return buf instead of std::string
+//TODO: don't catch exceptions
 
 class UniSocket;
 
@@ -54,13 +43,13 @@ public:
     std::string getIp(); //get ip of socket
 
     // send, receive, close
-    int send(const std::string &data);
+    void send(const char* data);
 
-    UniSocketStruct<std::string> recv();
+    const char* recv();
 
     void close();
 
-    UniSocketStruct<UniSocket> accept(void);
+    UniSocket accept(void);
 
     bool valid();
 

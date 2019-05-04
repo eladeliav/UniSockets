@@ -20,33 +20,16 @@ UniSocket::UniSocket(const int &fd)
     _sock = SocketWrapper(fd);
 }
 
-int UniSocket::send(const std::string &data)
+void UniSocket::send(const char* data)
 {
-    try
-    {
-        _sock.send(data);
-    }
-    catch (UniSocketException &e)
-    {
-        std::cout << e << std::endl;
-        return e.getError();
-    }
-    return 0;
+    _sock.send(data);
 }
 
-UniSocketStruct<std::string> UniSocket::recv()
+const char* UniSocket::recv()
 {
-    std::string receivedString;
-    try
-    {
-        receivedString = _sock.recv();
-    }
-    catch (UniSocketException &e)
-    {
-        std::cout << e << std::endl;
-        return UniSocketStruct<std::string>("", e.getError());
-    }
-    return UniSocketStruct<std::string>(receivedString, 1);
+    const char *receivedString;
+    receivedString = _sock.recv();
+    return receivedString;
 }
 
 void UniSocket::close(void)
@@ -91,20 +74,12 @@ UniSocket::~UniSocket(void)
     //_sock.close();
 }
 
-UniSocketStruct<UniSocket> UniSocket::accept(void)
+UniSocket UniSocket::accept(void)
 {
     SocketWrapper sw;
-    try
-    {
-        sw = _sock.accept();
-    }
-    catch (UniSocketException &e)
-    {
-        std::cout << e << std::endl;
-        return UniSocketStruct(UniSocket(), e.getError());
-    }
+    sw = _sock.accept();
     UniSocket us = UniSocket(sw.ip, sw);
-    return UniSocketStruct(us, 1);
+    return us;
 }
 
 UniSocket::UniSocket(const SocketWrapper &ref)

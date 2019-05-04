@@ -58,7 +58,7 @@ public:
         {
             if(!objectInArray(outSock, ignoreSocks))
             {
-                outSock.send(msg);
+                outSock.send(msg.c_str());
             }
         }
     }

@@ -29,9 +29,9 @@ public:
 
     SocketWrapper(const std::string &ip, const int &port);
 
-    void send(const std::string &data);
+    void send(const char* data);
 
-    std::string recv();
+    char * recv();
 
     void close();
 
