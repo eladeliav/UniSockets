@@ -6,7 +6,7 @@
 
 std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExcept)
 {
-    os << uniSockExcept.ERROR_MESSAGES.at(uniSockExcept._errorType) << std::endl;
+    os << uniSockExcept.ERROR_MESSAGES.at(uniSockExcept._errorType);
     return os;
 }
 
