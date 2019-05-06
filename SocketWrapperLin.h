@@ -32,7 +32,7 @@ public:
 
     void send(const char* data);
 
-    char * recv();
+    void recv(void* buf);
 
     void close();
 
