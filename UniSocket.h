@@ -43,7 +43,7 @@ public:
     std::string getIp(); //get ip of socket
 
     // send, receive, close
-    void send(const char* data, int bufLen);
+    int send(const void* data, int bufLen);
 
     int recv(void* buf);
 

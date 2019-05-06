@@ -54,13 +54,15 @@ int numDigits(T number)
     return digits;
 }
 
-void SocketWrapper::send(const char* data, int bufLen)
+int SocketWrapper::send(const void* data, int bufLen)
 {
-    string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + data;
+    char* pBuf = (char*)data;
+    string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
     int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
+    return result;
 }
 
 int SocketWrapper::recv(void* buf)
