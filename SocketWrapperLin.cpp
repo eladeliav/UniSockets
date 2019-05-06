@@ -38,7 +38,7 @@ void SocketWrapper::send(const char* data)
         throw UniSocketException(UniSocketException::SEND);
 }
 
-void SocketWrapper::recv(void* buf)
+int SocketWrapper::recv(void* buf)
 {
     int size = 0;
     int bytesReceived = 0;
@@ -62,8 +62,9 @@ void SocketWrapper::recv(void* buf)
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
-    
+
     ::recv(this->_socket, buf, size, 0);
+    return size;
 }
 
 void SocketWrapper::close()

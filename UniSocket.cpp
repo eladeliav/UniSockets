@@ -25,9 +25,9 @@ void UniSocket::send(const char* data)
     _sock.send(data);
 }
 
-void UniSocket::recv(void* buf)
+int UniSocket::recv(void* buf)
 {
-    _sock.recv(buf);
+    return _sock.recv(buf);
 }
 
 void UniSocket::close(void)
