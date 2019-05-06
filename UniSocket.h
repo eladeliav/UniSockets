@@ -45,7 +45,7 @@ public:
     // send, receive, close
     void send(const char* data);
 
-    const char* recv();
+    void recv(void* buf);
 
     void close();
 
