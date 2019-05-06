@@ -7,6 +7,7 @@
 #include "UniSocket.h"
 #include <array>
 #include <vector>
+#include <iostream>
 using std::vector;
 using std::array;
 
@@ -58,7 +59,7 @@ public:
         {
             if(!objectInArray(outSock, ignoreSocks))
             {
-                outSock.send(msg.c_str());
+                outSock.send(msg.c_str(), msg.size());
             }
         }
     }

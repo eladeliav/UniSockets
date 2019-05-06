@@ -29,7 +29,7 @@ public:
 
     SocketWrapper(const std::string &ip, const int &port);
 
-    void send(const char* data);
+    void send(const char* data, int bufLen);
 
     int recv(void* buf);
 

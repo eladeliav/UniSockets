@@ -20,9 +20,9 @@ UniSocket::UniSocket(const int &fd)
     _sock = SocketWrapper(fd);
 }
 
-void UniSocket::send(const char* data)
+void UniSocket::send(const char* data, int bufLen)
 {
-    _sock.send(data);
+    _sock.send(data, bufLen);
 }
 
 int UniSocket::recv(void* buf)

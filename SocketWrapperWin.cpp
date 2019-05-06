@@ -42,10 +42,23 @@ bool SocketWrapper::initWinsock(WSADATA &wsaData)
     return iResult == 0;
 }
 
-void SocketWrapper::send(const char* data)
+template <class T>
+int numDigits(T number)
 {
-    string msg = std::to_string(strlen(data)) + SIZE_HEADER_SPLITTER + data;
-    int result = ::send((SOCKET) this->_socket, msg.c_str(), (int) msg.length(), 0);
+    int digits = 0;
+    if (number < 0) digits = 1; // remove this line if '-' counts as a digit
+    while (number) {
+        number /= 10;
+        digits++;
+    }
+    return digits;
+}
+
+void SocketWrapper::send(const char* data, int bufLen)
+{
+    string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + data;
+    int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
+    int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
 }
@@ -70,10 +83,19 @@ int SocketWrapper::recv(void* buf)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
-    } while (*sizeBuf != SIZE_HEADER_SPLITTER);
+    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == string::npos);
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
-    size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
+    try
+    {
+        size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
+    }catch(std::invalid_argument& e)
+    {
+        std::cout << "invalid data size" << std::endl;
+        return -1;
+    }
+
+
 
     ::recv((SOCKET) this->_socket, static_cast<char *>(buf), size, 0);
     return size;
