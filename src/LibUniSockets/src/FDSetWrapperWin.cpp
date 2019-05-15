@@ -16,12 +16,6 @@ FDSetWrapper::FDSetWrapper(const UniSocket& masterSock)
     addSock(masterSock);
 }
 
-FDSetWrapper::FDSetWrapper(const UniSocket &masterSock, const int &timeout)
-{
-    clearSet();
-    addSock(masterSock);
-}
-
 void FDSetWrapper::clearSet()
 {
     FD_ZERO(&this->_master);

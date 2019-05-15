@@ -20,8 +20,6 @@ public:
 
     FDSetWrapper(const UniSocket& masterSock);
 
-    FDSetWrapper(const UniSocket &masterSock, const int& timeout);
-
     FDSetWrapper();
 
     void clearSet();

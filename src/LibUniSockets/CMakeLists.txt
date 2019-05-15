@@ -74,6 +74,18 @@ add_library(${LIBRARY_TARGET_NAME} SHARED ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBR
 # always treated as the name of either an alias or imported target. Any attempt
 # to use such a name for a different target type will result in an error.
 add_library(${PROJECT_NAME}::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
+
+# Let's set compiler-specific flags
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    # G++
+    target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE -Wall -Wextra)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+    # MSVC
+    target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE /EHsc /MTd /W2 /c)
+    # Set the DLLEXPORT variable to export symbols
+    target_compile_definitions(roukavici PRIVATE WIN_EXPORT)
+endif()
+
 target_link_libraries(${LIBRARY_TARGET_NAME} ws2_32)
 # Set two minimum target properties for the library.
 # See https://cmake.org/cmake/help/latest/command/set_target_properties.html

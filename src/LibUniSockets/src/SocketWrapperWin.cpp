@@ -20,7 +20,7 @@ SocketWrapper::SocketWrapper(const string &ip, const int &port)
 
     this->ip = ip;
     this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_socket == INVALID_SOCKET)
+    if (this->_socket == (int)INVALID_SOCKET)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     this->_address.sin_family = AF_INET;
@@ -85,7 +85,7 @@ int SocketWrapper::recv(void* buf)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
-    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == string::npos);
+    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == (char)string::npos);
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     try
@@ -119,7 +119,7 @@ SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
         throw UniSocketException(UniSocketException::WINSOCK);
 
     this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_socket == INVALID_SOCKET)
+    if (this->_socket == (int)INVALID_SOCKET)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     this->_address.sin_family = AF_INET;
@@ -166,7 +166,7 @@ SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
 SocketWrapper SocketWrapper::accept()
 {
     int conn = static_cast<int>(::accept((SOCKET) this->_socket, nullptr, nullptr));
-    if (conn == INVALID_SOCKET)
+    if (conn == (int)INVALID_SOCKET)
         throw UniSocketException(UniSocketException::ACCEPT);
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
@@ -181,5 +181,5 @@ SocketWrapper::SocketWrapper(const int &sock)
 
 bool SocketWrapper::valid()
 {
-    return !_empty && this->_socket != INVALID_SOCKET;
+    return !_empty && this->_socket != (int)INVALID_SOCKET;
 }

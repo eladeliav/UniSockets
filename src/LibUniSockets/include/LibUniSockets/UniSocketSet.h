@@ -30,8 +30,6 @@ public:
     UniSocketSet();
     UniSocketSet(const UniSocket& masterSock);
 
-    UniSocketSet(const UniSocket& masterSock, const int& timeout);
-
     void clearSet();
 
     void addSock(const UniSocket &sock);

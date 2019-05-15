@@ -42,11 +42,6 @@ UniSocketSet::UniSocketSet(const UniSocket &masterSock)
     _set = FDSetWrapper(masterSock);
 }
 
-UniSocketSet::UniSocketSet(const UniSocket &masterSock, const int &timeout)
-{
-    _set = FDSetWrapper(masterSock, timeout);
-}
-
 UniSocketSet::UniSocketSet()
 {
 
