@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E remove -f CMakeFiles\LibUniSockets.dir/objects.a
-C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe cr CMakeFiles\LibUniSockets.dir/objects.a @CMakeFiles\LibUniSockets.dir\objects1.rsp
-C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  -g  -shared -o ..\..\bin\libLibUniSockets.dll -Wl,--out-implib,..\..\lib\libLibUniSockets.dll.a -Wl,--major-image-version,1,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\LibUniSockets.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\LibUniSockets.dir\linklibs.rsp
