@@ -97,8 +97,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 
 # Build test related commands?
-#option(BUILD_TESTING "Create tests using CMake" OFF)
-set(BUILD_TESTING TRUE)
+option(BUILD_TESTING "Create tests using CMake" ON)
 if(BUILD_TESTING)
     enable_testing()
 endif()
