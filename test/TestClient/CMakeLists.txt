@@ -4,6 +4,11 @@ set(${TEST_TARGET_NAME}_SRC
         client.cpp
 )
 
+set(LibUniSockets_DIR "D:\\Programming\\VisualStudioProjects\\CPP\\VSCodeVersions\\UniSockets\\build")
+
+
+find_package(LibUniSockets REQUIRED)
+
 add_executable(${TEST_TARGET_NAME} ${${TEST_TARGET_NAME}_SRC})
 
 target_link_libraries(${TEST_TARGET_NAME} LibUniSockets::LibUniSockets)

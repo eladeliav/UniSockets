@@ -66,7 +66,7 @@ vector<UniSocket> FDSetWrapper::getReadySockets()
 vector<UniSocket> FDSetWrapper::getAllFDS()
 {
     vector<UniSocket> readySocks;
-    for(int i = 0; i < _master.fd_count;i++)
+    for(int i = 0; i < (int)_master.fd_count;i++)
     {
         readySocks.emplace_back(UniSocket(static_cast<const int &>(_master.fd_array[i])));
     }

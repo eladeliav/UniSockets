@@ -23,8 +23,8 @@ cmake_minimum_required(VERSION 3.4)
 # be enabled and thus using only CXX may cause issues. Note that by default when
 # LANGUAGES is not specified CMake enables both CXX and C.
 project(LibUniSockets
-        LANGUAGES CXX
-        VERSION 1.0)
+        LANGUAGES CXX C
+        VERSION 0.1)
 
 # Defines the CMAKE_INSTALL_LIBDIR, CMAKE_INSTALL_BINDIR and many other useful macros.
 # See https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
@@ -53,6 +53,11 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
+
+# Remove 'lib' prefix for shared libraries on Windows
+if (WIN32)
+  set(CMAKE_SHARED_LIBRARY_PREFIX "")
+endif ()
 
 # Build position independent code.
 # Position Independent Code (PIC) is commonly used for shared libraries so that
@@ -94,7 +99,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 ### Options
 # Shared/Dynamic or Static library?
-option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
+option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" TRUE)
 
 # Build test related commands?
 option(BUILD_TESTING "Create tests using CMake" ON)
