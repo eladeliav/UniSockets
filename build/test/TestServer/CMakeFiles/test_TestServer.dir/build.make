@@ -42,10 +42,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets
+CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build
+CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets\build
 
 # Include any dependencies generated for this target.
 include test/TestServer/CMakeFiles/test_TestServer.dir/depend.make
@@ -59,16 +59,16 @@ include test/TestServer/CMakeFiles/test_TestServer.dir/flags.make
 test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj: test/TestServer/CMakeFiles/test_TestServer.dir/flags.make
 test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj: test/TestServer/CMakeFiles/test_TestServer.dir/includes_CXX.rsp
 test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj: ../test/TestServer/server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj"
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer && C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\test_TestServer.dir\server.cpp.obj -c D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\test\TestServer\server.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj"
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer && C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\test_TestServer.dir\server.cpp.obj -c D:\Programming\VisualStudioProjects\CPP\UniSockets\test\TestServer\server.cpp
 
 test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_TestServer.dir/server.cpp.i"
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer && C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\test\TestServer\server.cpp > CMakeFiles\test_TestServer.dir\server.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer && C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\VisualStudioProjects\CPP\UniSockets\test\TestServer\server.cpp > CMakeFiles\test_TestServer.dir\server.cpp.i
 
 test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_TestServer.dir/server.cpp.s"
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer && C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\test\TestServer\server.cpp -o CMakeFiles\test_TestServer.dir\server.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer && C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\VisualStudioProjects\CPP\UniSockets\test\TestServer\server.cpp -o CMakeFiles\test_TestServer.dir\server.cpp.s
 
 # Object files for target test_TestServer
 test_TestServer_OBJECTS = \
@@ -83,8 +83,8 @@ bin/test_TestServer.exe: lib/libLibUniSockets.dll.a
 bin/test_TestServer.exe: test/TestServer/CMakeFiles/test_TestServer.dir/linklibs.rsp
 bin/test_TestServer.exe: test/TestServer/CMakeFiles/test_TestServer.dir/objects1.rsp
 bin/test_TestServer.exe: test/TestServer/CMakeFiles/test_TestServer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ..\..\bin\test_TestServer.exe"
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\test_TestServer.dir\link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ..\..\bin\test_TestServer.exe"
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\test_TestServer.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 test/TestServer/CMakeFiles/test_TestServer.dir/build: bin/test_TestServer.exe
@@ -92,10 +92,10 @@ test/TestServer/CMakeFiles/test_TestServer.dir/build: bin/test_TestServer.exe
 .PHONY : test/TestServer/CMakeFiles/test_TestServer.dir/build
 
 test/TestServer/CMakeFiles/test_TestServer.dir/clean:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer && $(CMAKE_COMMAND) -P CMakeFiles\test_TestServer.dir\cmake_clean.cmake
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer && $(CMAKE_COMMAND) -P CMakeFiles\test_TestServer.dir\cmake_clean.cmake
 .PHONY : test/TestServer/CMakeFiles/test_TestServer.dir/clean
 
 test/TestServer/CMakeFiles/test_TestServer.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\test\TestServer D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer\CMakeFiles\test_TestServer.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Programming\VisualStudioProjects\CPP\UniSockets D:\Programming\VisualStudioProjects\CPP\UniSockets\test\TestServer D:\Programming\VisualStudioProjects\CPP\UniSockets\build D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer\CMakeFiles\test_TestServer.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : test/TestServer/CMakeFiles/test_TestServer.dir/depend
 

@@ -58,10 +58,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets
+CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build
+CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets\build
 
 #=============================================================================
 # Target rules for target CMakeFiles/uninstall.dir
@@ -70,14 +70,14 @@ CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSoc
 CMakeFiles/uninstall.dir/all:
 	$(MAKE) -f CMakeFiles\uninstall.dir\build.make CMakeFiles/uninstall.dir/depend
 	$(MAKE) -f CMakeFiles\uninstall.dir\build.make CMakeFiles/uninstall.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles --progress-num= "Built target uninstall"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles --progress-num= "Built target uninstall"
 .PHONY : CMakeFiles/uninstall.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/uninstall.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/uninstall.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 .PHONY : CMakeFiles/uninstall.dir/rule
 
 # Convenience name for target.
@@ -138,7 +138,7 @@ src/LibUniSockets/preinstall:
 src/LibUniSockets/CMakeFiles/LibUniSockets.dir/all:
 	$(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/depend
 	$(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Built target LibUniSockets"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Built target LibUniSockets"
 .PHONY : src/LibUniSockets/CMakeFiles/LibUniSockets.dir/all
 
 # Include target in all.
@@ -148,9 +148,9 @@ all: src/LibUniSockets/CMakeFiles/LibUniSockets.dir/all
 
 # Build rule for subdir invocation for target.
 src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 6
 	$(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/CMakeFiles/LibUniSockets.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 .PHONY : src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule
 
 # Convenience name for target.
@@ -214,7 +214,7 @@ test/TestServer/preinstall:
 test/TestServer/CMakeFiles/test_TestServer.dir/all: src/LibUniSockets/CMakeFiles/LibUniSockets.dir/all
 	$(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/depend
 	$(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles --progress-num=9,10 "Built target test_TestServer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles --progress-num=9,10 "Built target test_TestServer"
 .PHONY : test/TestServer/CMakeFiles/test_TestServer.dir/all
 
 # Include target in all.
@@ -224,9 +224,9 @@ all: test/TestServer/CMakeFiles/test_TestServer.dir/all
 
 # Build rule for subdir invocation for target.
 test/TestServer/CMakeFiles/test_TestServer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 8
 	$(MAKE) -f CMakeFiles\Makefile2 test/TestServer/CMakeFiles/test_TestServer.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 .PHONY : test/TestServer/CMakeFiles/test_TestServer.dir/rule
 
 # Convenience name for target.
@@ -269,7 +269,7 @@ test/TestClient/preinstall:
 test/TestClient/CMakeFiles/test_TestClient.dir/all: src/LibUniSockets/CMakeFiles/LibUniSockets.dir/all
 	$(MAKE) -f test\TestClient\CMakeFiles\test_TestClient.dir\build.make test/TestClient/CMakeFiles/test_TestClient.dir/depend
 	$(MAKE) -f test\TestClient\CMakeFiles\test_TestClient.dir\build.make test/TestClient/CMakeFiles/test_TestClient.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles --progress-num=7,8 "Built target test_TestClient"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles --progress-num=7,8 "Built target test_TestClient"
 .PHONY : test/TestClient/CMakeFiles/test_TestClient.dir/all
 
 # Include target in all.
@@ -279,9 +279,9 @@ all: test/TestClient/CMakeFiles/test_TestClient.dir/all
 
 # Build rule for subdir invocation for target.
 test/TestClient/CMakeFiles/test_TestClient.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 8
 	$(MAKE) -f CMakeFiles\Makefile2 test/TestClient/CMakeFiles/test_TestClient.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 .PHONY : test/TestClient/CMakeFiles/test_TestClient.dir/rule
 
 # Convenience name for target.

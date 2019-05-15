@@ -56,11 +56,11 @@ string
 map
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/test/TestClient/client.cpp
+D:/Programming/VisualStudioProjects/CPP/UniSockets/test/TestClient/client.cpp
 iostream
 -
 LibUniSockets/UniSocket.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/test/TestClient/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/test/TestClient/LibUniSockets/UniSocket.h
 thread
 -
 

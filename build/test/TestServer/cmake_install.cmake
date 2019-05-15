@@ -1,4 +1,4 @@
-# Install script for directory: D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/test/TestServer
+# Install script for directory: D:/Programming/VisualStudioProjects/CPP/UniSockets/test/TestServer
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

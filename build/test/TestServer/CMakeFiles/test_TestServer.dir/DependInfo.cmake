@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/test/TestServer/server.cpp" "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/test/TestServer/server.cpp" "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,7 +15,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/DependInfo.cmake"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

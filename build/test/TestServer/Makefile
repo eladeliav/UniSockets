@@ -47,10 +47,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets
+CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build
+CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -136,14 +136,14 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\test\TestServer\CMakeFiles\progress.marks
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles D:\Programming\VisualStudioProjects\CPP\UniSockets\build\test\TestServer\CMakeFiles\progress.marks
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/all
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/clean
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/clean
 .PHONY : clean
 
 # The main clean target
@@ -153,22 +153,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/preinstall
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/preinstall
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 test/TestServer/CMakeFiles/test_TestServer.dir/rule:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/CMakeFiles/test_TestServer.dir/rule
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 test/TestServer/CMakeFiles/test_TestServer.dir/rule
 .PHONY : test/TestServer/CMakeFiles/test_TestServer.dir/rule
 
 # Convenience name for target.
@@ -178,7 +178,7 @@ test_TestServer: test/TestServer/CMakeFiles/test_TestServer.dir/rule
 
 # fast build rule for target.
 test_TestServer/fast:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/build
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/build
 .PHONY : test_TestServer/fast
 
 server.obj: server.cpp.obj
@@ -187,7 +187,7 @@ server.obj: server.cpp.obj
 
 # target to build an object file
 server.cpp.obj:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.obj
 .PHONY : server.cpp.obj
 
 server.i: server.cpp.i
@@ -196,7 +196,7 @@ server.i: server.cpp.i
 
 # target to preprocess a source file
 server.cpp.i:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.i
 .PHONY : server.cpp.i
 
 server.s: server.cpp.s
@@ -205,7 +205,7 @@ server.s: server.cpp.s
 
 # target to generate assembly for a file
 server.cpp.s:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f test\TestServer\CMakeFiles\test_TestServer.dir\build.make test/TestServer/CMakeFiles/test_TestServer.dir/server.cpp.s
 .PHONY : server.cpp.s
 
 # Help Target
@@ -236,6 +236,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

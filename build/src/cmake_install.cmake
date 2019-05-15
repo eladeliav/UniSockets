@@ -1,4 +1,4 @@
-# Install script for directory: D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src
+# Install script for directory: D:/Programming/VisualStudioProjects/CPP/UniSockets/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/cmake_install.cmake")
+  include("D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/cmake_install.cmake")
 
 endif()
 

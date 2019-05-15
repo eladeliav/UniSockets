@@ -1,9 +1,9 @@
-if(NOT EXISTS "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/install_manifest.txt")
-    message(WARNING "Cannot find install manifest: \"D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/install_manifest.txt\"")
+if(NOT EXISTS "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/install_manifest.txt")
+    message(WARNING "Cannot find install manifest: \"D:/Programming/VisualStudioProjects/CPP/UniSockets/build/install_manifest.txt\"")
     return()
 endif()
 
-file(READ "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/install_manifest.txt" files)
+file(READ "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/install_manifest.txt" files)
 string(STRIP "${files}" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 list(REVERSE files)

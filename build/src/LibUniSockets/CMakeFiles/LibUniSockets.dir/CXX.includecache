@@ -22,19 +22,19 @@ ws2tcpip.h
 mstcpip.h
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperLin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperLin.h
 UniSocket.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
 vector
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperWin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperWin.h
 UniSocket.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
 vector
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/SocketWrapperLin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/SocketWrapperLin.h
 sys/types.h
 -
 netinet/in.h
@@ -56,27 +56,27 @@ netinet/in.h
 string
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
 string
 -
 map
 -
 UniSocketException.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketException.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketException.h
 ../include/LibUniSockets/SocketWrapperWin.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/include/LibUniSockets/SocketWrapperWin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/include/LibUniSockets/SocketWrapperWin.h
 SocketWrapperLin.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/SocketWrapperLin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/SocketWrapperLin.h
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketException.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketException.h
 string
 -
 map
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketSet.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketSet.h
 UniSocket.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
 array
 -
 vector
@@ -84,37 +84,37 @@ vector
 iostream
 -
 ../include/LibUniSockets/FDSetWrapperWin.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/include/LibUniSockets/FDSetWrapperWin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/include/LibUniSockets/FDSetWrapperWin.h
 FDSetWrapperLin.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperLin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperLin.h
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/FDSetWrapperWin.cpp
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/FDSetWrapperWin.cpp
 ../include/LibUniSockets/FDSetWrapperWin.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperWin.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/FDSetWrapperWin.h
 ../include/LibUniSockets/UniSocketSet.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketSet.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketSet.h
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/SocketWrapperWin.cpp
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/SocketWrapperWin.cpp
 ../include/LibUniSockets/UniSocket.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
 iostream
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/UniSocket.cpp
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/UniSocket.cpp
 ../include/LibUniSockets/UniSocket.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocket.h
 iostream
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/UniSocketException.cpp
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/UniSocketException.cpp
 ../include/LibUniSockets/UniSocketException.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketException.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketException.h
 iostream
 -
 
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/UniSocketSet.cpp
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/UniSocketSet.cpp
 ../include/LibUniSockets/UniSocketSet.h
-D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketSet.h
+D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/include/LibUniSockets/UniSocketSet.h
 iostream
 -
 

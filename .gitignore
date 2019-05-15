@@ -3,6 +3,7 @@
 
 #directories
 cmake-build-debug/
+build/
 
 # Compiled Object files
 *.slo

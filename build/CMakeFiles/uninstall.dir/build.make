@@ -42,10 +42,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets
+CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build
+CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets\build
 
 # Utility rule file for uninstall.
 
@@ -53,7 +53,7 @@ CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSoc
 include CMakeFiles/uninstall.dir/progress.make
 
 CMakeFiles/uninstall:
-	"C:\Program Files\CMake\bin\cmake.exe" -P D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/cmake_uninstall.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -P D:/Programming/VisualStudioProjects/CPP/UniSockets/build/cmake_uninstall.cmake
 
 uninstall: CMakeFiles/uninstall
 uninstall: CMakeFiles/uninstall.dir/build.make
@@ -70,6 +70,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles\uninstall.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Programming\VisualStudioProjects\CPP\UniSockets D:\Programming\VisualStudioProjects\CPP\UniSockets D:\Programming\VisualStudioProjects\CPP\UniSockets\build D:\Programming\VisualStudioProjects\CPP\UniSockets\build D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles\uninstall.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/uninstall.dir/depend
 

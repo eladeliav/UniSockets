@@ -47,10 +47,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets
+CMAKE_SOURCE_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build
+CMAKE_BINARY_DIR = D:\Programming\VisualStudioProjects\CPP\UniSockets\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -136,14 +136,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\src\LibUniSockets\CMakeFiles\progress.marks
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build\CMakeFiles 0
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles D:\Programming\VisualStudioProjects\CPP\UniSockets\build\src\LibUniSockets\CMakeFiles\progress.marks
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/all
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\VisualStudioProjects\CPP\UniSockets\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/clean
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/clean
 .PHONY : clean
 
 # The main clean target
@@ -153,22 +153,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/preinstall
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/preinstall
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f CMakeFiles\Makefile2 src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule
 .PHONY : src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule
 
 # Convenience name for target.
@@ -178,7 +178,7 @@ LibUniSockets: src/LibUniSockets/CMakeFiles/LibUniSockets.dir/rule
 
 # fast build rule for target.
 LibUniSockets/fast:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/build
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/build
 .PHONY : LibUniSockets/fast
 
 src/FDSetWrapperWin.obj: src/FDSetWrapperWin.cpp.obj
@@ -187,7 +187,7 @@ src/FDSetWrapperWin.obj: src/FDSetWrapperWin.cpp.obj
 
 # target to build an object file
 src/FDSetWrapperWin.cpp.obj:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.obj
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.obj
 .PHONY : src/FDSetWrapperWin.cpp.obj
 
 src/FDSetWrapperWin.i: src/FDSetWrapperWin.cpp.i
@@ -196,7 +196,7 @@ src/FDSetWrapperWin.i: src/FDSetWrapperWin.cpp.i
 
 # target to preprocess a source file
 src/FDSetWrapperWin.cpp.i:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.i
 .PHONY : src/FDSetWrapperWin.cpp.i
 
 src/FDSetWrapperWin.s: src/FDSetWrapperWin.cpp.s
@@ -205,7 +205,7 @@ src/FDSetWrapperWin.s: src/FDSetWrapperWin.cpp.s
 
 # target to generate assembly for a file
 src/FDSetWrapperWin.cpp.s:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.s
 .PHONY : src/FDSetWrapperWin.cpp.s
 
 src/SocketWrapperWin.obj: src/SocketWrapperWin.cpp.obj
@@ -214,7 +214,7 @@ src/SocketWrapperWin.obj: src/SocketWrapperWin.cpp.obj
 
 # target to build an object file
 src/SocketWrapperWin.cpp.obj:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.obj
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.obj
 .PHONY : src/SocketWrapperWin.cpp.obj
 
 src/SocketWrapperWin.i: src/SocketWrapperWin.cpp.i
@@ -223,7 +223,7 @@ src/SocketWrapperWin.i: src/SocketWrapperWin.cpp.i
 
 # target to preprocess a source file
 src/SocketWrapperWin.cpp.i:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.i
 .PHONY : src/SocketWrapperWin.cpp.i
 
 src/SocketWrapperWin.s: src/SocketWrapperWin.cpp.s
@@ -232,7 +232,7 @@ src/SocketWrapperWin.s: src/SocketWrapperWin.cpp.s
 
 # target to generate assembly for a file
 src/SocketWrapperWin.cpp.s:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.s
 .PHONY : src/SocketWrapperWin.cpp.s
 
 src/UniSocket.obj: src/UniSocket.cpp.obj
@@ -241,7 +241,7 @@ src/UniSocket.obj: src/UniSocket.cpp.obj
 
 # target to build an object file
 src/UniSocket.cpp.obj:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.obj
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.obj
 .PHONY : src/UniSocket.cpp.obj
 
 src/UniSocket.i: src/UniSocket.cpp.i
@@ -250,7 +250,7 @@ src/UniSocket.i: src/UniSocket.cpp.i
 
 # target to preprocess a source file
 src/UniSocket.cpp.i:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.i
 .PHONY : src/UniSocket.cpp.i
 
 src/UniSocket.s: src/UniSocket.cpp.s
@@ -259,7 +259,7 @@ src/UniSocket.s: src/UniSocket.cpp.s
 
 # target to generate assembly for a file
 src/UniSocket.cpp.s:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.s
 .PHONY : src/UniSocket.cpp.s
 
 src/UniSocketException.obj: src/UniSocketException.cpp.obj
@@ -268,7 +268,7 @@ src/UniSocketException.obj: src/UniSocketException.cpp.obj
 
 # target to build an object file
 src/UniSocketException.cpp.obj:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.obj
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.obj
 .PHONY : src/UniSocketException.cpp.obj
 
 src/UniSocketException.i: src/UniSocketException.cpp.i
@@ -277,7 +277,7 @@ src/UniSocketException.i: src/UniSocketException.cpp.i
 
 # target to preprocess a source file
 src/UniSocketException.cpp.i:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.i
 .PHONY : src/UniSocketException.cpp.i
 
 src/UniSocketException.s: src/UniSocketException.cpp.s
@@ -286,7 +286,7 @@ src/UniSocketException.s: src/UniSocketException.cpp.s
 
 # target to generate assembly for a file
 src/UniSocketException.cpp.s:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.s
 .PHONY : src/UniSocketException.cpp.s
 
 src/UniSocketSet.obj: src/UniSocketSet.cpp.obj
@@ -295,7 +295,7 @@ src/UniSocketSet.obj: src/UniSocketSet.cpp.obj
 
 # target to build an object file
 src/UniSocketSet.cpp.obj:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.obj
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.obj
 .PHONY : src/UniSocketSet.cpp.obj
 
 src/UniSocketSet.i: src/UniSocketSet.cpp.i
@@ -304,7 +304,7 @@ src/UniSocketSet.i: src/UniSocketSet.cpp.i
 
 # target to preprocess a source file
 src/UniSocketSet.cpp.i:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.i
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.i
 .PHONY : src/UniSocketSet.cpp.i
 
 src/UniSocketSet.s: src/UniSocketSet.cpp.s
@@ -313,7 +313,7 @@ src/UniSocketSet.s: src/UniSocketSet.cpp.s
 
 # target to generate assembly for a file
 src/UniSocketSet.cpp.s:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.s
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(MAKE) -f src\LibUniSockets\CMakeFiles\LibUniSockets.dir\build.make src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.s
 .PHONY : src/UniSocketSet.cpp.s
 
 # Help Target
@@ -356,6 +356,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /d D:\Programming\VisualStudioProjects\CPP\VSCodeVersions\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
+	cd /d D:\Programming\VisualStudioProjects\CPP\UniSockets\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/FDSetWrapperWin.cpp" "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.obj"
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/SocketWrapperWin.cpp" "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.obj"
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/UniSocket.cpp" "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.obj"
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/UniSocketException.cpp" "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.obj"
-  "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/src/LibUniSockets/src/UniSocketSet.cpp" "D:/Programming/VisualStudioProjects/CPP/VSCodeVersions/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.obj"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/FDSetWrapperWin.cpp" "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/FDSetWrapperWin.cpp.obj"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/SocketWrapperWin.cpp" "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/SocketWrapperWin.cpp.obj"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/UniSocket.cpp" "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocket.cpp.obj"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/UniSocketException.cpp" "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketException.cpp.obj"
+  "D:/Programming/VisualStudioProjects/CPP/UniSockets/src/LibUniSockets/src/UniSocketSet.cpp" "D:/Programming/VisualStudioProjects/CPP/UniSockets/build/src/LibUniSockets/CMakeFiles/LibUniSockets.dir/src/UniSocketSet.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
