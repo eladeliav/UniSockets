@@ -27,10 +27,10 @@ if (WIN32)
             "SocketWrapperWin.h"
             "FDSetWrapperWin.h"
         )
-    set(OUTPUT_INCLUDE_DIR "D:/Programming/VisualStudioProjects/various includes/UniSockets/include/")
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/various includes/UniSockets/lib/")
+    set(OUTPUT_INCLUDE_DIR "D:/Programming/VisualStudioProjects/VariousIncludes/UniSockets/include/")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/VariousIncludes/UniSockets/lib/")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/VariousIncludes/UniSockets/lib/")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "D:/Programming/VisualStudioProjects/VariousIncludes/UniSockets/lib/")
 endif ()
 if (UNIX)
     list(APPEND SOURCE_FILES
@@ -44,9 +44,9 @@ if (UNIX)
             "FDSetWrapperLin.h"
         )
     set(OUTPUT_INCLUDE_DIR "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/include/")
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/Various Includes/UniSockets/lib/")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/VariousIncludes/UniSockets/lib/")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/VariousIncludes/UniSockets/lib/")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/Users/eladeliav/Documents/Programming/C++/VariousIncludes/UniSockets/lib/")
 endif ()
 
 message("include output: ${OUTPUT_INCLUDE_DIR}")
