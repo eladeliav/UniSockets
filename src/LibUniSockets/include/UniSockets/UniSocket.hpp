@@ -16,9 +16,6 @@ using std::map;
 #endif
 
 #define SIZE_HEADER_SPLITTER ':'
-//TODO: fix glitch in linux where someone leaves and the server stops responding
-//TODO: make send and recv return buf instead of std::string
-//TODO: don't catch exceptions
 
 class UniSocket;
 
