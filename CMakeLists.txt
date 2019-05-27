@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.5)
+
 ### CUSTOMIZATION STEPS
 # 1. Change the argument to project() with the name of your library/package
 #    (it will be the one used for find_package() call)
@@ -22,9 +23,8 @@ cmake_minimum_required(VERSION 3.4)
 # Infact, some legacy Find<package>.cmake files that require the C language to
 # be enabled and thus using only CXX may cause issues. Note that by default when
 # LANGUAGES is not specified CMake enables both CXX and C.
-project(LibUniSockets
+project(UniSockets
         LANGUAGES CXX C
-        VERSION 0.1)
 
 # Defines the CMAKE_INSTALL_LIBDIR, CMAKE_INSTALL_BINDIR and many other useful macros.
 # See https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
@@ -44,7 +44,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}"
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
 # See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # Under MSVC, we set CMAKE_DEBUG_POSTFIX to "d" to add a trailing "d" to library
 # built in debug mode. In this Windows user can compile, build and install the
@@ -94,10 +94,9 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 ### Options
 # Shared/Dynamic or Static library?
-option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" OFF)
 
 # Build test related commands?
-option(BUILD_TESTING "Create tests using CMake" ON)
+option(BUILD_TESTING "Create tests using CMake" OFF)
 if(BUILD_TESTING)
     enable_testing()
 endif()
@@ -105,9 +104,9 @@ endif()
 # Enable RPATH support for installed binaries and libraries
 include(AddInstallRPATHSupport)
 add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_FULL_BINDIR}"
-                          LIB_DIRS "${CMAKE_INSTALL_FULL_LIBDIR}"
-                          INSTALL_NAME_DIR "${CMAKE_INSTALL_FULL_LIBDIR}"
-                          USE_LINK_PATH)
+        LIB_DIRS "${CMAKE_INSTALL_FULL_LIBDIR}"
+        INSTALL_NAME_DIR "${CMAKE_INSTALL_FULL_LIBDIR}"
+        USE_LINK_PATH)
 
 # Encourage user to specify a build type (e.g. Release, Debug, etc.), otherwise set it to Release.
 if(NOT CMAKE_CONFIGURATION_TYPES)
@@ -144,11 +143,17 @@ add_subdirectory(src)
 #                             NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 # Include module with fuction 'write_basic_package_version_file'
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(${PROJECT_NAME}
-    VERSION ${${PROJECT_NAME}_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
+#include(CMakePackageConfigHelpers)
+#write_basic_package_version_file(${PROJECT_NAME}
+#    VERSION ${${PROJECT_NAME}_VERSION}
+#    COMPATIBILITY AnyNewerVersion
+#)
+include(InstallBasicPackageFiles)
+install_basic_package_files(${PROJECT_NAME}
+        VERSION ${${PROJECT_NAME}_VERSION}
+        COMPATIBILITY AnyNewerVersion
+        VARS_PREFIX ${PROJECT_NAME}
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 # Add the uninstall target
 include(AddUninstallTarget)
 
