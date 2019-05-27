@@ -25,6 +25,7 @@ cmake_minimum_required(VERSION 3.5)
 # LANGUAGES is not specified CMake enables both CXX and C.
 project(UniSockets
         LANGUAGES CXX C
+        VERSION 0.0.0.1
 )
 
 # Defines the CMAKE_INSTALL_LIBDIR, CMAKE_INSTALL_BINDIR and many other useful macros.
