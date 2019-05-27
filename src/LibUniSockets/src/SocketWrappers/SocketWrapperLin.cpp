@@ -79,7 +79,7 @@ int SocketWrapper::recv(void* buf) const
         size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
     }catch(std::invalid_argument& e)
     {
-        std::cout << "invalid data size" << std::endl;
+        std::cout << "Invalid data size in recv: " << sizeString << std::endl;
         return -1;
     }
     ::recv(this->_socket, static_cast<char *>(buf), size, 0);

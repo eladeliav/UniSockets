@@ -31,7 +31,11 @@ public:
 
     virtual int send(const void* data, int bufLen) const = 0;
 
+    virtual int raw_send(const void* data, int bufLen) const = 0;
+
     virtual int recv(void* buf) const = 0;
+
+    virtual int raw_recv(void* buf) const = 0;
 
     virtual void close() = 0;
 
