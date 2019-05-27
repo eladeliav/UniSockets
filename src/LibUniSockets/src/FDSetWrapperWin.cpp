@@ -2,8 +2,8 @@
 // Created by Elad Eliav on 2019-03-18.
 //
 
-#include "../include/LibUniSockets/FDSetWrapperWin.h"
-#include "../include/LibUniSockets/UniSocketSet.h"
+#include "UniSockets/FDSetWrapperWin.hpp"
+#include "UniSockets/UniSocketSet.hpp"
 
 FDSetWrapper::FDSetWrapper()
 {

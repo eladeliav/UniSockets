@@ -3,22 +3,21 @@
 //
 
 #pragma once
-#include "UniSocket.h"
+#include "UniSocket.hpp"
 #include <vector>
 using std::vector;
 
 class FDSetWrapper
 {
 private:
-    fd_set _master;
-    fd_set _copy;
-
-    int select();
-
+    struct pollfd fds[200];
+    int timeout = 3;
+    int nfds = 1;
+    int current_size = 0;
     vector<UniSocket> getAllFDS();
 public:
-
     FDSetWrapper(const UniSocket& masterSock);
+    FDSetWrapper(const UniSocket &masterSock, const int& timeout);
 
     FDSetWrapper();
 
@@ -34,3 +33,4 @@ public:
 
     friend class UniSocketSet;
 };
+

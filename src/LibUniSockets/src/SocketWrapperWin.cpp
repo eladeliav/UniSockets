@@ -1,7 +1,7 @@
 //
 // Created by elade on 3/14/2019.
 //
-#include "../include/LibUniSockets/UniSocket.h"
+#include "UniSockets/UniSocket.hpp"
 #include <iostream>
 
 using std::string;
@@ -11,7 +11,7 @@ SocketWrapper::SocketWrapper()
 
 }
 
-SocketWrapper::SocketWrapper(const string &ip, const int &port)
+SocketWrapper::SocketWrapper(string ip, int port)
 {
     _empty = false;
     WSADATA wsaData;
@@ -54,7 +54,7 @@ int numDigits(T number)
     return digits;
 }
 
-int SocketWrapper::send(const void* data, int bufLen)
+int SocketWrapper::send(const void* data, int bufLen) const
 {
     char* pBuf = (char*)data;
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
@@ -65,7 +65,7 @@ int SocketWrapper::send(const void* data, int bufLen)
     return result;
 }
 
-int SocketWrapper::recv(void* buf)
+int SocketWrapper::recv(void* buf) const
 {
     int size = 0;
     int bytesReceived = 0;
@@ -111,7 +111,7 @@ void SocketWrapper::close()
 }
 
 //server
-SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
+SocketWrapper::SocketWrapper(int port, int maxCon)
 {
     _empty = false;
     WSADATA wsaData;
@@ -155,7 +155,7 @@ string extractIp(SOCKADDR_IN &address)
     return buff;
 }
 
-SocketWrapper::SocketWrapper(const SOCKADDR_IN &address, const int &sock)
+SocketWrapper::SocketWrapper(sockaddr_in address, int sock)
 {
     _empty = false;
     this->_socket = sock;

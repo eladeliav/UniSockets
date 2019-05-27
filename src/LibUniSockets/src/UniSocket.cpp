@@ -2,7 +2,7 @@
 // Created by elade on 3/14/2019.
 //
 
-#include "../include/LibUniSockets/UniSocket.h"
+#include "UniSockets/UniSocket.hpp"
 #include <iostream>
 
 

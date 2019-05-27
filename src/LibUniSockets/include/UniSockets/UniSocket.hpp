@@ -7,10 +7,10 @@
 #include <string>
 #include <map>
 using std::map;
-#include "UniSocketException.h"
+#include "UniSocketException.hpp"
 
 #if _WIN32
-#include "../include/LibUniSockets/SocketWrapperWin.h"
+#include "TestSocketWrapperWin.hpp"
 #else
 #include "SocketWrapperLin.h"
 #endif

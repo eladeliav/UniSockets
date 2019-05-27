@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "UniSocket.h"
+#include "UniSocket.hpp"
 #include <array>
 #include <vector>
 #include <iostream>
@@ -12,7 +12,7 @@ using std::vector;
 using std::array;
 
 #if _WIN32
-#include "FDSetWrapperWin.h"
+#include "FDSetWrapperWin.hpp"
 #else
 #include "FDSetWrapperLin.h"
 #endif

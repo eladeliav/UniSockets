@@ -28,9 +28,10 @@ set(${LIBRARY_TARGET_NAME}_SRC
 
 # List of HPP (header) library files.
 set(${LIBRARY_TARGET_NAME}_HDR
-        "include/LibUniSockets/UniSocket.h"
-        "include/LibUniSockets/UniSocketSet.h"
-        "include/LibUniSockets/UnisocketException.h"
+        "include/UniSockets/UniSocket.hpp"
+        "include/UniSockets/UniSocketSet.hpp"
+        "include/UniSockets/UniSocketException.hpp"
+        "include/UniSockets/ISocketWrapper.hpp"
 )
 
 if (WIN32)
@@ -39,8 +40,9 @@ if (WIN32)
             "src/FDSetWrapperWin.cpp"
             )
     list(APPEND ${LIBRARY_TARGET_NAME}_HDR
-            "include/LibUniSockets/SocketWrapperWin.h"
-            "include/LibUniSockets/FDSetWrapperWin.h"
+            #"include/UniSockets/SocketWrapperWin.hpp"
+            "include/UniSockets/TestSocketWrapperWin.hpp"
+            "include/UniSockets/FDSetWrapperWin.hpp"
         )
 endif()
 

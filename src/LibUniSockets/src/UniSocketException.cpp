@@ -1,7 +1,7 @@
 //
 // Created by elade on 3/16/2019.
 //
-#include "../include/LibUniSockets/UniSocketException.h"
+#include "UniSockets/UniSocketException.hpp"
 #include <iostream>
 
 std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExcept)
