@@ -119,7 +119,7 @@ SocketWrapper::SocketWrapper(int port, int maxCon)
         throw UniSocketException(UniSocketException::WINSOCK);
 
     this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_socket == (int)INVALID_SOCKET)
+    if ((int) INVALID_SOCKET == this->_socket)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     this->_address.sin_family = AF_INET;
@@ -165,11 +165,13 @@ SocketWrapper::SocketWrapper(sockaddr_in address, int sock)
 
 SocketWrapper SocketWrapper::accept()
 {
-    int conn = static_cast<int>(::accept((SOCKET) this->_socket, nullptr, nullptr));
+    sockaddr_in newAddressInfo;
+    int addrsize = sizeof(newAddressInfo);
+    int conn = static_cast<int>(::accept((SOCKET) this->_socket, (struct sockaddr*)&newAddressInfo, &addrsize));
     if (conn == (int)INVALID_SOCKET)
         throw UniSocketException(UniSocketException::ACCEPT);
 
-    SocketWrapper newClient = SocketWrapper(this->_address, conn);
+    SocketWrapper newClient = SocketWrapper(newAddressInfo, conn);
     return newClient;
 }
 

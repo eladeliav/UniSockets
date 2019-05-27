@@ -31,19 +31,27 @@ set(${LIBRARY_TARGET_NAME}_HDR
         "include/UniSockets/UniSocket.hpp"
         "include/UniSockets/UniSocketSet.hpp"
         "include/UniSockets/UniSocketException.hpp"
-        "include/UniSockets/ISocketWrapper.hpp"
+        "include/UniSockets/SocketWrappers/ISocketWrapper.hpp"
 )
 
 if (WIN32)
     list(APPEND ${LIBRARY_TARGET_NAME}_SRC
-            "src/SocketWrapperWin.cpp"
-            "src/FDSetWrapperWin.cpp"
+            "src/SocketWrappers/SocketWrapperWin.cpp"
+            "src/FDSetWrappers/FDSetWrapperWin.cpp"
             )
     list(APPEND ${LIBRARY_TARGET_NAME}_HDR
-            #"include/UniSockets/SocketWrapperWin.hpp"
-            "include/UniSockets/TestSocketWrapperWin.hpp"
-            "include/UniSockets/FDSetWrapperWin.hpp"
+            "include/UniSockets/SocketWrappers/SocketWrapperWin.hpp"
+            "include/UniSockets/FDSetWrappers/FDSetWrapperWin.hpp"
         )
+else()
+    list(APPEND ${LIBRARY_TARGET_NAME}_SRC
+            "src/SocketWrappers/SocketWrapperLin.cpp"
+            "src/FDSetWrappers/FDSetWrapperLin.cpp"
+            )
+    list(APPEND ${LIBRARY_TARGET_NAME}_HDR
+            "include/UniSockets/SocketWrappers/SocketWrapperLin.hpp"
+            "include/UniSockets/FDSetWrappers/FDSetWrapperLin.hpp"
+            )
 endif()
 
 # You can add an external dependency using the find_package() function call

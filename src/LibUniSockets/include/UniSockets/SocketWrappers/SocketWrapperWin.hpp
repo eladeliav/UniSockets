@@ -1,7 +1,7 @@
 //
 // Created by elade on 5/27/2019.
 //
-
+#pragma once
 #ifndef UNISOCKETS_TESTSOCKETWRAPPERWIN_H
 #define UNISOCKETS_TESTSOCKETWRAPPERWIN_H
 

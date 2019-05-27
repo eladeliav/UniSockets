@@ -10,9 +10,9 @@ using std::map;
 #include "UniSocketException.hpp"
 
 #if _WIN32
-#include "TestSocketWrapperWin.hpp"
+#include "UniSockets/SocketWrappers/SocketWrapperWin.hpp"
 #else
-#include "SocketWrapperLin.h"
+#include "SocketWrapperLin.hpp"
 #endif
 
 #define SIZE_HEADER_SPLITTER ':'
