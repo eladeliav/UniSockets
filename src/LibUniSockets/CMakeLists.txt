@@ -24,7 +24,7 @@ set(${LIBRARY_TARGET_NAME}_SRC
         "src/UniSocket.cpp"
         "src/UniSocketSet.cpp"
         "src/UniSocketException.cpp"
-)
+        )
 
 # List of HPP (header) library files.
 set(${LIBRARY_TARGET_NAME}_HDR
@@ -32,7 +32,7 @@ set(${LIBRARY_TARGET_NAME}_HDR
         "include/UniSockets/UniSocketSet.hpp"
         "include/UniSockets/UniSocketException.hpp"
         "include/UniSockets/SocketWrappers/ISocketWrapper.hpp"
-)
+        )
 
 if (WIN32)
     list(APPEND ${LIBRARY_TARGET_NAME}_SRC
@@ -42,8 +42,8 @@ if (WIN32)
     list(APPEND ${LIBRARY_TARGET_NAME}_HDR
             "include/UniSockets/SocketWrappers/SocketWrapperWin.hpp"
             "include/UniSockets/FDSetWrappers/FDSetWrapperWin.hpp"
-        )
-else()
+            )
+else ()
     list(APPEND ${LIBRARY_TARGET_NAME}_SRC
             "src/SocketWrappers/SocketWrapperLin.cpp"
             "src/FDSetWrappers/FDSetWrapperLin.cpp"
@@ -52,7 +52,7 @@ else()
             "include/UniSockets/SocketWrappers/SocketWrapperLin.hpp"
             "include/UniSockets/FDSetWrappers/FDSetWrapperLin.hpp"
             )
-endif()
+endif ()
 
 # You can add an external dependency using the find_package() function call
 # See: https://cmake.org/cmake/help/latest/command/find_package.html
@@ -76,8 +76,8 @@ endif()
 # source and header files listed in the command invocation.
 # Remove 'lib' prefix for shared libraries on Windows
 if (WIN32)
-  set(CMAKE_SHARED_LIBRARY_PREFIX "")
-  set(CMAKE_STATIC_LIBRARY_SUFFIX ".dll.a")
+    set(CMAKE_SHARED_LIBRARY_PREFIX "")
+    set(CMAKE_STATIC_LIBRARY_SUFFIX ".dll.a")
 endif ()
 
 add_library(${LIBRARY_TARGET_NAME} STATIC ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBRARY_TARGET_NAME}_HDR})
@@ -95,28 +95,30 @@ add_library(${PROJECT_NAME}::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME}
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     # G++
     target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE -Wall -Wextra)
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     # MSVC
     target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE /EHsc /MTd /W2 /c)
     # Set the DLLEXPORT variable to export symbols
     target_compile_definitions(roukavici PRIVATE WIN_EXPORT)
-endif()
+endif ()
 
-target_link_libraries(${LIBRARY_TARGET_NAME} ws2_32)
+if (WIN32)
+    target_link_libraries(${LIBRARY_TARGET_NAME} ws2_32)
+endif ()
 # Set two minimum target properties for the library.
 # See https://cmake.org/cmake/help/latest/command/set_target_properties.html
 # Properties are: 1) Library version number 2) list of corresponding public headers
 set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION}
-                                                        PUBLIC_HEADER "${${LIBRARY_TARGET_NAME}_HDR}"
-                                                        )                                            
+        PUBLIC_HEADER "${${LIBRARY_TARGET_NAME}_HDR}"
+        )
 
 # Specify include directories for both compilation and installation process.
 # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
 # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#creating-relocatable-packages
-target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC 
-       "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-       "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>"
-)
+target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+        "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>"
+        )
 
 # If you used find_package() you need to use target_include_directories() and/or
 # target_link_libraries(). As explained previously, depending on the imported
@@ -129,10 +131,10 @@ target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC
 
 # Specify installation targets, typology and destination folders.
 install(TARGETS ${LIBRARY_TARGET_NAME}
-        EXPORT  ${PROJECT_NAME}
-        LIBRARY       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                            COMPONENT shlib
-        ARCHIVE       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                            COMPONENT lib
-        RUNTIME       DESTINATION "${CMAKE_INSTALL_BINDIR}"                            COMPONENT bin
+        EXPORT ${PROJECT_NAME}
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT shlib
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
         PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${LIBRARY_TARGET_NAME}" COMPONENT dev)
 
 

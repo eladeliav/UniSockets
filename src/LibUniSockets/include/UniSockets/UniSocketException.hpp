@@ -3,13 +3,15 @@
 //
 
 #pragma once
-
+#ifndef UNISOCKETEXCEPTION_H
+#define UNISOCKETEXCEPTION_H
 #include <string>
 #include <map>
+#include <functional>
 
 using std::map;
 
-class UniSocketException : public std::exception
+class UniSocketException
 {
 public:
     enum ErrorType
@@ -25,18 +27,39 @@ public:
         DISCONNECTED = 0,
         POLL = -123
     };
-    const map<ErrorType, std::string> ERROR_MESSAGES = {
-            {TIMED_OUT,    "Socket timed out while receiving"},
-            {ACCEPT,       "Socket failed to accept"},
-            {SEND,         "Socket failed to send message"},
-            {BIND,         "Socket failed to bind"},
-            {LISTEN,       "Socket failed to listen"},
-            {WINSOCK,      "Failed to initialize winsock"},
-            {SOCKET_INIT,  "Failed to initialize socket"},
-            {CONNECT,      "Socket failed to connect"},
-            {DISCONNECTED, "Disconnected"},
-            {POLL, "Failed to find readable fds"}
+
+    struct MapCreate
+    {
+        static map<ErrorType, std::string> create_map()
+        {
+            map<UniSocketException::ErrorType, std::string> m;
+            m[TIMED_OUT] = "Socket timed out while receiving";
+            m[ACCEPT] = "Socket failed to accept";
+            m[SEND] = "Socket failed to send message";
+            m[BIND] = "Socket failed to bind";
+            m[LISTEN] = "Socket failed to listen";
+            m[WINSOCK] = "Failed to initialize winsock";
+            m[SOCKET_INIT] = "Failed to initialize socket";
+            m[CONNECT] = "Socket failed to connect";
+            m[DISCONNECTED] = "Disconnected";
+            m[POLL] = "Failed to find readable fds";
+            return m;
+        }
     };
+
+//    const map<ErrorType, std::string> ERROR_MESSAGES = {
+//            {TIMED_OUT,    "Socket timed out while receiving"},
+//            {ACCEPT,       "Socket failed to accept"},
+//            {SEND,         "Socket failed to send message"},
+//            {BIND,         "Socket failed to bind"},
+//            {LISTEN,       "Socket failed to listen"},
+//            {WINSOCK,      "Failed to initialize winsock"},
+//            {SOCKET_INIT,  "Failed to initialize socket"},
+//            {CONNECT,      "Socket failed to connect"},
+//            {DISCONNECTED, "Disconnected"},
+//            {POLL,         "Failed to find readable fds"}
+//    };
+    const map<ErrorType, std::string> ERROR_MESSAGES = MapCreate::create_map();
 private:
     ErrorType _errorType;
 public:
@@ -47,3 +70,4 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExcept);
 };
+#endif

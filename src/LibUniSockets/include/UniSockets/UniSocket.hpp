@@ -12,7 +12,7 @@ using std::map;
 #if _WIN32
 #include "UniSockets/SocketWrappers/SocketWrapperWin.hpp"
 #else
-#include "SocketWrapperLin.hpp"
+#include "SocketWrappers/SocketWrapperLin.hpp"
 #endif
 
 #define SIZE_HEADER_SPLITTER ':'

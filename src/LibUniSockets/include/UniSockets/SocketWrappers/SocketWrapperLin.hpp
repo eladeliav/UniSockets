@@ -13,7 +13,7 @@ public:
 
     SocketWrapper(std::string ip, int port);
 
-    virtual int send(const char* data, int bufLen) const;
+    virtual int send(const void* data, int bufLen) const;
 
     virtual int recv(void* buf) const;
 

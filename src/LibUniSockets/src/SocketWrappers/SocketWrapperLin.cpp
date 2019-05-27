@@ -1,7 +1,7 @@
 //
 // Created by Elad Eliav on 2019-03SOCKET_ERROR4.
 //
-#include "UniSocket/UniSocket.hpp"
+#include "UniSockets/UniSocket.hpp"
 #include <iostream>
 
 using std::string;
@@ -11,7 +11,7 @@ using std::string;
 SocketWrapper::SocketWrapper()
 {}
 
-SocketWrapper::SocketWrapper(const string &ip, const int &port)
+SocketWrapper::SocketWrapper(string ip, int port)
 {
     _empty = false;
     this->ip = ip;
@@ -28,12 +28,24 @@ SocketWrapper::SocketWrapper(const string &ip, const int &port)
         throw UniSocketException(UniSocketException::CONNECT);
 }
 
-void SocketWrapper::send(const void* data, int bufLen) const
+int numDigits(int number)
+{
+    int digits = 0;
+    if (number < 0) digits = 1;
+    while(number)
+    {
+        number /= 10;
+        digits++;
+    }
+    return digits;
+}
+
+int SocketWrapper::send(const void* data, int bufLen) const
 {
     char* pBuf = (char*)data;
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
-    int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
+    int result = ::send(this->_socket, msg.c_str(), size, 0);
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
     return result;
@@ -79,7 +91,7 @@ void SocketWrapper::close()
     ::close(this->_socket);
 }
 
-SocketWrapper::SocketWrapper(const int &port, const int &maxCon)
+SocketWrapper::SocketWrapper(int port, int maxCon)
 {
     _empty = false;
     this->_socket = ::socket(AF_INET, SOCK_STREAM, 0);
@@ -120,7 +132,7 @@ string extractIp(sockaddr_in &address)
     return buff;
 }
 
-SocketWrapper::SocketWrapper(const sockaddr_in &address, const int &sock)
+SocketWrapper::SocketWrapper(sockaddr_in address, int sock)
 {
     _empty = false;
     this->_socket = sock;
