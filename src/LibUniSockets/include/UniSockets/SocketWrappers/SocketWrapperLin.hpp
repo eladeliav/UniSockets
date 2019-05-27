@@ -3,49 +3,32 @@
 //
 #pragma once
 
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/poll.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <string>
+#include "ISocketWrapper.hpp"
 
-class SocketWrapper
+class SocketWrapper: public ISocketWrapper
 {
-private:
-    sockaddr_in _address;
-
-    bool _empty = true;
-
 public:
-    int _socket;
-    std::string ip = "127.0.0.1";
-
     // empty, client constructors
     SocketWrapper();
 
-    SocketWrapper(const std::string &ip, const int &port);
+    SocketWrapper(std::string ip, int port);
 
-    void send(const char* data);
+    virtual int send(const char* data, int bufLen) const;
 
-    int recv(void* buf);
+    virtual int recv(void* buf) const;
 
-    void close();
+    virtual void close();
 
     //server constructor
-    SocketWrapper(const int &port, const int &maxCon);
+    SocketWrapper(int port, int maxCon);
 
-    SocketWrapper(const sockaddr_in &address, const int &sock);
+    SocketWrapper(sockaddr_in address, int sock);
 
     SocketWrapper(const int &sock);
 
     SocketWrapper accept();
 
-    bool valid();
+    virtual bool valid();
 
 };
 

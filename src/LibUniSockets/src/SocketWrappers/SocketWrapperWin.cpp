@@ -96,9 +96,6 @@ int SocketWrapper::recv(void* buf) const
         std::cout << "invalid data size" << std::endl;
         return -1;
     }
-
-
-
     ::recv((SOCKET) this->_socket, static_cast<char *>(buf), size, 0);
     return size;
 }

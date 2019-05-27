@@ -1,9 +1,7 @@
 //
 // Created by Elad Eliav on 2019-03SOCKET_ERROR4.
 //
-
-#include "SocketWrapperLin.h"
-#include "UniSocket.h"
+#include "UniSocket/UniSocket.hpp"
 #include <iostream>
 
 using std::string;
@@ -30,15 +28,18 @@ SocketWrapper::SocketWrapper(const string &ip, const int &port)
         throw UniSocketException(UniSocketException::CONNECT);
 }
 
-void SocketWrapper::send(const char* data)
+void SocketWrapper::send(const void* data, int bufLen) const
 {
-    string msg = std::to_string(strlen(data)) + SIZE_HEADER_SPLITTER + data;
-    int result = ::send(this->_socket, msg.c_str(), (int) msg.length(), 0);
+    char* pBuf = (char*)data;
+    string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
+    int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
+    int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
+    return result;
 }
 
-int SocketWrapper::recv(void* buf)
+int SocketWrapper::recv(void* buf) const
 {
     int size = 0;
     int bytesReceived = 0;
@@ -58,12 +59,18 @@ int SocketWrapper::recv(void* buf)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
-    } while (*sizeBuf != SIZE_HEADER_SPLITTER);
+    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == (char)string::npos);
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
-    size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
-
-    ::recv(this->_socket, buf, size, 0);
+    try
+    {
+        size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
+    }catch(std::invalid_argument& e)
+    {
+        std::cout << "invalid data size" << std::endl;
+        return -1;
+    }
+    ::recv(this->_socket, static_cast<char *>(buf), size, 0);
     return size;
 }
 
