@@ -3,6 +3,7 @@
 //
 
 #include "UniSockets/FDSetWrappers/FDSetWrapperLin.hpp"
+#include <cstring>
 
 FDSetWrapper::FDSetWrapper(const UniSocket &masterSock)
 {
