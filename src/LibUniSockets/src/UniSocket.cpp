@@ -99,3 +99,13 @@ bool UniSocket::valid()
 {
     return this->_sock.valid();
 }
+
+int UniSocket::raw_recv(void *buf, int bufLen)
+{
+    return this->_sock.raw_recv(buf, bufLen);
+}
+
+int UniSocket::raw_send(const void *data, int bufLen)
+{
+    return this->_sock.raw_send(data, bufLen);
+}

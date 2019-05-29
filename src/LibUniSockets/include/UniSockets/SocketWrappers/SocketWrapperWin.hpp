@@ -14,18 +14,22 @@ public:
 
     SocketWrapper(std::string ip, int port);
 
-    virtual int send(const void* data, int bufLen) const;
+    int send(const void* data, int bufLen) const override;
 
-    virtual int recv(void* buf) const;
+    int raw_send(const void* data, int bufLen) const override;
 
-    virtual void close();
+    int recv(void* buf) const override;
+
+    int raw_recv(void* buf, int bufLen) const override;
+
+    void close() override;
 
     //server constructor
     SocketWrapper(int port, int maxCon);
 
     SocketWrapper(sockaddr_in address, int sock);
 
-    SocketWrapper(const int &sock);
+    explicit SocketWrapper(const int &sock);
 
     SocketWrapper accept();
 

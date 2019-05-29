@@ -42,7 +42,11 @@ public:
     // send, receive, close
     int send(const void* data, int bufLen);
 
+    int raw_send(const void* data, int bufLen);
+
     int recv(void* buf);
+
+    int raw_recv(void* buf, int bufLen);
 
     void close();
 
