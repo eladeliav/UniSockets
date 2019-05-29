@@ -40,8 +40,6 @@ std::string UniSocket::getIp(void)
     return _ip;
 }
 
-// fuer Server nuetzlich -----------------
-
 UniSocket::UniSocket(void)
 {}
 
