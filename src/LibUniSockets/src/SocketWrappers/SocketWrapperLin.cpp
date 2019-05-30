@@ -40,6 +40,21 @@ int numDigits(int number)
     return digits;
 }
 
+
+int SocketWrapper::raw_send(const void *data, int bufLen) const
+{
+    char* pBuf = (char*)data;
+    int result = ::send(this->_socket, pBuf, bufLen, 0);
+    if (result == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SEND);
+    return result;
+}
+
+int SocketWrapper::raw_recv(void *buf, int bufLen) const
+{
+    return ::recv(this->_socket, static_cast<char *>(buf), bufLen, 0);
+}
+
 int SocketWrapper::send(const void* data, int bufLen) const
 {
     char* pBuf = (char*)data;

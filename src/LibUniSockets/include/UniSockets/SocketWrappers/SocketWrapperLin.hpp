@@ -15,7 +15,11 @@ public:
 
     virtual int send(const void* data, int bufLen) const;
 
+    int raw_send(const void* data, int bufLen) const override;
+
     virtual int recv(void* buf) const;
+
+    int raw_recv(void* buf, int bufLen) const override;
 
     virtual void close();
 
