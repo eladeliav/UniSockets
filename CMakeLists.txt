@@ -98,6 +98,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # Shared/Dynamic or Static library?
 
 # Build test related commands?
+set(BUILD_TESTING OFF)
 option(BUILD_TESTING "Create tests using CMake" OFF)
 if(BUILD_TESTING)
     enable_testing()
