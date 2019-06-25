@@ -2,6 +2,11 @@
 // Created by elade on 3/14/2019.
 //
 
+//TODOS HERE
+//TODO: consider making << >> operator like a stream
+//TODO: update timeout, error handling, timeout on set for linux
+//TODO: setup select() function in UniSocket not just UniSocketSetit
+
 #pragma once
 
 #include <string>
@@ -61,7 +66,7 @@ public:
 
     static void cleanup();
 
-    //TODO: consider making << >> operator like a stream
+
     friend bool operator==(const UniSocket &lhs, const UniSocket &rhs);
 
     friend bool operator!=(const UniSocket &lhs, const UniSocket &rhs);
