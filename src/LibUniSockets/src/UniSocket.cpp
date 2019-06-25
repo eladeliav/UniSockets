@@ -61,6 +61,7 @@ UniSocket::UniSocket(
 
 UniSocket::UniSocket(int port, int maxCon, int timeout)
 {
+    _timeout = timeout;
     _sock = SocketWrapper(port, maxCon, timeout);
 }
 

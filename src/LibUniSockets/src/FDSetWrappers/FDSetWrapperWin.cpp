@@ -46,7 +46,6 @@ int FDSetWrapper::select()
     timeval tv;
     tv.tv_sec = _timeout;
     tv.tv_usec = 0;
-    std::cout << "selecting with timeout: " << _timeout << std::endl;
     _copy = _master;
     return ::select(_masterFd+1, &_copy, nullptr, nullptr, &tv);
 }

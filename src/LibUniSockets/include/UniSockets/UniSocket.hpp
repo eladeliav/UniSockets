@@ -24,7 +24,7 @@ class UniSocket
 private:
     SocketWrapper _sock;
     std::string _ip;
-    int _timeout;
+    int _timeout = 0;
 public:
     UniSocket(std::string ip, int port, int timeout=0); // connect socket
     UniSocket(int port, int maxCon, int timeout=0); //server socket
