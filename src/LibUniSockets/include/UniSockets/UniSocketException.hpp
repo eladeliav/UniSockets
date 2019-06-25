@@ -5,13 +5,14 @@
 #pragma once
 #ifndef UNISOCKETEXCEPTION_H
 #define UNISOCKETEXCEPTION_H
+
 #include <string>
 #include <map>
 #include <functional>
 
 using std::map;
 
-class UniSocketException
+class UniSocketException : public std::exception
 {
 public:
     enum ErrorType
@@ -46,28 +47,20 @@ public:
             return m;
         }
     };
-
-//    const map<ErrorType, std::string> ERROR_MESSAGES = {
-//            {TIMED_OUT,    "Socket timed out while receiving"},
-//            {ACCEPT,       "Socket failed to accept"},
-//            {SEND,         "Socket failed to send message"},
-//            {BIND,         "Socket failed to bind"},
-//            {LISTEN,       "Socket failed to listen"},
-//            {WINSOCK,      "Failed to initialize winsock"},
-//            {SOCKET_INIT,  "Failed to initialize socket"},
-//            {CONNECT,      "Socket failed to connect"},
-//            {DISCONNECTED, "Disconnected"},
-//            {POLL,         "Failed to find readable fds"}
-//    };
     const map<ErrorType, std::string> ERROR_MESSAGES = MapCreate::create_map();
 private:
     ErrorType _errorType;
 public:
-
-    UniSocketException(ErrorType type);
+    explicit UniSocketException(ErrorType type);
 
     ErrorType getError();
 
+    const char *what() const noexcept override
+    {
+        return UniSocketException::ERROR_MESSAGES.at(this->_errorType).c_str();
+    }
+
     friend std::ostream &operator<<(std::ostream &os, const UniSocketException &uniSockExcept);
 };
+
 #endif

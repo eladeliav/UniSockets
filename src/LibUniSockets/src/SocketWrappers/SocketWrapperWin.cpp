@@ -67,7 +67,15 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 
 int SocketWrapper::raw_recv(void *buf, int bufLen) const
 {
-    return ::recv((SOCKET) this->_socket, static_cast<char *>(buf), bufLen, 0);
+    int bytesReceived = ::recv((SOCKET) this->_socket, static_cast<char *>(buf), bufLen, 0);
+    if (bytesReceived == 0)
+    {
+        throw UniSocketException(UniSocketException::DISCONNECTED);
+    } else if(bytesReceived < 0)
+    {
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
+    return bytesReceived;
 }
 
 int SocketWrapper::send(const void* data, int bufLen) const
@@ -197,4 +205,9 @@ SocketWrapper::SocketWrapper(const int &sock)
 bool SocketWrapper::valid()
 {
     return !_empty && this->_socket != (int)INVALID_SOCKET;
+}
+
+int SocketWrapper::getSockId()
+{
+    return this->_socket;
 }

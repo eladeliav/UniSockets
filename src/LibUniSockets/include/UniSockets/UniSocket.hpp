@@ -50,6 +50,8 @@ public:
 
     void close();
 
+    int getSockId();
+
     UniSocket accept(void);
 
     bool valid();

@@ -22,6 +22,8 @@ public:
 
     int raw_recv(void* buf, int bufLen) const override;
 
+    int getSockId() override;
+
     void close() override;
 
     //server constructor

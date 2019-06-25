@@ -41,6 +41,8 @@ public:
 
     virtual bool valid() = 0;
 
+    virtual int getSockId() = 0;
+
 protected:
     sockaddr_in _address;
 
