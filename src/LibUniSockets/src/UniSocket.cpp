@@ -117,3 +117,8 @@ void UniSocket::setTimeout(int timeout)
     this->_timeout = timeout;
     this->_sock.setTimeout(_timeout);
 }
+
+void UniSocket::cleanup()
+{
+    WSACleanup();
+}

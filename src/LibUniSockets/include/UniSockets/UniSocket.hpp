@@ -59,6 +59,8 @@ public:
 
     bool valid();
 
+    static void cleanup();
+
     friend bool operator==(const UniSocket &lhs, const UniSocket &rhs);
 
     friend bool operator!=(const UniSocket &lhs, const UniSocket &rhs);
