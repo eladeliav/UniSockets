@@ -63,9 +63,7 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 {
     char *pBuf = (char *) data;
     int result = ::send((SOCKET) this->_socket, pBuf, bufLen, 0);
-    if (WSAGetLastError() == EAGAIN ||
-        WSAGetLastError() == EWOULDBLOCK ||
-        WSAGetLastError() == WSAETIMEDOUT)
+    if (WSAGetLastError() == WSAETIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
@@ -77,9 +75,7 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 int SocketWrapper::raw_recv(void *buf, int bufLen) const
 {
     int bytesReceived = ::recv((SOCKET) this->_socket, static_cast<char *>(buf), bufLen, 0);
-    if (WSAGetLastError() == EAGAIN ||
-        WSAGetLastError() == EWOULDBLOCK ||
-        WSAGetLastError() == WSAETIMEDOUT)
+    if (WSAGetLastError() == WSAETIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
@@ -96,9 +92,7 @@ int SocketWrapper::send(const void *data, int bufLen) const
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
     int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
-    if (WSAGetLastError() == EAGAIN ||
-        WSAGetLastError() == EWOULDBLOCK ||
-        WSAGetLastError() == WSAETIMEDOUT)
+    if (WSAGetLastError() == WSAETIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
@@ -124,9 +118,7 @@ int SocketWrapper::recv(void *buf) const
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
         }
-        if (WSAGetLastError() == EAGAIN ||
-            WSAGetLastError() == EWOULDBLOCK ||
-            WSAGetLastError() == WSAETIMEDOUT)
+        if (WSAGetLastError() == WSAETIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
@@ -211,7 +203,7 @@ SocketWrapper SocketWrapper::accept()
     sockaddr_in newAddressInfo;
     int addrsize = sizeof(newAddressInfo);
     int conn = static_cast<int>(::accept((SOCKET) this->_socket, (struct sockaddr *) &newAddressInfo, &addrsize));
-    if (conn == (int) INVALID_SOCKET)
+    if (conn == (int) INVALID_SOCKET || WSAGetLastError() == WSAETIMEDOUT)
         throw UniSocketException(UniSocketException::ACCEPT);
 
     SocketWrapper newClient = SocketWrapper(newAddressInfo, conn);
