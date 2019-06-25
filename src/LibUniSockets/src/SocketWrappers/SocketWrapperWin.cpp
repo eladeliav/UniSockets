@@ -147,9 +147,8 @@ int SocketWrapper::recv(void *buf) const
 
 void SocketWrapper::close()
 {
-    WSACleanup();
-    closesocket((SOCKET)
-                        this->_socket);
+    if(closesocket((SOCKET)this->_socket) == SOCKET_ERROR)
+        throw (UniSocketException::SOCKET_CLOSE);
 }
 
 //server

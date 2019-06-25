@@ -17,16 +17,17 @@ class UniSocketException : public std::exception
 public:
     enum ErrorType
     {
-        TIMED_OUT = -15,
-        ACCEPT = -5,
-        SEND = -1,
-        BIND = -7,
-        LISTEN = -9,
-        WINSOCK = -32,
-        SOCKET_INIT = -400,
-        CONNECT = -60,
-        DISCONNECTED = 0,
-        POLL = -123
+        TIMED_OUT = 100,
+        ACCEPT = 101,
+        SEND = 102,
+        BIND = 103,
+        LISTEN = 104,
+        WINSOCK = 105,
+        SOCKET_INIT = 106,
+        CONNECT = 107,
+        DISCONNECTED = 108,
+        POLL = 109,
+        SOCKET_CLOSE = 110
     };
 
     struct MapCreate
@@ -44,6 +45,7 @@ public:
             m[CONNECT] = "Socket failed to connect";
             m[DISCONNECTED] = "Disconnected";
             m[POLL] = "Failed to find readable fds";
+            m[SOCKET_CLOSE] = "Socket failed to close";
             return m;
         }
     };
