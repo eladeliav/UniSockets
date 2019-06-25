@@ -63,6 +63,12 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 {
     char *pBuf = (char *) data;
     int result = ::send((SOCKET) this->_socket, pBuf, bufLen, 0);
+    if (WSAGetLastError() == EAGAIN ||
+        WSAGetLastError() == EWOULDBLOCK ||
+        WSAGetLastError() == WSAETIMEDOUT)
+    {
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
     return result;
@@ -75,7 +81,6 @@ int SocketWrapper::raw_recv(void *buf, int bufLen) const
         WSAGetLastError() == EWOULDBLOCK ||
         WSAGetLastError() == WSAETIMEDOUT)
     {
-        std::cout << "TIMED OUT THROWING EXCEPTION FOR TIME OUT" << std::endl;
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
     if (bytesReceived == 0)
@@ -91,6 +96,12 @@ int SocketWrapper::send(const void *data, int bufLen) const
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
     int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
+    if (WSAGetLastError() == EAGAIN ||
+        WSAGetLastError() == EWOULDBLOCK ||
+        WSAGetLastError() == WSAETIMEDOUT)
+    {
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
     return result;
@@ -112,7 +123,10 @@ int SocketWrapper::recv(void *buf) const
         } else if (bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        } else if (errno == EAGAIN || errno == EWOULDBLOCK)
+        }
+        if (WSAGetLastError() == EAGAIN ||
+            WSAGetLastError() == EWOULDBLOCK ||
+            WSAGetLastError() == WSAETIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
