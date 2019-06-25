@@ -15,7 +15,7 @@ UniSocketException::UniSocketException(UniSocketException::ErrorType type)
     this->_errorType = type;
 }
 
-UniSocketException::ErrorType UniSocketException::getError()
+std::string UniSocketException::getError()
 {
-    return this->_errorType;
+    return UniSocketException::ERROR_MESSAGES.at(this->_errorType);
 }

@@ -53,7 +53,7 @@ private:
 public:
     explicit UniSocketException(ErrorType type);
 
-    ErrorType getError();
+    std::string getError();
 
     const char *what() const noexcept override
     {
