@@ -8,6 +8,7 @@
 #if _WIN32
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>
+#include <windows.h>
 #include <ws2tcpip.h>
 #include <mstcpip.h>
 #define sockaddr_in SOCKADDR_IN
@@ -42,6 +43,8 @@ public:
     virtual bool valid() = 0;
 
     virtual int getSockId() = 0;
+
+    virtual void setTimeout(int timeout) = 0;
 
 protected:
     sockaddr_in _address;

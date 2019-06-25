@@ -5,7 +5,6 @@
 #include <iostream>
 #include <UniSockets/SocketWrappers/SocketWrapperWin.hpp>
 
-
 using std::string;
 
 SocketWrapper::SocketWrapper()
@@ -13,21 +12,24 @@ SocketWrapper::SocketWrapper()
 
 }
 
-SocketWrapper::SocketWrapper(string ip, int port)
+SocketWrapper::SocketWrapper(string ip, int port, int timeout)
 {
     _empty = false;
+    _timeout = timeout;
     WSADATA wsaData;
     if (!initWinsock(wsaData))
         throw UniSocketException(UniSocketException::WINSOCK);
 
     this->ip = ip;
     this->_socket = (int) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_socket == (int)INVALID_SOCKET)
+    if (this->_socket == (int) INVALID_SOCKET)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     this->_address.sin_family = AF_INET;
     this->_address.sin_addr.s_addr = ::inet_addr(ip.c_str());
     this->_address.sin_port = htons(port);
+
+    setTimeout(_timeout);
 
     int result = ::connect((SOCKET)
                                    this->_socket, (SOCKADDR *) &this->_address, sizeof(SOCKADDR_IN));
@@ -44,12 +46,13 @@ bool SocketWrapper::initWinsock(WSADATA &wsaData)
     return iResult == 0;
 }
 
-template <class T>
+template<class T>
 int numDigits(T number)
 {
     int digits = 0;
     if (number < 0) digits = 1; // remove this line if '-' counts as a digit
-    while (number) {
+    while (number)
+    {
         number /= 10;
         digits++;
     }
@@ -58,7 +61,7 @@ int numDigits(T number)
 
 int SocketWrapper::raw_send(const void *data, int bufLen) const
 {
-    char* pBuf = (char*)data;
+    char *pBuf = (char *) data;
     int result = ::send((SOCKET) this->_socket, pBuf, bufLen, 0);
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
@@ -68,19 +71,23 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 int SocketWrapper::raw_recv(void *buf, int bufLen) const
 {
     int bytesReceived = ::recv((SOCKET) this->_socket, static_cast<char *>(buf), bufLen, 0);
+    if (WSAGetLastError() == EAGAIN ||
+        WSAGetLastError() == EWOULDBLOCK ||
+        WSAGetLastError() == WSAETIMEDOUT)
+    {
+        std::cout << "TIMED OUT THROWING EXCEPTION FOR TIME OUT" << std::endl;
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
     if (bytesReceived == 0)
     {
         throw UniSocketException(UniSocketException::DISCONNECTED);
-    } else if(bytesReceived < 0)
-    {
-        throw UniSocketException(UniSocketException::TIMED_OUT);
     }
     return bytesReceived;
 }
 
-int SocketWrapper::send(const void* data, int bufLen) const
+int SocketWrapper::send(const void *data, int bufLen) const
 {
-    char* pBuf = (char*)data;
+    char *pBuf = (char *) data;
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
     int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
@@ -89,7 +96,7 @@ int SocketWrapper::send(const void* data, int bufLen) const
     return result;
 }
 
-int SocketWrapper::recv(void* buf) const
+int SocketWrapper::recv(void *buf) const
 {
     int size = 0;
     int bytesReceived = 0;
@@ -105,17 +112,17 @@ int SocketWrapper::recv(void* buf) const
         } else if (bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        } else
+        } else if (errno == EAGAIN || errno == EWOULDBLOCK)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
-    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == (char)string::npos);
+    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == (char) string::npos);
 
     int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
     try
     {
         size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
-    }catch(std::invalid_argument& e)
+    } catch (std::invalid_argument &e)
     {
         std::cout << "invalid data size" << std::endl;
         return -1;
@@ -132,9 +139,10 @@ void SocketWrapper::close()
 }
 
 //server
-SocketWrapper::SocketWrapper(int port, int maxCon)
+SocketWrapper::SocketWrapper(int port, int maxCon, int timeout)
 {
     _empty = false;
+    _timeout = timeout;
     WSADATA wsaData;
     if (!initWinsock(wsaData))
         throw UniSocketException(UniSocketException::WINSOCK);
@@ -147,13 +155,14 @@ SocketWrapper::SocketWrapper(int port, int maxCon)
     this->_address.sin_addr.s_addr = ::inet_addr(ip.c_str());
     this->_address.sin_port = htons((u_short) port);
 
+    setTimeout(_timeout);
+
     int result = ::bind((SOCKET)
                                 this->_socket, (SOCKADDR *) &this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::BIND);
     }
-
 
     result = ::listen((SOCKET)
                               this->_socket, maxCon);
@@ -188,8 +197,8 @@ SocketWrapper SocketWrapper::accept()
 {
     sockaddr_in newAddressInfo;
     int addrsize = sizeof(newAddressInfo);
-    int conn = static_cast<int>(::accept((SOCKET) this->_socket, (struct sockaddr*)&newAddressInfo, &addrsize));
-    if (conn == (int)INVALID_SOCKET)
+    int conn = static_cast<int>(::accept((SOCKET) this->_socket, (struct sockaddr *) &newAddressInfo, &addrsize));
+    if (conn == (int) INVALID_SOCKET)
         throw UniSocketException(UniSocketException::ACCEPT);
 
     SocketWrapper newClient = SocketWrapper(newAddressInfo, conn);
@@ -204,10 +213,16 @@ SocketWrapper::SocketWrapper(const int &sock)
 
 bool SocketWrapper::valid()
 {
-    return !_empty && this->_socket != (int)INVALID_SOCKET;
+    return !_empty && this->_socket != (int) INVALID_SOCKET;
 }
 
 int SocketWrapper::getSockId()
 {
     return this->_socket;
+}
+
+void SocketWrapper::setTimeout(int timeout)
+{
+    DWORD dTimeout = timeout * 1000;
+    setsockopt((SOCKET) this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
 }

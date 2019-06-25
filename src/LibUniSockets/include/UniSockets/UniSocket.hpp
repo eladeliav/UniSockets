@@ -24,10 +24,11 @@ class UniSocket
 private:
     SocketWrapper _sock;
     std::string _ip;
+    int _timeout;
 public:
-    UniSocket(const std::string &ip, const int &port); // connect socket
-    UniSocket(const int &port, const int &maxCon); //server socket
-    UniSocket(const std::string &ip, const SocketWrapper &sock);
+    UniSocket(std::string ip, int port, int timeout=0); // connect socket
+    UniSocket(int port, int maxCon, int timeout=0); //server socket
+    UniSocket(std::string ip, SocketWrapper sock);
 
     UniSocket(const int &fd);
 
@@ -53,6 +54,8 @@ public:
     int getSockId();
 
     UniSocket accept(void);
+
+    void setTimeout(int timeout);
 
     bool valid();
 

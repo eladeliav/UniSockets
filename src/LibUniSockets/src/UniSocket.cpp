@@ -7,12 +7,14 @@
 
 
 UniSocket::UniSocket(
-        const std::string &ip,
-        const int &port
+        std::string ip,
+        int port,
+        int timeout
 )
 {
     _ip = ip;
-    _sock = SocketWrapper(_ip, port);
+    _timeout = timeout;
+    _sock = SocketWrapper(_ip, port, _timeout);
 }
 
 UniSocket::UniSocket(const int &fd)
@@ -50,19 +52,16 @@ UniSocket::UniSocket(const UniSocket &ref)
 }
 
 UniSocket::UniSocket(
-        const std::string &ip,
-        const SocketWrapper &sock)
+        std::string ip,
+        SocketWrapper sock)
 {
     _ip = ip;
     _sock = sock;
 }
 
-UniSocket::UniSocket(
-        const int &port,
-        const int &queueSize
-)
+UniSocket::UniSocket(int port, int maxCon, int timeout)
 {
-    _sock = SocketWrapper(port, queueSize);
+    _sock = SocketWrapper(port, maxCon, timeout);
 }
 
 UniSocket::~UniSocket(void)
@@ -111,4 +110,10 @@ int UniSocket::raw_send(const void *data, int bufLen)
 int UniSocket::getSockId()
 {
     return this->_sock.getSockId();
+}
+
+void UniSocket::setTimeout(int timeout)
+{
+    this->_timeout = timeout;
+    this->_sock.setTimeout(_timeout);
 }

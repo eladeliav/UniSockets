@@ -12,7 +12,7 @@ class SocketWrapper: public ISocketWrapper
 public:
     SocketWrapper();
 
-    SocketWrapper(std::string ip, int port);
+    SocketWrapper(std::string ip, int port, int timeout);
 
     int send(const void* data, int bufLen) const override;
 
@@ -26,8 +26,10 @@ public:
 
     void close() override;
 
+    void setTimeout(int timeout) override;
+
     //server constructor
-    SocketWrapper(int port, int maxCon);
+    SocketWrapper(int port, int maxCon, int timeout);
 
     SocketWrapper(sockaddr_in address, int sock);
 
@@ -35,10 +37,11 @@ public:
 
     SocketWrapper accept();
 
-    virtual bool valid();
+    virtual bool valid() override;
 
 private:
     bool initWinsock(WSAData& wsaData);
+    int _timeout;
 };
 
 #endif //UNISOCKETS_TESTSOCKETWRAPPERWIN_H
