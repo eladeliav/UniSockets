@@ -14,6 +14,8 @@ FDSetWrapper::FDSetWrapper(const UniSocket& masterSock)
 {
     clearSet();
     addSock(masterSock);
+    _timeout = masterSock._timeout;
+    _masterFd = masterSock.getSockId();
 }
 
 void FDSetWrapper::clearSet()
@@ -23,7 +25,7 @@ void FDSetWrapper::clearSet()
 
 void FDSetWrapper::addSock(const UniSocket &sock)
 {
-    FD_SET(sock._sock._socket, &this->_master);
+    FD_SET((SOCKET)sock._sock._socket, &this->_master);
 }
 
 UniSocket FDSetWrapper::sockAt(const int &index)
@@ -35,14 +37,18 @@ UniSocket FDSetWrapper::sockAt(const int &index)
 
 void FDSetWrapper::removeSock(const UniSocket &sock)
 {
-    FD_CLR(sock._sock._socket, &this->_master);
+    FD_CLR((SOCKET)sock._sock._socket, &this->_master);
     _copy = _master;
 }
 
 int FDSetWrapper::select()
 {
+    timeval tv;
+    tv.tv_sec = _timeout;
+    tv.tv_usec = 0;
+    std::cout << "selecting with timeout: " << _timeout << std::endl;
     _copy = _master;
-    return ::select(0, &_copy, nullptr, nullptr, nullptr);
+    return ::select(_masterFd+1, &_copy, nullptr, nullptr, &tv);
 }
 
 vector<UniSocket> FDSetWrapper::getReadySockets()

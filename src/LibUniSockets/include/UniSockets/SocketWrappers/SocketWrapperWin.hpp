@@ -22,7 +22,7 @@ public:
 
     int raw_recv(void* buf, int bufLen) const override;
 
-    int getSockId() override;
+    int getSockId() const override;
 
     void close() override;
 

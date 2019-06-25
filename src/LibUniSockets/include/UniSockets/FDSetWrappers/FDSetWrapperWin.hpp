@@ -12,10 +12,13 @@ class FDSetWrapper
 private:
     fd_set _master;
     fd_set _copy;
+    int _masterFd;
 
     int select();
 
     vector<UniSocket> getAllFDS();
+
+    int _timeout;
 public:
 
     FDSetWrapper(const UniSocket& masterSock);

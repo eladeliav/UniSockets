@@ -42,7 +42,7 @@ public:
 
     virtual bool valid() = 0;
 
-    virtual int getSockId() = 0;
+    virtual int getSockId() const = 0;
 
     virtual void setTimeout(int timeout) = 0;
 

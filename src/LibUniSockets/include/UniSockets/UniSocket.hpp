@@ -51,7 +51,7 @@ public:
 
     void close();
 
-    int getSockId();
+    int getSockId() const;
 
     UniSocket accept(void);
 
@@ -61,6 +61,7 @@ public:
 
     static void cleanup();
 
+    //TODO: consider making << >> operator like a stream
     friend bool operator==(const UniSocket &lhs, const UniSocket &rhs);
 
     friend bool operator!=(const UniSocket &lhs, const UniSocket &rhs);

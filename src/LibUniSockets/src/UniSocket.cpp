@@ -107,7 +107,7 @@ int UniSocket::raw_send(const void *data, int bufLen)
     return this->_sock.raw_send(data, bufLen);
 }
 
-int UniSocket::getSockId()
+int UniSocket::getSockId() const
 {
     return this->_sock.getSockId();
 }

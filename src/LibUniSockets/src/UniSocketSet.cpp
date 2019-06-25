@@ -27,19 +27,13 @@ void UniSocketSet::removeSock(const UniSocket &sock)
 
 vector<UniSocket> UniSocketSet::getReadySockets()
 {
-    try
-    {
-        return this->_set.getReadySockets();
-    }
-    catch(UniSocketException& e)
-    {
-        return vector<UniSocket>();
-    }
+    return this->_set.getReadySockets();
 }
 
 UniSocketSet::UniSocketSet(const UniSocket &masterSock)
 {
     _set = FDSetWrapper(masterSock);
+    _timeout = masterSock._timeout;
 }
 
 UniSocketSet::UniSocketSet()

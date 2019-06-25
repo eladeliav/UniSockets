@@ -221,7 +221,7 @@ bool SocketWrapper::valid()
     return !_empty && this->_socket != (int) INVALID_SOCKET;
 }
 
-int SocketWrapper::getSockId()
+int SocketWrapper::getSockId() const
 {
     return this->_socket;
 }

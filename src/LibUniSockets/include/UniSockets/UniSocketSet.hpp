@@ -25,6 +25,8 @@ private:
     FDSetWrapper _set;
 
     vector<UniSocket> getAllFDS();
+
+    int _timeout;
 public:
 
     UniSocketSet();
