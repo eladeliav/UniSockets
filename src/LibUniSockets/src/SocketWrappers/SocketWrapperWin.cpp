@@ -245,6 +245,7 @@ int SocketWrapper::getSockId() const
 
 void SocketWrapper::setTimeout(int timeout)
 {
+    _timeout = timeout;
     DWORD dTimeout = timeout * 1000;
     setsockopt((SOCKET) this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
 }
