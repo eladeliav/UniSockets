@@ -66,7 +66,7 @@ int SocketWrapper::raw_recv(void *buf, int bufLen) const
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
-    if (bytesReceived == 0)
+    if (errno == ECONNRESET)
     {
         throw UniSocketException(UniSocketException::DISCONNECTED);
     }
@@ -101,11 +101,12 @@ int SocketWrapper::recv(void* buf) const
         if (bytesReceived > 0)
         {
             sizeString += *sizeBuf;
-        } else if (bytesReceived == 0)
+        }
+        else if (errno == ECONNRESET || bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
         }
-        if (errno == ETIMEDOUT)
+        else if (errno == ETIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
@@ -192,6 +193,7 @@ SocketWrapper SocketWrapper::accept()
         throw UniSocketException(UniSocketException::ACCEPT);
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
+    newClient.setTimeout(_timeout);
     return newClient;
 }
 
@@ -226,8 +228,9 @@ bool SocketWrapper::valid()
 
 void SocketWrapper::setTimeout(int timeout)
 {
+    _timeout = timeout;
     struct timeval tv;
-    tv.tv_sec = timeout;
+    tv.tv_sec = _timeout;
     tv.tv_usec = 0;
     setsockopt(this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 }
