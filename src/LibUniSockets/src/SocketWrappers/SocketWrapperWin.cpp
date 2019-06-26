@@ -79,7 +79,7 @@ int SocketWrapper::raw_recv(void *buf, int bufLen) const
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
-    if (WSAGetLastError() == WSAECONNRESET)
+    if (WSAGetLastError() == WSAECONNRESET || bytesReceived == 0)
     {
         throw UniSocketException(UniSocketException::DISCONNECTED);
     }

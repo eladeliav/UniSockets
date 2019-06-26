@@ -62,11 +62,11 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 int SocketWrapper::raw_recv(void *buf, int bufLen) const
 {
     int bytesReceived = ::recv(this->_socket, static_cast<char *>(buf), bufLen, 0);
-    if (errno == ETIMEDOUT)
+    if (errno == ETIMEDOUT || errno == EAGAIN || errno == EWOULDBLOCK)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
-    if (errno == ECONNRESET)
+    if (errno == ECONNRESET || bytesReceived == 0)
     {
         throw UniSocketException(UniSocketException::DISCONNECTED);
     }
