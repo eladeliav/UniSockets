@@ -37,7 +37,7 @@ int numDigits(int number)
 {
     int digits = 0;
     if (number < 0) digits = 1;
-    while(number)
+    while (number)
     {
         number /= 10;
         digits++;
@@ -73,7 +73,7 @@ int SocketWrapper::raw_recv(void *buf, int bufLen) const
     return bytesReceived;
 }
 
-int SocketWrapper::send(const void* data, int bufLen) const
+int SocketWrapper::send(const void *data, int bufLen) const
 {
     char *pBuf = (char *) data;
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
@@ -88,7 +88,7 @@ int SocketWrapper::send(const void* data, int bufLen) const
     return result;
 }
 
-int SocketWrapper::recv(void* buf) const
+int SocketWrapper::recv(void *buf) const
 {
     int size = 0;
     int bytesReceived = 0;
@@ -101,12 +101,10 @@ int SocketWrapper::recv(void* buf) const
         if (bytesReceived > 0)
         {
             sizeString += *sizeBuf;
-        }
-        else if (errno == ECONNRESET || bytesReceived == 0)
+        } else if (errno == ECONNRESET || bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        }
-        else if (errno == ETIMEDOUT)
+        } else if (errno == ETIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
@@ -127,7 +125,7 @@ int SocketWrapper::recv(void* buf) const
 
 void SocketWrapper::close()
 {
-    if(::close(this->_socket) == SOCKET_ERROR)
+    if (::close(this->_socket) == SOCKET_ERROR)
         throw (UniSocketException::SOCKET_CLOSE);
 }
 
@@ -206,10 +204,10 @@ SocketWrapper SocketWrapper::acceptIntervals()
     FD_ZERO(&set);
     FD_SET(_socket, &set);
 
-    int rv = select(_socket+1, &set, nullptr, nullptr, &tv);
-    if(rv == -1)
+    int rv = select(_socket + 1, &set, nullptr, nullptr, &tv);
+    if (rv == -1)
         throw UniSocketException(UniSocketException::POLL);
-    else if(rv == 0)
+    else if (rv == 0)
         throw UniSocketException(UniSocketException::TIMED_OUT);
     return accept();
 }
@@ -232,7 +230,7 @@ void SocketWrapper::setTimeout(int timeout)
     struct timeval tv;
     tv.tv_sec = _timeout;
     tv.tv_usec = 0;
-    setsockopt(this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+    setsockopt(this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
 }
 
 int SocketWrapper::getSockId() const

@@ -4,8 +4,7 @@
 
 //TODOS HERE
 //TODO: consider making << >> operator like a stream
-//TODO: update timeout, error handling, timeout on set for linux
-//TODO: setup select() function in UniSocket not just UniSocketSetit
+//TODO: consider making separte class for UniServerSocket
 
 #pragma once
 

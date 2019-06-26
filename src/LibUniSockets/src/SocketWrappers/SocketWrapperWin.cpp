@@ -32,7 +32,7 @@ SocketWrapper::SocketWrapper(string ip, int port, int timeout)
     setTimeout(_timeout);
 
     int result = ::connect((SOCKET)
-                                   this->_socket, (SOCKADDR *) &this->_address, sizeof(SOCKADDR_IN));
+    this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::CONNECT);
@@ -62,7 +62,8 @@ int numDigits(T number)
 int SocketWrapper::raw_send(const void *data, int bufLen) const
 {
     char *pBuf = (char *) data;
-    int result = ::send((SOCKET) this->_socket, pBuf, bufLen, 0);
+    int result = ::send((SOCKET)
+    this->_socket, pBuf, bufLen, 0);
     if (WSAGetLastError() == WSAETIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
@@ -74,7 +75,8 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 
 int SocketWrapper::raw_recv(void *buf, int bufLen) const
 {
-    int bytesReceived = ::recv((SOCKET) this->_socket, static_cast<char *>(buf), bufLen, 0);
+    int bytesReceived = ::recv((SOCKET)
+    this->_socket, static_cast<char *>(buf), bufLen, 0);
     if (WSAGetLastError() == WSAETIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
@@ -91,7 +93,8 @@ int SocketWrapper::send(const void *data, int bufLen) const
     char *pBuf = (char *) data;
     string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
-    int result = ::send((SOCKET) this->_socket, msg.c_str(), size, 0);
+    int result = ::send((SOCKET)
+    this->_socket, msg.c_str(), size, 0);
     if (WSAGetLastError() == WSAETIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
@@ -110,15 +113,15 @@ int SocketWrapper::recv(void *buf) const
 
     do
     {
-        bytesReceived = ::recv((SOCKET) this->_socket, sizeBuf, 1, 0);
+        bytesReceived = ::recv((SOCKET)
+        this->_socket, sizeBuf, 1, 0);
         if (bytesReceived > 0)
         {
             sizeString += *sizeBuf;
         } else if (WSAGetLastError() == WSAECONNRESET)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        }
-        else if (WSAGetLastError() == WSAETIMEDOUT)
+        } else if (WSAGetLastError() == WSAETIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
@@ -133,14 +136,15 @@ int SocketWrapper::recv(void *buf) const
         std::cout << "invalid data size" << std::endl;
         return -1;
     }
-    ::recv((SOCKET) this->_socket, static_cast<char *>(buf), size, 0);
+    ::recv((SOCKET)
+    this->_socket, static_cast<char *>(buf), size, 0);
     return size;
 }
 
 void SocketWrapper::close()
 {
-    if(closesocket((SOCKET)this->_socket) == SOCKET_ERROR)
-        throw (UniSocketException::SOCKET_CLOSE);
+    if (closesocket((SOCKET)this->_socket) == SOCKET_ERROR)
+    throw (UniSocketException::SOCKET_CLOSE);
 }
 
 //server
@@ -163,14 +167,14 @@ SocketWrapper::SocketWrapper(int port, int maxCon, int timeout)
     setTimeout(_timeout);
 
     int result = ::bind((SOCKET)
-                                this->_socket, (SOCKADDR *) &this->_address, sizeof(SOCKADDR_IN));
+    this->_socket, (SOCKADDR * ) & this->_address, sizeof(SOCKADDR_IN));
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::BIND);
     }
 
     result = ::listen((SOCKET)
-                              this->_socket, maxCon);
+    this->_socket, maxCon);
     if (result == SOCKET_ERROR)
     {
         throw UniSocketException(UniSocketException::LISTEN);
@@ -202,7 +206,8 @@ SocketWrapper SocketWrapper::accept()
 {
     sockaddr_in newAddressInfo;
     int addrsize = sizeof(newAddressInfo);
-    int conn = static_cast<int>(::accept((SOCKET) this->_socket, (struct sockaddr *) &newAddressInfo, &addrsize));
+    int conn = static_cast<int>(::accept((SOCKET)
+    this->_socket, (struct sockaddr *) &newAddressInfo, &addrsize));
     if (conn == (int) INVALID_SOCKET || WSAGetLastError() == WSAETIMEDOUT)
         throw UniSocketException(UniSocketException::ACCEPT);
 
@@ -217,12 +222,12 @@ SocketWrapper SocketWrapper::acceptIntervals()
     tv.tv_sec = _timeout;
     tv.tv_usec = 0;
     FD_ZERO(&set);
-    FD_SET((SOCKET)_socket, &set);
+    FD_SET((SOCKET) _socket, &set);
 
-    int rv = select(_socket+1, &set, nullptr, nullptr, &tv);
-    if(rv == -1)
+    int rv = select(_socket + 1, &set, nullptr, nullptr, &tv);
+    if (rv == -1)
         throw UniSocketException(UniSocketException::POLL);
-    else if(rv == 0)
+    else if (rv == 0)
         throw UniSocketException(UniSocketException::TIMED_OUT);
     return accept();
 }
@@ -247,5 +252,6 @@ void SocketWrapper::setTimeout(int timeout)
 {
     _timeout = timeout;
     DWORD dTimeout = timeout * 1000;
-    setsockopt((SOCKET) this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
+    setsockopt((SOCKET)
+    this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
 }
