@@ -11,6 +11,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 using std::map;
 #include "UniSocketException.hpp"
 
@@ -61,6 +62,8 @@ public:
     UniSocket accept(void);
 
     UniSocket acceptIntervals();
+
+    static void broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw=true, UniSocket ignoreSock = UniSocket());
 
     void setTimeout(int timeout);
 

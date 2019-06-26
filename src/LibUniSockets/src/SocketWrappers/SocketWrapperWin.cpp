@@ -79,7 +79,7 @@ int SocketWrapper::raw_recv(void *buf, int bufLen) const
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
-    if (bytesReceived == 0)
+    if (WSAGetLastError() == WSAECONNRESET)
     {
         throw UniSocketException(UniSocketException::DISCONNECTED);
     }
@@ -114,11 +114,11 @@ int SocketWrapper::recv(void *buf) const
         if (bytesReceived > 0)
         {
             sizeString += *sizeBuf;
-        } else if (bytesReceived == 0)
+        } else if (WSAGetLastError() == WSAECONNRESET)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
         }
-        if (WSAGetLastError() == WSAETIMEDOUT)
+        else if (WSAGetLastError() == WSAETIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
