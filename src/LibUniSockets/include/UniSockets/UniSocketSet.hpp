@@ -14,7 +14,7 @@ using std::array;
 #if _WIN32
 #include "UniSockets/FDSetWrappers/FDSetWrapperWin.hpp"
 #else
-#include "FDSetWrappers/FDSetWrapperLin.hpp"
+#include "UniSockets/FDSetWrappers/FDSetWrapperLin.hpp"
 #endif
 
 
@@ -26,7 +26,7 @@ private:
 
     vector<UniSocket> getAllFDS();
 
-    int _timeout;
+    int _timeout = 0;
 public:
 
     UniSocketSet();
@@ -38,7 +38,7 @@ public:
 
     void removeSock(const UniSocket &sock);
 
-    UniSocket sockAt(const int &index);
+    //UniSocket sockAt(const int &index);
 
     vector<UniSocket> getReadySockets();
 

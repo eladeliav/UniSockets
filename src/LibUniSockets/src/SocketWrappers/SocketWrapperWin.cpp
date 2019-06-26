@@ -210,6 +210,23 @@ SocketWrapper SocketWrapper::accept()
     return newClient;
 }
 
+SocketWrapper SocketWrapper::acceptIntervals()
+{
+    fd_set set;
+    struct timeval tv;
+    tv.tv_sec = _timeout;
+    tv.tv_usec = 0;
+    FD_ZERO(&set);
+    FD_SET((SOCKET)_socket, &set);
+
+    int rv = select(_socket+1, &set, nullptr, nullptr, &tv);
+    if(rv == -1)
+        throw UniSocketException(UniSocketException::POLL);
+    else if(rv == 0)
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    return accept();
+}
+
 SocketWrapper::SocketWrapper(const int &sock)
 {
     _empty = false;

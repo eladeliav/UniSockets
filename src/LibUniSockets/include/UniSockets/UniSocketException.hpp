@@ -35,7 +35,7 @@ public:
         static map<ErrorType, std::string> create_map()
         {
             map<UniSocketException::ErrorType, std::string> m;
-            m[TIMED_OUT] = "Socket timed out while receiving/sending";
+            m[TIMED_OUT] = "Socket timed out while receiving/sending/accepting";
             m[ACCEPT] = "Socket failed to accept";
             m[SEND] = "Socket failed to send message";
             m[BIND] = "Socket failed to bind";
@@ -56,6 +56,8 @@ public:
     explicit UniSocketException(ErrorType type);
 
     std::string getError();
+
+    ErrorType getErrorType();
 
     const char *what() const noexcept override
     {

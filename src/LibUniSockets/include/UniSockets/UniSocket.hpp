@@ -60,12 +60,13 @@ public:
 
     UniSocket accept(void);
 
+    UniSocket acceptIntervals();
+
     void setTimeout(int timeout);
 
     bool valid();
 
     static void cleanup();
-
 
     friend bool operator==(const UniSocket &lhs, const UniSocket &rhs);
 

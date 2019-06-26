@@ -37,6 +37,8 @@ public:
 
     SocketWrapper accept();
 
+    SocketWrapper acceptIntervals();
+
     virtual bool valid() override;
 
 private:

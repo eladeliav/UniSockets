@@ -22,14 +22,14 @@ set(LIBRARY_TARGET_NAME ${PROJECT_NAME})
 # List of CPP (source) library files.
 set(${LIBRARY_TARGET_NAME}_SRC
         "src/UniSocket.cpp"
-        "src/UniSocketSet.cpp"
+#        "src/UniSocketSet.cpp"
         "src/UniSocketException.cpp"
         )
 
 # List of HPP (header) library files.
 set(${LIBRARY_TARGET_NAME}_HDR
         "include/UniSockets/UniSocket.hpp"
-        "include/UniSockets/UniSocketSet.hpp"
+#        "include/UniSockets/UniSocketSet.hpp"
         "include/UniSockets/UniSocketException.hpp"
         "include/UniSockets/SocketWrappers/ISocketWrapper.hpp"
         )
@@ -37,20 +37,20 @@ set(${LIBRARY_TARGET_NAME}_HDR
 if (WIN32)
     list(APPEND ${LIBRARY_TARGET_NAME}_SRC
             "src/SocketWrappers/SocketWrapperWin.cpp"
-            "src/FDSetWrappers/FDSetWrapperWin.cpp"
+#            "src/FDSetWrappers/FDSetWrapperWin.cpp"
             )
     list(APPEND ${LIBRARY_TARGET_NAME}_HDR
             "include/UniSockets/SocketWrappers/SocketWrapperWin.hpp"
-            "include/UniSockets/FDSetWrappers/FDSetWrapperWin.hpp"
+#            "include/UniSockets/FDSetWrappers/FDSetWrapperWin.hpp"
             )
 else ()
     list(APPEND ${LIBRARY_TARGET_NAME}_SRC
             "src/SocketWrappers/SocketWrapperLin.cpp"
-            "src/FDSetWrappers/FDSetWrapperLin.cpp"
+#            "src/FDSetWrappers/FDSetWrapperLin.cpp"
             )
     list(APPEND ${LIBRARY_TARGET_NAME}_HDR
             "include/UniSockets/SocketWrappers/SocketWrapperLin.hpp"
-            "include/UniSockets/FDSetWrappers/FDSetWrapperLin.hpp"
+#            "include/UniSockets/FDSetWrappers/FDSetWrapperLin.hpp"
             )
 endif ()
 

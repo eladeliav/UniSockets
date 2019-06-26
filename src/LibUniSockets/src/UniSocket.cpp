@@ -121,5 +121,15 @@ void UniSocket::setTimeout(int timeout)
 
 void UniSocket::cleanup()
 {
+#ifdef _WIN32
     WSACleanup();
+#endif
+}
+
+UniSocket UniSocket::acceptIntervals()
+{
+    SocketWrapper sw;
+    sw = _sock.acceptIntervals();
+    UniSocket us = UniSocket(sw.ip, sw);
+    return us;
 }

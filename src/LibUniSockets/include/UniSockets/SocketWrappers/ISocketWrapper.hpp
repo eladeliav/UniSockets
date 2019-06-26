@@ -13,15 +13,14 @@
 #include <mstcpip.h>
 #define sockaddr_in SOCKADDR_IN
 #else
-#include <sys/types.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/poll.h>
 #include <sys/socket.h>
-#include <sys/time.h>
+#include <sys/select.h>
 #include <netinet/in.h>
+#include <errno.h>
 #endif
 
 class ISocketWrapper

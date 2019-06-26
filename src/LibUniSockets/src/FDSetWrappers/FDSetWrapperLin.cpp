@@ -8,51 +8,26 @@
 FDSetWrapper::FDSetWrapper(const UniSocket &masterSock)
 {
     clearSet();
-    fds[0].fd = masterSock._sock._socket;
-    fds[0].events = POLLIN;
-}
-
-FDSetWrapper::FDSetWrapper(const UniSocket &masterSock, const int &timeout)
-{
-    clearSet();
-    this->timeout = timeout;
-    fds[0].fd = masterSock._sock._socket;
-    fds[0].events = POLLIN;
+    this->_timeout = masterSock._timeout;
+    _masterSock = masterSock;
+    for(auto& cl : allClients)
+        cl = UniSocket(0);
 }
 
 void FDSetWrapper::addSock(const UniSocket &sock)
 {
-    fds[nfds].fd = sock._sock._socket;
-    fds[nfds].events = POLLIN;
-    nfds++;
+    FD_SET(sock.getSockId(), &this->_master);
 }
 
 void FDSetWrapper::clearSet()
 {
-    memset(fds, 0, sizeof(fds));
+    FD_ZERO(&this->_master);
 }
 
 void FDSetWrapper::removeSock(const UniSocket &sock)
 {
-    for(int i = 0; i < nfds;i++)
-    {
-        if(fds[i].fd == sock._sock._socket)
-            fds[i].fd = -1;
-    }
-
-    //compress the set (squeeze together so -1 sockets are at the end
-    for (int i = 0; i < nfds; i++)
-    {
-        if (fds[i].fd == -1)
-        {
-            for (int j = i; j < nfds; j++)
-            {
-                fds[j].fd = fds[j + 1].fd;
-            }
-            i--;
-            nfds--;
-        }
-    }
+    FD_CLR(sock.getSockId(), &this->_master);
+    _copy = _master;
 }
 
 UniSocket FDSetWrapper::sockAt(const int &index)
@@ -60,32 +35,50 @@ UniSocket FDSetWrapper::sockAt(const int &index)
     return UniSocket(fds[index].fd);
 }
 
+int FDSetWrapper::select()
+{
+    timeval tv;
+    tv.tv_sec = _timeout;
+    tv.tv_usec = 0;
+    _copy = _master;
+    return ::select(_masterSock.getSockId()+1, &_copy, nullptr, nullptr, &tv);
+}
+
 vector<UniSocket> FDSetWrapper::getReadySockets()
 {
-    vector<UniSocket> readySockets;
-    int result = poll(fds, static_cast<nfds_t>(nfds), timeout);
-    if(result < 0)
-        throw UniSocketException(UniSocketException::POLL);
+    std::vector<UniSocket> readySocks;
+    clearSet();
+    addSock(_masterSock);
+    int max_sd = _masterSock.getSockId();
 
-    if(result == 0)
-        throw UniSocketException(UniSocketException::TIMED_OUT);
-
-    current_size = nfds;
-    for(int i = 0; i < current_size;i++)
+    //adding valid clients to set
+    for(auto& cl : allClients)
     {
-        if(fds[i].revents == 0)
-            continue;
-
-        if(fds[i].revents != POLLIN)
-            throw UniSocketException(UniSocketException::POLL);
-
-        readySockets.push_back(fds[i].fd);
+        if(cl.getSockId() > 0)
+            FD_SET(cl.getSockId(), &_master);
+        if(cl.getSockId() > max_sd)
+            max_sd = cl.getSockId();
     }
-    return readySockets;
+    int activity = select();
+
+    if(activity < 0 && errno != EINTR)
+    {
+        throw(UniSocketException::POLL);
+    }
+
+    if(FD_ISSET(_masterSock.getSockId(), &_master))
+    {
+        readySocks.push_back(_masterSock);
+        allClients.push_back()
+    }
+
+
 }
 
 FDSetWrapper::FDSetWrapper()
-{}
+{
+    clearSet();
+}
 
 vector<UniSocket> FDSetWrapper::getAllFDS()
 {
@@ -97,4 +90,13 @@ vector<UniSocket> FDSetWrapper::getAllFDS()
         allSocks.push_back(fds[i].fd);
     }
     return allSocks;
+}
+
+int FDSetWrapper::select()
+{
+    timeval tv;
+    tv.tv_sec = _timeout;
+    tv.tv_usec = 0;
+    _copy = _master;
+    return ::select(_masterFd+1, &_copy, nullptr, nullptr, &tv);
 }

@@ -10,14 +10,17 @@ using std::vector;
 class FDSetWrapper
 {
 private:
-    struct pollfd fds[200];
-    int timeout = 3;
-    int nfds = 1;
-    int current_size = 0;
-    vector<UniSocket> getAllFDS();
+    fd_set _master;
+    fd_set _copy;
+    int clientsNum = 0;
+    UniSocket _masterSock;
+    int _timeout;
+    std::vector<UniSocket> allClients;
+
+    int select();
+
 public:
     FDSetWrapper(const UniSocket& masterSock);
-    FDSetWrapper(const UniSocket &masterSock, const int& timeout);
 
     FDSetWrapper();
 
@@ -30,6 +33,8 @@ public:
     UniSocket sockAt(const int &index);
 
     vector<UniSocket> getReadySockets();
+
+    vector<UniSocket> getAllFDS();
 
     friend class UniSocketSet;
 };

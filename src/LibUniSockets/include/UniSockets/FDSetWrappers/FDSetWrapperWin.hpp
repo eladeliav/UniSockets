@@ -16,8 +16,6 @@ private:
 
     int select();
 
-    vector<UniSocket> getAllFDS();
-
     int _timeout;
 public:
 
@@ -34,6 +32,8 @@ public:
     UniSocket sockAt(const int &index);
 
     vector<UniSocket> getReadySockets();
+
+    vector<UniSocket> getAllFDS();
 
     friend class UniSocketSet;
 };
