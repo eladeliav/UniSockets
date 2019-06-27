@@ -339,7 +339,7 @@ goals to accomplish.
 <!-- LICENSE -->
 ## License
 
-Currently no license. Will eventually add some kind of open source license.
+Distributed under the MIT License. See LICENSE for more information.
 
 
 <!-- CONTACT -->
