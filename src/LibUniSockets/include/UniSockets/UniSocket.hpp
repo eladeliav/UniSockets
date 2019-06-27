@@ -17,11 +17,7 @@
 #include "UniSocketException.hpp"
 #include "UniSockets/SocketWrappers/SocketWrapperUni.hpp"
 
-//#if _WIN32
-//#include "UniSockets/SocketWrappers/SocketWrapperWin.hpp"
-//#else
-//#include "SocketWrappers/SocketWrapperLin.hpp"
-//#endif
+#define DEFAULT_BUFFER_LEN 2048
 
 class UniSocket;
 
@@ -31,7 +27,6 @@ private:
     SocketWrapper _sock;
     std::string _ip;
     int _timeout = 0;
-    enum {DEFAULT_BUFFER_LEN=4096};
 public:
     UniSocket(std::string ip, int port, int timeout=0); // connect socket
     UniSocket(int port, int maxCon, int timeout=0); //server socket

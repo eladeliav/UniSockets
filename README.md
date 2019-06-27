@@ -140,12 +140,8 @@ target_link_libraries(${PROJECT_NAME} UniSockets::UniSockets)
 #include <thread>
 
 #define DEFAULT_PORT 5400
-#define DEFAULT_IP "127.0.0.1"
-#define DEFAULT_BUFFER_LEN 1024
 #define LOG(x) std::cout << x << std::endl
 #define WELCOME_MSG "Welcome to the chat room!\n"
-#define SEND_FILE_COMMAND "SEND_FILE"
-#define SENDING_ALERT "SENDING_FILE"
 
 using std::string;
 using std::array;
@@ -157,6 +153,12 @@ void Vec_RemoveAll(vector<T>& vec, T val)
     vec.erase(std::remove(vec.begin(), vec.end(), val), vec.end());
 }
 
+void closeClients(vector<UniSocket>& clients)
+{
+    for(auto& cl : clients)
+        cl.close();
+}
+
 void handleClient(UniSocket client, vector<UniSocket>& allClients, bool& running)
 {
     char buf[DEFAULT_BUFFER_LEN];
@@ -165,55 +167,31 @@ void handleClient(UniSocket client, vector<UniSocket>& allClients, bool& running
         memset(buf, '\0', DEFAULT_BUFFER_LEN);
         try
         {
-            client.recv(buf);
+            client >> buf; // receive a message
         }
         catch (UniSocketException &e)
         {
-            if(e.getErrorType() != UniSocketException::TIMED_OUT)
+            if(e.getErrorType() != UniSocketException::TIMED_OUT) // ignore time outs
             {
+                // if it isn't a time out, then the client disconnected
                 LOG(e);
                 LOG("Someone has left!");
-                Vec_RemoveAll(allClients, client);
-                try
-                {
-                    UniSocket::broadcastToSet("Someone Has Left!", allClients, false);
-                } catch (UniSocketException &e)
-                {
-                    LOG(e);
-                }
-                break;
-            }
+                Vec_RemoveAll(allClients, client); // remove from clients vector
+                UniSocket::broadcastToSet("Someone Has Left!", allClients, true); // tell the other clients
+           }
         }
 
         std::string msg = buf;
-        if(msg.empty())
-            continue;
         LOG("Someone wrote: " << msg);
-        msg = "Someone wrote: " + msg;
-        try
-        {
-            UniSocket::broadcastToSet(msg, allClients, false, client);
-        } catch (UniSocketException &e)
-        {
-            LOG(e);
-            LOG("Someone has left!");
-            Vec_RemoveAll(allClients, client);
-            try
-            {
-                UniSocket::broadcastToSet("Someone Has Left!", allClients, false);
-            } catch (UniSocketException &e)
-            {
-                LOG(e);
-            }
-            continue;
-        }
+        msg = "Someone wrote: " + msg; // creating msg for other clients to see
+        UniSocket::broadcastToSet(msg, allClients, true, client); // broadcasting message to all other clients
     }
 }
 
 int main()
 {
-    UniSocket listenSock(DEFAULT_PORT, SOMAXCONN);
-    vector<UniSocket> allClients;
+    UniSocket listenSock(DEFAULT_PORT, SOMAXCONN); // init server socket
+    vector<UniSocket> allClients; // vector to keep track of clients
     bool running = true;
 
     while (running)
@@ -221,27 +199,30 @@ int main()
         UniSocket newClient = UniSocket();
         try
         {
-            newClient = listenSock.acceptIntervals();
+            newClient = listenSock.acceptIntervals(); // checking every TIMEOUT seconds for a new client
         }
         catch(UniSocketException& e)
         {
-            if(e.getErrorType() != UniSocketException::TIMED_OUT)
+            if(e.getErrorType() != UniSocketException::TIMED_OUT) // ignore time outs
             {
                 LOG(e);
                 break;
             }
         }
 
-        if(newClient.valid())
+        if(newClient.valid()) // found valid client
         {
-            newClient.send(WELCOME_MSG, sizeof(WELCOME_MSG));
+            newClient << WELCOME_MSG; // send him a welcome msg
             LOG("Someone Has Joined!");
-            UniSocket::broadcastToSet("Someone Has Joined!", allClients, false);
-            allClients.push_back(newClient);
-            std::thread newClnThread = std::thread(handleClient, newClient, std::ref(allClients), std::ref(running));
+            UniSocket::broadcastToSet("Someone Has Joined!", allClients, true); // tell the other clients
+            allClients.push_back(newClient); // add client to vector
+            std::thread newClnThread = std::thread(handleClient, newClient, std::ref(allClients), std::ref(running)); // start thread for that client
             newClnThread.detach();
         }
     }
+    // close all socks
+    listenSock.close();
+    closeClients(allClients);
     return 0;
 }
 ```
@@ -258,25 +239,26 @@ int main()
 
 using std::string;
 using std::thread;
-#define DEFAULT_BUFFER_LEN 1024
 
 void sendMessages(UniSocket& sock)
 {
     static string userInput;
     static bool connected = true;
+    // while connect print prompt, receive input, send input
     do
     {
         std::cout << "> ";
         std::cin >> std::ws;
         std::getline(std::cin, userInput, '\n');
+        // if wrote something
         if (userInput.size() > 0)
         {
             try
             {
-                sock.send(userInput.c_str(), userInput.length());
+                sock << userInput; // send it
             }catch(UniSocketException& e)
             {
-                connected = false;
+                connected = false; // error while sending means disconnect so exit
             }
         }
     } while (connected);
@@ -287,38 +269,38 @@ int main()
     UniSocket client;
     try
     {
-        client = UniSocket("127.0.0.1", 5400);
+        client = UniSocket("127.0.0.1", 5400); // connect to server
     }catch(UniSocketException& e)
     {
         std::cout << e << std::endl;
         return 1;
     }
 
-    if(!client.valid())
+    if(!client.valid()) // failed
         return 1;
 
-    std::thread sendMessagesThread(sendMessages, std::ref(client));
+    std::thread sendMessagesThread(sendMessages, std::ref(client)); // start send thread
     sendMessagesThread.detach();
-    char buf[DEFAULT_BUFFER_LEN];
+    char buf[DEFAULT_BUFFER_LEN]; // define buffer
     bool connected = true;
+    // start printing what we receive
     do
     {
         memset(buf, '\0', DEFAULT_BUFFER_LEN);
         try
         {
-            client.recv(buf);
+            client >> buf; // receive to buffer
         }catch(UniSocketException& e)
         {
-            connected = false;
+            connected = false; // had error so disconnect
             continue;
         }
-        std::cout << buf << std::endl;
-        std::cout << ">";
+        std::cout << buf << std::endl; // brint buffer
+        std::cout << "> ";
     } while (connected);
+    client.close();
     return 0;
 }
-
-
 ```
 
 <!-- GOALS -->
