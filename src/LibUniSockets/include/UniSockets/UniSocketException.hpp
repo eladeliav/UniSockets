@@ -10,8 +10,6 @@
 #include <map>
 #include <functional>
 
-using std::map;
-
 class UniSocketException : public std::exception
 {
 public:
@@ -27,14 +25,15 @@ public:
         CONNECT = 107,
         DISCONNECTED = 108,
         POLL = 109,
-        SOCKET_CLOSE = 110
+        SOCKET_CLOSE = 110,
+        BAD_SIZE_HEADER = 111,
     };
 
     struct MapCreate
     {
-        static map<ErrorType, std::string> create_map()
+        static std::map<ErrorType, std::string> create_map()
         {
-            map<UniSocketException::ErrorType, std::string> m;
+            std::map<UniSocketException::ErrorType, std::string> m;
             m[TIMED_OUT] = "Socket timed out while receiving/sending/accepting";
             m[ACCEPT] = "Socket failed to accept";
             m[SEND] = "Socket failed to send message";
@@ -46,10 +45,11 @@ public:
             m[DISCONNECTED] = "Disconnected";
             m[POLL] = "Failed to find readable fds";
             m[SOCKET_CLOSE] = "Socket failed to close";
+            m[BAD_SIZE_HEADER] = "Bad size header detected while receiving";
             return m;
         }
     };
-    const map<ErrorType, std::string> ERROR_MESSAGES = MapCreate::create_map();
+    const std::map<ErrorType, std::string> ERROR_MESSAGES = MapCreate::create_map();
 private:
     ErrorType _errorType;
 public:

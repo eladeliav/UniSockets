@@ -6,28 +6,19 @@
 #include <iostream>
 
 
-UniSocket::UniSocket(
-        std::string ip,
-        int port,
-        int timeout
-)
+UniSocket::UniSocket(std::string ip, int port, int timeout)
 {
     _ip = ip;
     _timeout = timeout;
     _sock = SocketWrapper(_ip, port, _timeout);
 }
 
-UniSocket::UniSocket(const int &fd)
-{
-    _sock = SocketWrapper(fd);
-}
-
-int UniSocket::send(const void* data, int bufLen)
+int UniSocket::send(const void *data, int bufLen)
 {
     return _sock.send(data, bufLen);
 }
 
-int UniSocket::recv(void* buf)
+int UniSocket::recv(void *buf)
 {
     return _sock.recv(buf);
 }
@@ -85,7 +76,7 @@ UniSocket::UniSocket(const SocketWrapper &ref)
 
 bool operator==(const UniSocket &lhs, const UniSocket &rhs)
 {
-    return lhs._sock._socket == rhs._sock._socket;
+    return lhs._sock.getSockId() == rhs._sock.getSockId();
 }
 
 bool operator!=(const UniSocket &lhs, const UniSocket &rhs)
@@ -136,11 +127,11 @@ UniSocket UniSocket::acceptIntervals()
 
 void UniSocket::broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw, UniSocket ignoreSock)
 {
-    for(UniSocket& outSock : socks)
+    for (UniSocket &outSock : socks)
     {
-        if(ignoreSock.valid() && outSock == ignoreSock)
+        if (ignoreSock.valid() && outSock == ignoreSock)
             continue;
-        if(raw)
+        if (raw)
             outSock.raw_send(msg.c_str(), msg.length());
         else
             outSock.send(msg.c_str(), msg.length());
