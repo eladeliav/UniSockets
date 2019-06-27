@@ -56,7 +56,11 @@ public:
 
     int send(const void* data, int bufLen) const; // send with size header
 
+    int send(const std::string& data) const;
+
     int raw_send(const void* data, int bufLen) const; // send data raw (as is)
+
+    int raw_send(const std::string& data) const;
 
     int recv(void* buf) const; // receive data with size header
 
@@ -74,11 +78,11 @@ public:
     SocketWrapper(sockaddr_in address, int sock); //  init a socket wrapper through address info and fd #
 
     // server functions
-    SocketWrapper accept(); // accept a socket (hogs thread)
+    SocketWrapper accept() const; // accept a socket (hogs thread)
 
-    SocketWrapper acceptIntervals(); // accepts at intervals according to this->_timeout
+    SocketWrapper acceptIntervals() const; // accepts at intervals according to this->_timeout
 
-    virtual bool valid(); // checks if socket is valid
+    virtual bool valid() const; // checks if socket is valid
 private:
     static int numDigits(int num);
     static std::string extractIp(sockaddr_in &address);

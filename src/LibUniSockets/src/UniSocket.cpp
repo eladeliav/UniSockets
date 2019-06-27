@@ -3,7 +3,6 @@
 //
 
 #include "UniSockets/UniSocket.hpp"
-#include <iostream>
 
 
 UniSocket::UniSocket(std::string ip, int port, int timeout)
@@ -13,27 +12,47 @@ UniSocket::UniSocket(std::string ip, int port, int timeout)
     _sock = SocketWrapper(_ip, port, _timeout);
 }
 
-int UniSocket::send(const void *data, int bufLen)
+int UniSocket::send(const void *data, int bufLen) const
 {
     return _sock.send(data, bufLen);
 }
 
-int UniSocket::recv(void *buf)
+int UniSocket::send(const std::string& data) const
+{
+    return send(data.c_str(), data.length());
+}
+
+int UniSocket::recv(void *buf) const
 {
     return _sock.recv(buf);
 }
 
-void UniSocket::close(void)
+int UniSocket::raw_recv(void *buf, int bufLen) const
+{
+    return this->_sock.raw_recv(buf, bufLen);
+}
+
+int UniSocket::raw_send(const void *data, int bufLen) const
+{
+    return this->_sock.raw_send(data, bufLen);
+}
+
+int UniSocket::raw_send(const std::string& data) const
+{
+    return raw_send(data.c_str(), data.length());
+}
+
+void UniSocket::close()
 {
     _sock.close();
 }
 
-std::string UniSocket::getIp(void)
+std::string UniSocket::getIp()
 {
     return _ip;
 }
 
-UniSocket::UniSocket(void)
+UniSocket::UniSocket()
 {}
 
 UniSocket::UniSocket(const UniSocket &ref)
@@ -56,12 +75,12 @@ UniSocket::UniSocket(int port, int maxCon, int timeout)
     _sock = SocketWrapper(port, maxCon, timeout);
 }
 
-UniSocket::~UniSocket(void)
+UniSocket::~UniSocket()
 {
     //_sock.close();
 }
 
-UniSocket UniSocket::accept(void)
+UniSocket UniSocket::accept() const
 {
     SocketWrapper sw;
     sw = _sock.accept();
@@ -84,19 +103,9 @@ bool operator!=(const UniSocket &lhs, const UniSocket &rhs)
     return !(lhs == rhs);
 }
 
-bool UniSocket::valid()
+bool UniSocket::valid() const
 {
     return this->_sock.valid();
-}
-
-int UniSocket::raw_recv(void *buf, int bufLen)
-{
-    return this->_sock.raw_recv(buf, bufLen);
-}
-
-int UniSocket::raw_send(const void *data, int bufLen)
-{
-    return this->_sock.raw_send(data, bufLen);
 }
 
 int UniSocket::getSockId() const
@@ -117,7 +126,7 @@ void UniSocket::cleanup()
 #endif
 }
 
-UniSocket UniSocket::acceptIntervals()
+UniSocket UniSocket::acceptIntervals() const
 {
     SocketWrapper sw;
     sw = _sock.acceptIntervals();

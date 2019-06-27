@@ -11,6 +11,8 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <ostream>
+#include <sstream>
 
 #include "UniSocketException.hpp"
 #include "UniSockets/SocketWrappers/SocketWrapperUni.hpp"
@@ -43,27 +45,31 @@ public:
     std::string getIp(); //get ip of socket
 
     // send, receive, close
-    int send(const void* data, int bufLen);
+    int send(const void* data, int bufLen) const;
 
-    int raw_send(const void* data, int bufLen);
+    int send(const std::string& data) const;
 
-    int recv(void* buf);
+    int raw_send(const void* data, int bufLen) const;
 
-    int raw_recv(void* buf, int bufLen);
+    int raw_send(const std::string& data) const;
+
+    int recv(void* buf) const;
+
+    int raw_recv(void* buf, int bufLen) const;
 
     void close();
 
     int getSockId() const;
 
-    UniSocket accept(void);
+    UniSocket accept() const;
 
-    UniSocket acceptIntervals();
+    UniSocket acceptIntervals() const;
 
     static void broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw=true, UniSocket ignoreSock = UniSocket());
 
     void setTimeout(int timeout);
 
-    bool valid();
+    bool valid() const;
 
     static void cleanup();
 

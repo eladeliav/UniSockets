@@ -14,13 +14,13 @@ SocketWrapper::SocketWrapper(std::string ip, int port, int timeout)
 #ifdef _WIN32
     // init Winsock
     WSADATA wsaData;
-    if(!initWinsock(wsaData))
+    if (!initWinsock(wsaData))
         throw UniSocketException(UniSocketException::WINSOCK);
 #endif
 
     // initialize the socket
     _socket = (SOCKET) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (_socket == (SOCKET)SOCKET_ERROR)
+    if (_socket == (SOCKET) SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     // initialize the address info var
@@ -45,13 +45,13 @@ SocketWrapper::SocketWrapper(int port, int maxCon, int timeout)
 #ifdef _WIN32
     // init Winsock
     WSADATA wsaData;
-    if(!initWinsock(wsaData))
+    if (!initWinsock(wsaData))
         throw UniSocketException(UniSocketException::WINSOCK);
 #endif
 
     // init the server socket
     _socket = (SOCKET) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (_socket == (SOCKET)SOCKET_ERROR)
+    if (_socket == (SOCKET) SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     // setting socket to be reusable (this is optional but it's good practice)
@@ -117,9 +117,9 @@ std::string SocketWrapper::extractIp(sockaddr_in &address)
 }
 
 // returns if this socket is valid or not
-bool SocketWrapper::valid()
+bool SocketWrapper::valid() const
 {
-    return !_empty && _socket != (SOCKET)SOCKET_ERROR;
+    return !_empty && _socket != (SOCKET) SOCKET_ERROR;
 }
 
 // returns fd #
@@ -129,6 +129,7 @@ int SocketWrapper::getSockId() const
 }
 
 #ifdef _WIN32
+
 // init winsock
 bool SocketWrapper::initWinsock(WSADATA &wsaData)
 {
@@ -136,6 +137,7 @@ bool SocketWrapper::initWinsock(WSADATA &wsaData)
     int iResult = ::WSAStartup(MAKEWORD(2, 2), &wsaData);
     return iResult == 0;
 }
+
 #endif
 
 // socket operations
@@ -156,6 +158,11 @@ int SocketWrapper::send(const void *data, int bufLen) const
     return result;
 }
 
+int SocketWrapper::send(const std::string& data) const
+{
+    return send(data.c_str(), data.length());
+}
+
 // sends raw
 int SocketWrapper::raw_send(const void *data, int bufLen) const
 {
@@ -168,6 +175,11 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
     if (result == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SEND);
     return result;
+}
+
+int SocketWrapper::raw_send(const std::string& data) const
+{
+    return raw_send(data.c_str(), data.length());
 }
 
 // receives with size header
@@ -227,7 +239,7 @@ void SocketWrapper::setTimeout(int timeout)
     _timeout = timeout;
     DWORD dTimeout = timeout * 1000;
     setsockopt((SOCKET)
-    this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
+                       this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
 #else
     _timeout = timeout;
     struct timeval tv;
@@ -238,11 +250,11 @@ void SocketWrapper::setTimeout(int timeout)
 }
 
 // accepts and returns a new socket
-SocketWrapper SocketWrapper::accept()
+SocketWrapper SocketWrapper::accept() const
 {
     int len = sizeof(struct sockaddr_in);
 
-    int conn = (int) ::accept((SOCKET)this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
+    int conn = (int) ::accept((SOCKET) this->_socket, (sockaddr*)&this->_address,
                               reinterpret_cast<socklen_t *>(&len));
 
     if (conn == SOCKET_ERROR || UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
@@ -253,7 +265,7 @@ SocketWrapper SocketWrapper::accept()
 }
 
 // accepts sockets at intervals of the given timeout
-SocketWrapper SocketWrapper::acceptIntervals()
+SocketWrapper SocketWrapper::acceptIntervals() const
 {
     fd_set set;
     struct timeval tv;
@@ -262,7 +274,7 @@ SocketWrapper SocketWrapper::acceptIntervals()
     FD_ZERO(&set);
     FD_SET(_socket, &set);
 
-    int rv = select((SOCKET)_socket + 1, &set, nullptr, nullptr, &tv);
+    int rv = select((SOCKET) _socket + 1, &set, nullptr, nullptr, &tv);
     if (rv == -1)
         throw UniSocketException(UniSocketException::POLL);
     else if (rv == 0)
@@ -276,9 +288,7 @@ void SocketWrapper::close()
     if (::close((SOCKET)this->_socket) == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_CLOSE);
 #else
-    if (::closesocket((SOCKET)this->_socket) == SOCKET_ERROR)
+    if (::closesocket((SOCKET) this->_socket) == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_CLOSE);
 #endif
 }
-
-
