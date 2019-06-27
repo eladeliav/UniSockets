@@ -110,7 +110,7 @@ In order to use the library in a CMake project, you have to set the ```UniSocket
 to the environment variable you setup during installation and then simply run ```find_package(UniSockets)```
 and ```target_link_libraries(TARGET_NAME_HERE UniSockets::UniSockets)``` after running ```add_executable/add_library()```.
 <br />
-#### Example:
+##### Example CMakeLsits.txt file:
 ```cmake
 cmake_minimum_required(VERSION 3.0.0)
 project(UniSockServer VERSION 0.1.0)
@@ -125,6 +125,217 @@ find_package(UniSockets REQUIRED)
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRC})
 target_link_libraries(${PROJECT_NAME} UniSockets::UniSockets)
+```
+
+##### Example UniSocket Chat Server: 
+```cpp
+#include <iostream>
+#include <string>
+#include <sstream>
+#include "UniSockets/UniSocket.hpp"
+#include <array>
+#include <cstring>
+#include <vector>
+#include <algorithm>
+#include <thread>
+
+#define DEFAULT_PORT 5400
+#define DEFAULT_IP "127.0.0.1"
+#define DEFAULT_BUFFER_LEN 1024
+#define LOG(x) std::cout << x << std::endl
+#define WELCOME_MSG "Welcome to the chat room!\n"
+#define SEND_FILE_COMMAND "SEND_FILE"
+#define SENDING_ALERT "SENDING_FILE"
+
+using std::string;
+using std::array;
+using std::vector;
+void splitRequestAndParams(string commandAndParams, string &command, vector<string> &paramsVector)
+{
+    command = commandAndParams;
+    if (commandAndParams.find(' ') != string::npos)
+    {
+        command = command.erase(commandAndParams.find(' '));
+
+        string params = commandAndParams.substr(commandAndParams.find(' ') + 1);
+
+        std::stringstream test(params);
+        std::string segment;
+        while (std::getline(test, segment, ' '))
+        {
+            paramsVector.push_back(segment);
+        }
+    }
+}
+
+template<class T>
+void Vec_RemoveAll(vector<T>& vec, T val)
+{
+    vec.erase(std::remove(vec.begin(), vec.end(), val), vec.end());
+}
+
+void handleClient(UniSocket client, vector<UniSocket>& allClients, bool& running)
+{
+    char buf[DEFAULT_BUFFER_LEN];
+    while(running)
+    {
+        memset(buf, '\0', DEFAULT_BUFFER_LEN);
+        try
+        {
+            client.recv(buf);
+        }
+        catch (UniSocketException &e)
+        {
+            if(e.getErrorType() != UniSocketException::TIMED_OUT)
+            {
+                LOG(e);
+                LOG("Someone has left!");
+                Vec_RemoveAll(allClients, client);
+                try
+                {
+                    UniSocket::broadcastToSet("Someone Has Left!", allClients, false);
+                } catch (UniSocketException &e)
+                {
+                    LOG(e);
+                }
+                break;
+            }
+        }
+
+        std::string msg = buf;
+        if(msg.empty())
+            continue;
+        LOG("Someone wrote: " << msg);
+        msg = "Someone wrote: " + msg;
+        try
+        {
+            UniSocket::broadcastToSet(msg, allClients, false, client);
+        } catch (UniSocketException &e)
+        {
+            LOG(e);
+            LOG("Someone has left!");
+            Vec_RemoveAll(allClients, client);
+            try
+            {
+                UniSocket::broadcastToSet("Someone Has Left!", allClients, false);
+            } catch (UniSocketException &e)
+            {
+                LOG(e);
+            }
+            continue;
+        }
+    }
+}
+
+int main()
+{
+    UniSocket listenSock(DEFAULT_PORT, SOMAXCONN);
+    vector<UniSocket> allClients;
+    bool running = true;
+
+    while (running)
+    {
+        UniSocket newClient = UniSocket();
+        try
+        {
+            newClient = listenSock.acceptIntervals();
+        }
+        catch(UniSocketException& e)
+        {
+            if(e.getErrorType() != UniSocketException::TIMED_OUT)
+            {
+                LOG(e);
+                break;
+            }
+        }
+
+        if(newClient.valid())
+        {
+            newClient.send(WELCOME_MSG, sizeof(WELCOME_MSG));
+            LOG("Someone Has Joined!");
+            UniSocket::broadcastToSet("Someone Has Joined!", allClients, false);
+            allClients.push_back(newClient);
+            std::thread newClnThread = std::thread(handleClient, newClient, std::ref(allClients), std::ref(running));
+            newClnThread.detach();
+        }
+    }
+    return 0;
+}
+```
+
+##### Example UniSocket Chat Client: 
+```cpp
+#include <iostream>
+#include "UniSockets/UniSocket.hpp"
+#include <thread>
+
+#ifndef _WIN32
+#include <cstring>
+#endif
+
+using std::string;
+using std::thread;
+#define DEFAULT_BUFFER_LEN 1024
+
+void sendMessages(UniSocket& sock)
+{
+    static string userInput;
+    static bool connected = true;
+    do
+    {
+        std::cout << "> ";
+        std::cin >> std::ws;
+        std::getline(std::cin, userInput, '\n');
+        if (userInput.size() > 0)
+        {
+            try
+            {
+                sock.send(userInput.c_str(), userInput.length());
+            }catch(UniSocketException& e)
+            {
+                connected = false;
+            }
+        }
+    } while (connected);
+}
+
+int main()
+{
+    UniSocket client;
+    try
+    {
+        client = UniSocket("127.0.0.1", 5400);
+    }catch(UniSocketException& e)
+    {
+        std::cout << e << std::endl;
+        return 1;
+    }
+
+    if(!client.valid())
+        return 1;
+
+    std::thread sendMessagesThread(sendMessages, std::ref(client));
+    sendMessagesThread.detach();
+    char buf[DEFAULT_BUFFER_LEN];
+    bool connected = true;
+    do
+    {
+        memset(buf, '\0', DEFAULT_BUFFER_LEN);
+        try
+        {
+            client.recv(buf);
+        }catch(UniSocketException& e)
+        {
+            connected = false;
+            continue;
+        }
+        std::cout << buf << std::endl;
+        std::cout << ">";
+    } while (connected);
+    return 0;
+}
+
+
 ```
 
 <!-- GOALS -->
