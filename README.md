@@ -150,23 +150,6 @@ target_link_libraries(${PROJECT_NAME} UniSockets::UniSockets)
 using std::string;
 using std::array;
 using std::vector;
-void splitRequestAndParams(string commandAndParams, string &command, vector<string> &paramsVector)
-{
-    command = commandAndParams;
-    if (commandAndParams.find(' ') != string::npos)
-    {
-        command = command.erase(commandAndParams.find(' '));
-
-        string params = commandAndParams.substr(commandAndParams.find(' ') + 1);
-
-        std::stringstream test(params);
-        std::string segment;
-        while (std::getline(test, segment, ' '))
-        {
-            paramsVector.push_back(segment);
-        }
-    }
-}
 
 template<class T>
 void Vec_RemoveAll(vector<T>& vec, T val)
