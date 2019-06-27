@@ -328,7 +328,7 @@ As stated before, this library is a work-in-progress for my 12th grade project. 
 goals to accomplish.
 
 - [x] Get rid of UniSocketSet and create ```acceptIntervals()``` instead
-- [ ] Maybe make the sockets work like c++ streams ( << >>)
+- [x] Maybe make the sockets work like c++ streams ( << >>)
 - [ ] Consider making a separate class for UniServerSocket
 - [x] Somehow merge the socket wrapper classes into one class
 - [ ] General code clean up
