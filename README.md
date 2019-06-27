@@ -90,16 +90,16 @@ To get a local copy up and running follow these simple example steps.
 2. Use cmake to generate a build folder with either of the following
     * Unix Make:
         - Navigate to ```UniSockets/build``` and run cmake with your needed settings
-        ```sh
-        cmake ../
-        make
-        ```
+            ```bash
+            cmake ../
+            make
+            ```
     * Mingw:
         - Navigate to ```UniSockets/build``` and run cmake with your needed settings
-        ```sh
-        cmake ../
-        mingw32-make
-        ```
+            ```bash
+            cmake ../
+            mingw32-make
+            ```
 3. Set UniSockets/build as an environment variable named ```UNISOCKETS_DIR```
 
 
