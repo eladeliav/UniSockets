@@ -20,6 +20,7 @@
 # option, see https://cmake.org/cmake/help/latest/command/set.html.
 set(LIBRARY_TARGET_NAME ${PROJECT_NAME})
 # List of CPP (source) library files.
+
 set(${LIBRARY_TARGET_NAME}_SRC
         "src/UniSocket.cpp"
         "src/UniSocketException.cpp"
