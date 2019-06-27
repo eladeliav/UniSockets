@@ -31,6 +31,7 @@ private:
     SocketWrapper _sock;
     std::string _ip;
     int _timeout = 0;
+    enum {DEFAULT_BUFFER_LEN=4096};
 public:
     UniSocket(std::string ip, int port, int timeout=0); // connect socket
     UniSocket(int port, int maxCon, int timeout=0); //server socket
@@ -55,7 +56,7 @@ public:
 
     int recv(void* buf) const;
 
-    int raw_recv(void* buf, int bufLen) const;
+    int raw_recv(void* buf, int bufLen=DEFAULT_BUFFER_LEN) const;
 
     void close();
 
@@ -79,5 +80,18 @@ public:
 
     friend class UniSocketSet;
     friend class FDSetWrapper;
+
+    template<class T>
+    UniSocket& operator<<(T t)
+    {
+        raw_send(t);
+        return *this;
+    }
+
+    UniSocket& operator>>(void* buf)
+    {
+        raw_recv(buf, DEFAULT_BUFFER_LEN);
+        return *this;
+    }
 };
 

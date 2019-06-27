@@ -19,7 +19,7 @@ int UniSocket::send(const void *data, int bufLen) const
 
 int UniSocket::send(const std::string& data) const
 {
-    return send(data.c_str(), data.length());
+    return _sock.send(data);
 }
 
 int UniSocket::recv(void *buf) const
@@ -39,7 +39,7 @@ int UniSocket::raw_send(const void *data, int bufLen) const
 
 int UniSocket::raw_send(const std::string& data) const
 {
-    return raw_send(data.c_str(), data.length());
+    return _sock.raw_send(data);
 }
 
 void UniSocket::close()
