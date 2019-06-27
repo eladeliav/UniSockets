@@ -20,7 +20,7 @@ SocketWrapper::SocketWrapper(std::string ip, int port, int timeout)
 
     // initialize the socket
     _socket = (SOCKET) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (_socket == SOCKET_ERROR)
+    if (_socket == (SOCKET)SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     // initialize the address info var
@@ -51,7 +51,7 @@ SocketWrapper::SocketWrapper(int port, int maxCon, int timeout)
 
     // init the server socket
     _socket = (SOCKET) ::socket(AF_INET, SOCK_STREAM, 0);
-    if (_socket == SOCKET_ERROR)
+    if (_socket == (SOCKET)SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_INIT);
 
     // setting socket to be reusable (this is optional but it's good practice)
@@ -119,7 +119,7 @@ std::string SocketWrapper::extractIp(sockaddr_in &address)
 // returns if this socket is valid or not
 bool SocketWrapper::valid()
 {
-    return !_empty && _socket != SOCKET_ERROR;
+    return !_empty && _socket != (SOCKET)SOCKET_ERROR;
 }
 
 // returns fd #
@@ -147,7 +147,7 @@ int SocketWrapper::send(const void *data, int bufLen) const
     std::string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
     int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
     int result = ::send(this->_socket, msg.c_str(), size, 0);
-    if (errno == ETIMEDOUT)
+    if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
@@ -161,7 +161,7 @@ int SocketWrapper::raw_send(const void *data, int bufLen) const
 {
     char *pBuf = (char *) data;
     int result = ::send(this->_socket, pBuf, bufLen, 0);
-    if (errno == ETIMEDOUT)
+    if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
@@ -184,10 +184,10 @@ int SocketWrapper::recv(void *buf) const
         if (bytesReceived > 0)
         {
             sizeString += *sizeBuf;
-        } else if (errno == ECONNRESET || bytesReceived == 0)
+        } else if (UNISOCK_ERRNO == UNISOCK_CONNRESET || bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        } else if (errno == ETIMEDOUT)
+        } else if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
@@ -209,11 +209,11 @@ int SocketWrapper::recv(void *buf) const
 int SocketWrapper::raw_recv(void *buf, int bufLen) const
 {
     int bytesReceived = ::recv(this->_socket, static_cast<char *>(buf), bufLen, 0);
-    if (errno == ETIMEDOUT || errno == EAGAIN || errno == EWOULDBLOCK)
+    if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT || UNISOCK_ERRNO == UNISOCK_WOULDBLOCK)
     {
         throw UniSocketException(UniSocketException::TIMED_OUT);
     }
-    if (errno == ECONNRESET || bytesReceived == 0)
+    if (UNISOCK_ERRNO == UNISOCK_CONNRESET || bytesReceived == 0)
     {
         throw UniSocketException(UniSocketException::DISCONNECTED);
     }
@@ -245,11 +245,10 @@ SocketWrapper SocketWrapper::accept()
     int conn = (int) ::accept((SOCKET)this->_socket, reinterpret_cast<sockaddr *>(&this->_address),
                               reinterpret_cast<socklen_t *>(&len));
 
-    if (conn == SOCKET_ERROR || errno == ETIMEDOUT)
+    if (conn == SOCKET_ERROR || UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
         throw UniSocketException(UniSocketException::ACCEPT);
 
     SocketWrapper newClient = SocketWrapper(this->_address, conn);
-    newClient.setTimeout(_timeout);
     return newClient;
 }
 
@@ -273,8 +272,13 @@ SocketWrapper SocketWrapper::acceptIntervals()
 
 void SocketWrapper::close()
 {
+#ifndef _WIN32
     if (::close((SOCKET)this->_socket) == SOCKET_ERROR)
         throw UniSocketException(UniSocketException::SOCKET_CLOSE);
+#else
+    if (::closesocket((SOCKET)this->_socket) == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SOCKET_CLOSE);
+#endif
 }
 
 

@@ -31,25 +31,8 @@ set(${LIBRARY_TARGET_NAME}_SRC
 set(${LIBRARY_TARGET_NAME}_HDR
         "include/UniSockets/UniSocket.hpp"
         "include/UniSockets/UniSocketException.hpp"
-        "include/UniSockets/SocketWrappers/ISocketWrapper.hpp"
         "include/UniSockets/SocketWrappers/SocketWrapperUni.hpp"
         )
-
-#if (WIN32)
-#    list(APPEND ${LIBRARY_TARGET_NAME}_SRC
-#            "src/SocketWrappers/SocketWrapperWin.cpp"
-#            )
-#    list(APPEND ${LIBRARY_TARGET_NAME}_HDR
-#            "include/UniSockets/SocketWrappers/SocketWrapperWin.hpp"
-#            )
-#else ()
-#    list(APPEND ${LIBRARY_TARGET_NAME}_SRC
-#            "src/SocketWrappers/SocketWrapperLin.cpp"
-#            )
-#    list(APPEND ${LIBRARY_TARGET_NAME}_HDR
-#            "include/UniSockets/SocketWrappers/SocketWrapperLin.hpp"
-#            )
-#endif ()
 
 # You can add an external dependency using the find_package() function call
 # See: https://cmake.org/cmake/help/latest/command/find_package.html
