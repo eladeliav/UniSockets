@@ -315,6 +315,7 @@ goals to accomplish.
 - [x] Somehow merge the socket wrapper classes into one class
 - [ ] General code clean up
 - [ ] Documentation
+- [x] Get rid of the SocketWrapper class
 
 
 

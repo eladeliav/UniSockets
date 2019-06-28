@@ -1,122 +1,296 @@
 //
-// Created by elade on 3/14/2019.
+// Created by elad on 6/27/19.
 //
 
 #include "UniSockets/UniSocket.hpp"
 
-
+// constructors
+//client constructor
 UniSocket::UniSocket(std::string ip, int port, int timeout)
 {
-    _ip = ip;
+    // init ip and timeout variables
+    this->ip = ip;
     _timeout = timeout;
-    _sock = SocketWrapper(_ip, port, _timeout);
+#ifdef _WIN32
+    // init Winsock
+    WSADATA wsaData;
+    if (!initWinsock(wsaData))
+        throw UniSocketException(UniSocketException::WINSOCK);
+#endif
+
+    // initialize the socket
+    _socket = (SOCKET) ::socket(AF_INET, SOCK_STREAM, 0);
+    if (_socket == (SOCKET) SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SOCKET_INIT);
+
+    // initialize the address info var
+    _address.sin_family = AF_INET;
+    _address.sin_addr.s_addr = ::inet_addr(ip.c_str());
+    _address.sin_port = htons(port);
+
+    if (_timeout > 0)
+        setTimeout(_timeout);
+
+    int connResult = ::connect((SOCKET) _socket, (struct sockaddr *) &_address, sizeof(_address));
+    if (connResult == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::CONNECT);
+
+    _empty = false;
 }
 
+// server constructor
+UniSocket::UniSocket(int port, int maxCon, int timeout)
+{
+    _timeout = timeout;
+#ifdef _WIN32
+    // init Winsock
+    WSADATA wsaData;
+    if (!initWinsock(wsaData))
+        throw UniSocketException(UniSocketException::WINSOCK);
+#endif
+
+    // init the server socket
+    _socket = (SOCKET) ::socket(AF_INET, SOCK_STREAM, 0);
+    if (_socket == (SOCKET) SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SOCKET_INIT);
+
+    // setting socket to be reusable (this is optional but it's good practice)
+    int on = 1;
+    int rc = setsockopt((SOCKET) _socket, SOL_SOCKET, SO_REUSEADDR, (char *) &on, sizeof(on));
+    if (rc < 0)
+        throw UniSocketException(UniSocketException::SOCKET_INIT);
+
+    this->_address.sin_family = AF_INET;
+    this->_address.sin_addr.s_addr = ::inet_addr(ip.c_str());
+    this->_address.sin_port = htons((u_short) port);
+
+    if (_timeout > 0)
+        setTimeout(_timeout);
+
+    // bind socket to the given port and max connections
+    rc = ::bind((SOCKET) _socket, (const sockaddr *) &_address, sizeof(_address));
+    if (rc == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::BIND);
+
+    // being listening with the given maxConnections variable
+    rc = ::listen((SOCKET) _socket, maxCon);
+    if (rc == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::LISTEN);
+    _empty = false;
+}
+
+// constructor from existing fd and address
+UniSocket::UniSocket(sockaddr_in address, int sock)
+{
+    this->_empty = false;
+    this->_socket = sock;
+    this->_address = address;
+    ip = UniSocket::extractIp(_address);
+}
+
+// helper functions
+// returns number of digits in a given number
+int UniSocket::numDigits(int num)
+{
+    int digits = 0;
+    if (num < 0) digits = 1;
+    while (num)
+    {
+        num /= 10;
+        digits++;
+    }
+    return digits;
+}
+
+// extracts a stringified ip from a sockaddr_in
+std::string UniSocket::extractIp(sockaddr_in &address)
+{
+    char buff[18];
+    sprintf(buff,
+            "%d.%d.%d.%d",
+            int(address.sin_addr.s_addr & 0xFF),
+            int((address.sin_addr.s_addr & 0xFF00) >> 8),
+            int((address.sin_addr.s_addr & 0xFF0000) >> 16),
+            int((address.sin_addr.s_addr & 0xFF000000) >> 24)
+    );
+    return buff;
+}
+
+// returns if this socket is valid or not
+bool UniSocket::valid() const
+{
+    return !_empty && _socket != (SOCKET) SOCKET_ERROR;
+}
+
+// returns fd #
+int UniSocket::getSockId() const
+{
+    return (int) _socket;
+}
+
+#ifdef _WIN32
+
+// init winsock
+bool UniSocket::initWinsock(WSADATA &wsaData)
+{
+    //initializing winsock
+    int iResult = ::WSAStartup(MAKEWORD(2, 2), &wsaData);
+    return iResult == 0;
+}
+
+#endif
+
+// socket operations
+
+// sends with size header
 int UniSocket::send(const void *data, int bufLen) const
 {
-    return _sock.send(data, bufLen);
+    char *pBuf = (char *) data;
+    std::string msg = std::to_string(bufLen) + SIZE_HEADER_SPLITTER + pBuf;
+    int size = numDigits(bufLen) + sizeof(SIZE_HEADER_SPLITTER) + bufLen;
+    int result = ::send(this->_socket, msg.c_str(), size, 0);
+    if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
+    {
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
+    if (result == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SEND);
+    return result;
 }
 
 int UniSocket::send(const std::string& data) const
 {
-    return _sock.send(data);
+    return send(data.c_str(), data.length());
 }
 
-int UniSocket::recv(void *buf) const
-{
-    return _sock.recv(buf);
-}
-
-int UniSocket::raw_recv(void *buf, int bufLen) const
-{
-    return this->_sock.raw_recv(buf, bufLen);
-}
-
+// sends raw
 int UniSocket::raw_send(const void *data, int bufLen) const
 {
-    return this->_sock.raw_send(data, bufLen);
+    char *pBuf = (char *) data;
+    int result = ::send(this->_socket, pBuf, bufLen, 0);
+    if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
+    {
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
+    if (result == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SEND);
+    return result;
 }
 
 int UniSocket::raw_send(const std::string& data) const
 {
-    return _sock.raw_send(data);
+    return raw_send(data.c_str(), data.length());
+}
+
+// receives with size header
+int UniSocket::recv(void *buf) const
+{
+    int size = 0;
+    int bytesReceived = 0;
+    char sizeBuf[1] = {'\0'};
+    std::string sizeString;
+
+    do
+    {
+        bytesReceived = ::recv(this->_socket, sizeBuf, 1, 0);
+        if (bytesReceived > 0)
+        {
+            sizeString += *sizeBuf;
+        } else if (UNISOCK_ERRNO == UNISOCK_CONNRESET || bytesReceived == 0)
+        {
+            throw UniSocketException(UniSocketException::DISCONNECTED);
+        } else if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
+        {
+            throw UniSocketException(UniSocketException::TIMED_OUT);
+        }
+    } while (*sizeBuf != SIZE_HEADER_SPLITTER || *sizeBuf == (char) std::string::npos);
+
+    int sizeHeaderIndex = static_cast<int>(sizeString.find(SIZE_HEADER_SPLITTER));
+    try
+    {
+        size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
+    } catch (std::invalid_argument &e)
+    {
+        throw UniSocketException(UniSocketException::BAD_SIZE_HEADER);
+    }
+    ::recv(this->_socket, static_cast<char *>(buf), size, 0);
+    return size;
+}
+
+// receives raw
+int UniSocket::raw_recv(void *buf, int bufLen) const
+{
+    int bytesReceived = ::recv(this->_socket, static_cast<char *>(buf), bufLen, 0);
+    if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT || UNISOCK_ERRNO == UNISOCK_WOULDBLOCK)
+    {
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    }
+    if (UNISOCK_ERRNO == UNISOCK_CONNRESET || bytesReceived == 0)
+    {
+        throw UniSocketException(UniSocketException::DISCONNECTED);
+    }
+    return bytesReceived;
+}
+
+// sets socket timeout for send and recv operations ( setting it is different for win32 vs linux
+void UniSocket::setTimeout(int timeout)
+{
+#ifdef _WIN32
+    _timeout = timeout;
+    DWORD dTimeout = timeout * 1000;
+    setsockopt((SOCKET)
+                       this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &dTimeout, sizeof dTimeout);
+#else
+    _timeout = timeout;
+    struct timeval tv;
+    tv.tv_sec = _timeout;
+    tv.tv_usec = 0;
+    setsockopt(this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
+#endif
+}
+
+// accepts and returns a new socket
+UniSocket UniSocket::accept() const
+{
+    int len = sizeof(struct sockaddr_in);
+
+    int conn = (int) ::accept((SOCKET) this->_socket, (sockaddr*)&this->_address,
+                              reinterpret_cast<socklen_t *>(&len));
+
+    if (conn == SOCKET_ERROR || UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
+        throw UniSocketException(UniSocketException::ACCEPT);
+
+    UniSocket newClient = UniSocket(this->_address, conn);
+    return newClient;
+}
+
+// accepts sockets at intervals of the given timeout
+UniSocket UniSocket::acceptIntervals() const
+{
+    fd_set set;
+    struct timeval tv;
+    tv.tv_sec = _timeout;
+    tv.tv_usec = 0;
+    FD_ZERO(&set);
+    FD_SET(_socket, &set);
+
+    int rv = select((SOCKET) _socket + 1, &set, nullptr, nullptr, &tv);
+    if (rv == -1)
+        throw UniSocketException(UniSocketException::POLL);
+    else if (rv == 0)
+        throw UniSocketException(UniSocketException::TIMED_OUT);
+    return accept();
 }
 
 void UniSocket::close()
 {
-    _sock.close();
-}
-
-std::string UniSocket::getIp()
-{
-    return _ip;
-}
-
-UniSocket::UniSocket()
-{}
-
-UniSocket::UniSocket(const UniSocket &ref)
-{
-    _ip = ref._ip;
-    _sock = ref._sock;
-}
-
-UniSocket::UniSocket(
-        std::string ip,
-        SocketWrapper sock)
-{
-    _ip = ip;
-    _sock = sock;
-}
-
-UniSocket::UniSocket(int port, int maxCon, int timeout)
-{
-    _timeout = timeout;
-    _sock = SocketWrapper(port, maxCon, timeout);
-}
-
-UniSocket::~UniSocket()
-{
-    //_sock.close();
-}
-
-UniSocket UniSocket::accept() const
-{
-    SocketWrapper sw;
-    sw = _sock.accept();
-    UniSocket us = UniSocket(sw.ip, sw);
-    return us;
-}
-
-UniSocket::UniSocket(const SocketWrapper &ref)
-{
-    this->_sock = ref;
-}
-
-bool operator==(const UniSocket &lhs, const UniSocket &rhs)
-{
-    return lhs._sock.getSockId() == rhs._sock.getSockId();
-}
-
-bool operator!=(const UniSocket &lhs, const UniSocket &rhs)
-{
-    return !(lhs == rhs);
-}
-
-bool UniSocket::valid() const
-{
-    return this->_sock.valid();
-}
-
-int UniSocket::getSockId() const
-{
-    return this->_sock.getSockId();
-}
-
-void UniSocket::setTimeout(int timeout)
-{
-    this->_timeout = timeout;
-    this->_sock.setTimeout(_timeout);
+#ifndef _WIN32
+    if (::close((SOCKET)this->_socket) == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SOCKET_CLOSE);
+#else
+    if (::closesocket((SOCKET) this->_socket) == SOCKET_ERROR)
+        throw UniSocketException(UniSocketException::SOCKET_CLOSE);
+#endif
 }
 
 void UniSocket::cleanup()
@@ -124,25 +298,4 @@ void UniSocket::cleanup()
 #ifdef _WIN32
     WSACleanup();
 #endif
-}
-
-UniSocket UniSocket::acceptIntervals() const
-{
-    SocketWrapper sw;
-    sw = _sock.acceptIntervals();
-    UniSocket us = UniSocket(sw.ip, sw);
-    return us;
-}
-
-void UniSocket::broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw, UniSocket ignoreSock)
-{
-    for (UniSocket &outSock : socks)
-    {
-        if (ignoreSock.valid() && outSock == ignoreSock)
-            continue;
-        if (raw)
-            outSock.raw_send(msg.c_str(), msg.length());
-        else
-            outSock.send(msg.c_str(), msg.length());
-    }
 }

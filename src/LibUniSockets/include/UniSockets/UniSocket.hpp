@@ -2,20 +2,43 @@
 // Created by elade on 3/14/2019.
 //
 
-//TODOS HERE
-//TODO: consider making << >> operator like a stream
-//TODO: consider making separte class for UniServerSocket
+#ifndef UNISOCKETS_HPP
+#define UNISOCKETS_HPP
 
-#pragma once
+#if _WIN32
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
+#include <mstcpip.h>
+#define UNISOCK_ERRNO WSAGetLastError()
+#define UNISOCK_TIMEDOUT WSAETIMEDOUT
+#define UNISOCK_CONNRESET WSAECONNRESET
+#define UNISOCK_WOULDBLOCK WSAEWOULDBLOCK
+#else
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/poll.h>
+#include <sys/socket.h>
+#include <sys/select.h>
+#include <netinet/in.h>
+#include <errno.h>
+#define SOCKET int
+#define SOCKET_ERROR -1
+#define UNISOCKERRNO errno
+#define UNISOCK_TIMEDOUT ETIMEDOUT
+#define UNISOCK_CONNRESET ECONNRESET
+#define UNISOCK_WOULDBLOCK EWOULDBLOCK
+#endif
 
+// includes for both
 #include <string>
-#include <map>
 #include <vector>
-#include <ostream>
-#include <sstream>
+#define SIZE_HEADER_SPLITTER ':'
 
-#include "UniSocketException.hpp"
-#include "UniSockets/SocketWrappers/SocketWrapperUni.hpp"
+#include "UniSockets/UniSocketException.hpp"
+
 
 #define DEFAULT_BUFFER_LEN 2048
 
@@ -23,58 +46,62 @@ class UniSocket;
 
 class UniSocket
 {
+public:
+    std::string ip = "127.0.0.1";
 private:
-    SocketWrapper _sock;
-    std::string _ip;
+    sockaddr_in _address;
+    SOCKET _socket;
+    bool _empty = true;
     int _timeout = 0;
 public:
-    UniSocket(std::string ip, int port, int timeout=0); // connect socket
-    UniSocket(int port, int maxCon, int timeout=0); //server socket
-    UniSocket(std::string ip, SocketWrapper sock);
+    UniSocket() = default; // empty constructor
 
-    UniSocket(); //empty socket
-    UniSocket(const SocketWrapper &ref);
+    UniSocket(std::string ip, int port, int timeout); // client constructor
 
-    UniSocket(const UniSocket &ref); //copy constructor
-    ~UniSocket();
-
-    std::string getIp(); //get ip of socket
-
-    // send, receive, close
-    int send(const void* data, int bufLen) const;
+    int send(const void* data, int bufLen) const; // send with size header
 
     int send(const std::string& data) const;
 
-    int raw_send(const void* data, int bufLen) const;
+    int raw_send(const void* data, int bufLen) const; // send data raw (as is)
 
     int raw_send(const std::string& data) const;
 
-    int recv(void* buf) const;
+    int recv(void* buf) const; // receive data with size header
 
-    int raw_recv(void* buf, int bufLen=DEFAULT_BUFFER_LEN) const;
+    int raw_recv(void* buf, int bufLen) const; // receive data raw (as is)
 
-    void close();
+    int getSockId() const; // return fd
 
-    int getSockId() const;
+    void close(); // close sock
 
-    UniSocket accept() const;
+    void setTimeout(int timeout); // set timeout for send/recv
 
-    UniSocket acceptIntervals() const;
+    //server constructors
+    UniSocket(int port, int maxCon, int timeout); // constructor for a server
 
-    static void broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw=true, UniSocket ignoreSock = UniSocket());
+    UniSocket(sockaddr_in address, int sock); //  init a socket wrapper through address info and fd #
 
-    void setTimeout(int timeout);
+    // server functions
+    UniSocket accept() const; // accept a socket (hogs thread)
 
-    bool valid() const;
+    UniSocket acceptIntervals() const; // accepts at intervals according to this->_timeout
+
+    virtual bool valid() const; // checks if socket is valid
+
+    // cleanup for winsock
 
     static void cleanup();
 
-    friend bool operator==(const UniSocket &lhs, const UniSocket &rhs);
+    //operator overloads
+    bool operator==(const UniSocket &rhs)
+    {
+        return this->getSockId() == rhs.getSockId();
+    }
 
-    friend bool operator!=(const UniSocket &lhs, const UniSocket &rhs);
-
-    friend class UniSocketSet;
-    friend class FDSetWrapper;
+    bool operator!=(const UniSocket &rhs)
+    {
+        return !(*this == rhs);
+    }
 
     template<class T>
     UniSocket& operator<<(T t)
@@ -88,5 +115,13 @@ public:
         raw_recv(buf, DEFAULT_BUFFER_LEN);
         return *this;
     }
+
+private:
+    static int numDigits(int num);
+    static std::string extractIp(sockaddr_in &address);
+#ifdef _WIN32
+    bool initWinsock(WSAData& wsaData);
+#endif
 };
 
+#endif //UNISOCKETS_HPP
