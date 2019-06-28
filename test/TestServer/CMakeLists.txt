@@ -1,4 +1,4 @@
-set(TEST_TARGET_NAME TestServer)
+set(TEST_TARGET_NAME Server)
 
 set(${TEST_TARGET_NAME}_SRC
         server.cpp
@@ -6,10 +6,6 @@ set(${TEST_TARGET_NAME}_SRC
 
 set(UniSockets_DIR $ENV{UNISOCKETS_DIR}) # set directory of UniSocketsLib
 find_package(UniSockets REQUIRED) # find package
-
-if (UNIX)
-    SET(CMAKE_CXX_FLAGS -pthread) # this specific project requires pthread
-endif ()
 
 add_executable(${TEST_TARGET_NAME} ${${TEST_TARGET_NAME}_SRC})
 target_link_libraries(${TEST_TARGET_NAME} UniSockets)
