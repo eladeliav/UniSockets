@@ -40,7 +40,7 @@
 #define DEFAULT_IP "127.0.0.1"
 #define DEFAULT_BUFFER_LEN 2048
 
-#include "UniSockets/UniSocketException.hpp"
+#include "UniSocketException.hpp"
 
 class UniSocket;
 
