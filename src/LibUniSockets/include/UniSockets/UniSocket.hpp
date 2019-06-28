@@ -26,7 +26,7 @@
 #include <errno.h>
 #define SOCKET int
 #define SOCKET_ERROR -1
-#define UNISOCKERRNO errno
+#define UNISOCK_ERRNO errno
 #define UNISOCK_TIMEDOUT ETIMEDOUT
 #define UNISOCK_CONNRESET ECONNRESET
 #define UNISOCK_WOULDBLOCK EWOULDBLOCK
