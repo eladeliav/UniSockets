@@ -32,8 +32,6 @@ void client()
             }
         }
     }
-
-
     client.close();
 }
 

@@ -2,18 +2,16 @@
 #include <string>
 #include "UniSockets/Core.hpp"
 #include <cstring>
-#include <ctime>
+#include <chrono>
 
 #define MESSAGE "THIS IS THE MESSAGE TO SEND ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
-
 #define TIMEOUT 1
+using namespace std::chrono;
 
 int main()
 {
     UniServerSocket listenSock(5400, SOMAXCONN, TIMEOUT); // init server socket
-    std::clock_t start;
-    double duration = 0;
-    start = std::clock();
+    auto start = high_resolution_clock::now();
     try
     {
         listenSock.acceptIntervals();
@@ -21,9 +19,9 @@ int main()
     {
         if(e.getErrorType() == UniSocketException::TIMED_OUT)
         {
-            duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-            int integerVer = duration;
-            if(integerVer != TIMEOUT)
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<seconds>(stop - start);
+            if(duration.count() != TIMEOUT)
             {
                 listenSock.close();
                 UniSocket::cleanup();

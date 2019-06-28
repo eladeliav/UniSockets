@@ -1,7 +1,15 @@
 set(TEST_TARGET_NAME Stream_Receive_Test)
 
+if (UNIX)
+    find_package(Threads)
+endif ()
+
 add_executable(${TEST_TARGET_NAME} Stream_receive_tester.cpp)
 target_link_libraries(${TEST_TARGET_NAME} UniSockets)
+if (UNIX)
+    target_link_libraries(${TEST_TARGET_NAME} ${CMAKE_THREAD_LIBS_INIT})
+endif ()
+
 
 # Add a test to the project to be run by ctest.
 # See https://cmake.org/cmake/help/latest/command/add_test.html
