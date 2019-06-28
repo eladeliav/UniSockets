@@ -54,7 +54,7 @@ private:
     bool _empty = true;
     int _timeout = DEFAULT_TIMEOUT;
 public:
-    UniSocket() = default; // empty constructor
+    UniSocket() {}; // empty constructor
 
     UniSocket(std::string ip, int port, int timeout=DEFAULT_TIMEOUT); // client constructor
 
@@ -79,6 +79,9 @@ public:
     void setTimeout(int timeout); // set timeout for send/recv
 
     bool valid() const; // checks if socket is valid
+
+    // broadcasts a given message to a all sockets in the given vector
+    static void broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw=true, UniSocket ignoreSock = UniSocket());
 
     // cleanup for winsock
 

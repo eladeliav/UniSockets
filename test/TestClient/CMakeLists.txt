@@ -1,17 +1,18 @@
-set(TEST_TARGET_NAME test_TestClient)
+set(TEST_TARGET_NAME TestClient)
 
 set(${TEST_TARGET_NAME}_SRC
         client.cpp
-)
+        )
 
-set(LibUniSockets_DIR "D:\\Programming\\VisualStudioProjects\\CPP\\VSCodeVersions\\UniSockets\\build")
+set(UniSockets_DIR $ENV{UNISOCKETS_DIR}) # set directory of UniSocketsLib
+find_package(UniSockets REQUIRED) # find package
 
-
-find_package(LibUniSockets REQUIRED)
+if (UNIX)
+    SET(CMAKE_CXX_FLAGS -pthread) # this specific project requires pthread
+endif ()
 
 add_executable(${TEST_TARGET_NAME} ${${TEST_TARGET_NAME}_SRC})
-
-target_link_libraries(${TEST_TARGET_NAME} LibUniSockets::LibUniSockets)
+target_link_libraries(${TEST_TARGET_NAME} UniSockets)
 
 # Add a test to the project to be run by ctest.
 # See https://cmake.org/cmake/help/latest/command/add_test.html
@@ -20,5 +21,5 @@ target_link_libraries(${TEST_TARGET_NAME} LibUniSockets::LibUniSockets)
 # created by add_executable(), it will automatically be replaced by the location
 # of the executable created at build time.
 add_test(NAME ${TEST_TARGET_NAME}
-         COMMAND ${TEST_TARGET_NAME}
-         WORKING_DIRECTORY $<TARGET_FILE_DIR:${TEST_TARGET_NAME}>)
+        COMMAND ${TEST_TARGET_NAME}
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:${TEST_TARGET_NAME}>)

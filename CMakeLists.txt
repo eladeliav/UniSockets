@@ -32,6 +32,7 @@ option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to statis" OFF)
 
 # Build test related commands?
 option(BUILD_TESTING "Create tests using CMake" OFF)
+#set(BUILD_TESTING ON)
 if(BUILD_TESTING)
     enable_testing()
 endif()

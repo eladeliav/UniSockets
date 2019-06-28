@@ -207,6 +207,19 @@ void UniSocket::setTimeout(int timeout)
 #endif
 }
 
+void UniSocket::broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw, UniSocket ignoreSock)
+{
+    for (UniSocket &outSock : socks)
+    {
+        if (ignoreSock.valid() && outSock == ignoreSock)
+            continue;
+        if (raw)
+            outSock.raw_send(msg.c_str(), msg.length());
+        else
+            outSock.send(msg.c_str(), msg.length());
+    }
+}
+
 void UniSocket::close()
 {
 #ifndef _WIN32
