@@ -36,27 +36,29 @@
 #include <string>
 #include <vector>
 #define SIZE_HEADER_SPLITTER ':'
+#define DEFAULT_TIMEOUT 0
+#define DEFAULT_IP "127.0.0.1"
+#define DEFAULT_BUFFER_LEN 2048
 
 #include "UniSockets/UniSocketException.hpp"
-
-
-#define DEFAULT_BUFFER_LEN 2048
 
 class UniSocket;
 
 class UniSocket
 {
 public:
-    std::string ip = "127.0.0.1";
+    std::string ip = DEFAULT_IP;
 private:
     sockaddr_in _address;
     SOCKET _socket;
     bool _empty = true;
-    int _timeout = 0;
+    int _timeout = DEFAULT_TIMEOUT;
 public:
     UniSocket() = default; // empty constructor
 
-    UniSocket(std::string ip, int port, int timeout); // client constructor
+    UniSocket(std::string ip, int port, int timeout=DEFAULT_TIMEOUT); // client constructor
+
+    UniSocket(sockaddr_in address, int sock);
 
     int send(const void* data, int bufLen) const; // send with size header
 
@@ -76,17 +78,7 @@ public:
 
     void setTimeout(int timeout); // set timeout for send/recv
 
-    //server constructors
-    UniSocket(int port, int maxCon, int timeout); // constructor for a server
-
-    UniSocket(sockaddr_in address, int sock); //  init a socket wrapper through address info and fd #
-
-    // server functions
-    UniSocket accept() const; // accept a socket (hogs thread)
-
-    UniSocket acceptIntervals() const; // accepts at intervals according to this->_timeout
-
-    virtual bool valid() const; // checks if socket is valid
+    bool valid() const; // checks if socket is valid
 
     // cleanup for winsock
 

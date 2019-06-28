@@ -24,12 +24,15 @@ set(LIBRARY_TARGET_NAME ${PROJECT_NAME})
 set(${LIBRARY_TARGET_NAME}_SRC
         "src/UniSocket.cpp"
         "src/UniSocketException.cpp"
+        "src/UniServerSocket.cpp"
         )
 
 # List of HPP (header) library files.
 set(${LIBRARY_TARGET_NAME}_HDR
+        "include/UniSockets/Core.hpp"
         "include/UniSockets/UniSocket.hpp"
         "include/UniSockets/UniSocketException.hpp"
+        "include/UniSockets/UniServerSocket.hpp"
         )
 
 # You can add an external dependency using the find_package() function call
