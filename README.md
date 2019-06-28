@@ -27,7 +27,7 @@
     A simple cross-platform sockets library for c++.
     <br />
     This project was made as part of my 12th grade software engineering project.
-    See my <a href="https://github.com/eladeliav/UniSockets">github profile</a> for the full project.
+    See my <a href="https://github.com/eladeliav/">github profile</a> for the full project.
     <br />
     <!--<a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
@@ -68,7 +68,6 @@ as part of my 12th grade software engineering project which includes a lot more 
 Please feel free to check out the other parts of the project on my <a href="https://github.com/eladeliav/">github</a>
 profile.
 ### Built With
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [CLion](https://www.jetbrains.com/clion/)
 * [CMake](https://cmake.org/)
 * [C++](http://www.cplusplus.com/doc/tutorial/)
