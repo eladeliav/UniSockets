@@ -1,13 +1,6 @@
-set(TEST_TARGET_NAME Server)
+set(TEST_TARGET_NAME Receive_Test)
 
-set(${TEST_TARGET_NAME}_SRC
-        server.cpp
-        )
-
-set(UniSockets_DIR $ENV{UNISOCKETS_DIR}) # set directory of UniSocketsLib
-find_package(UniSockets REQUIRED) # find package
-
-add_executable(${TEST_TARGET_NAME} ${${TEST_TARGET_NAME}_SRC})
+add_executable(${TEST_TARGET_NAME} receive_tester.cpp)
 target_link_libraries(${TEST_TARGET_NAME} UniSockets)
 
 # Add a test to the project to be run by ctest.

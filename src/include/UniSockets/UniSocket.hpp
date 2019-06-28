@@ -70,7 +70,7 @@ public:
 
     int recv(void* buf) const; // receive data with size header
 
-    int raw_recv(void* buf, int bufLen) const; // receive data raw (as is)
+    int raw_recv(void* buf, int bufLen=DEFAULT_BUFFER_LEN) const; // receive data raw (as is)
 
     int getSockId() const; // return fd
 

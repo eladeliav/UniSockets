@@ -1,13 +1,6 @@
-set(TEST_TARGET_NAME Client)
+set(TEST_TARGET_NAME Receive_Timeout_Test)
 
-set(${TEST_TARGET_NAME}_SRC
-        client.cpp
-        )
-
-set(UniSockets_DIR $ENV{UNISOCKETS_DIR}) # set directory of UniSocketsLib
-find_package(UniSockets REQUIRED) # find package
-
-add_executable(${TEST_TARGET_NAME} ${${TEST_TARGET_NAME}_SRC})
+add_executable(${TEST_TARGET_NAME} receive_timeout_tester.cpp)
 target_link_libraries(${TEST_TARGET_NAME} UniSockets)
 
 # Add a test to the project to be run by ctest.

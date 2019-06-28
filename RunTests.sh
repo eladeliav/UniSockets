@@ -1,4 +1,4 @@
-# !/bin/bash
-# run tests script
-cd build
-ctest -j2
+#!/usr/bin
+cd build/
+cmake --build . --target all
+ctest
