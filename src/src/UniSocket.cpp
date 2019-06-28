@@ -157,7 +157,7 @@ int UniSocket::recv(void *buf) const
         } else if (UNISOCK_ERRNO == UNISOCK_CONNRESET || bytesReceived == 0)
         {
             throw UniSocketException(UniSocketException::DISCONNECTED);
-        } else if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT)
+        } else if (UNISOCK_ERRNO == UNISOCK_TIMEDOUT || UNISOCK_ERRNO == UNISOCK_WOULDBLOCK)
         {
             throw UniSocketException(UniSocketException::TIMED_OUT);
         }
@@ -203,7 +203,7 @@ void UniSocket::setTimeout(int timeout)
     struct timeval tv;
     tv.tv_sec = _timeout;
     tv.tv_usec = 0;
-    setsockopt(this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
+    setsockopt(this->_socket, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof(tv));
 #endif
 }
 
