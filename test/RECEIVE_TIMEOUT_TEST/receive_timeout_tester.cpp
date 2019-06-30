@@ -38,7 +38,8 @@ int main()
         {
             gotHere = true;
             duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-            int integerVer = duration;
+            duration += 0.5; // for rounding up
+            int integerVer = (int)duration;
             if(integerVer != TIMEOUT)
             {
                 client.close();
