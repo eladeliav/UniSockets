@@ -37,7 +37,7 @@
 #include <vector>
 #define SIZE_HEADER_SPLITTER ':'
 #define DEFAULT_TIMEOUT 0
-#define DEFAULT_IP "127.0.0.1"
+#define DEFAULT_IP "0.0.0.0"
 #define DEFAULT_BUFFER_LEN 2048
 
 #include "UniSocketException.hpp"
