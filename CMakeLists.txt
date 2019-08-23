@@ -4,6 +4,8 @@ project(UniSockets
         VERSION 0.0.0.1
 )
 
+set (CMAKE_CXX_STANDARD 14)
+
 # Defines the CMAKE_INSTALL_LIBDIR, CMAKE_INSTALL_BINDIR and many other useful macros.
 # See https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
 include(GNUInstallDirs)
