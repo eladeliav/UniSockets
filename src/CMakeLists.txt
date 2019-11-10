@@ -15,12 +15,7 @@ set(${LIBRARY_TARGET_NAME}_HDR
         "include/UniSockets/UniServerSocket.hpp"
         )
 
-#if (WIN32)
-#    set(CMAKE_SHARED_LIBRARY_PREFIX "")
-#    set(CMAKE_STATIC_LIBRARY_SUFFIX ".dll.a")
-#endif ()
-
-add_library(${LIBRARY_TARGET_NAME} STATIC ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBRARY_TARGET_NAME}_HDR})
+add_library(${LIBRARY_TARGET_NAME} SHARED ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBRARY_TARGET_NAME}_HDR})
 
 # creating alias for within the project
 add_library(${PROJECT_NAME}::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
