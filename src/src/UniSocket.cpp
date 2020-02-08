@@ -3,6 +3,7 @@
 //
 
 #include "UniSockets/UniSocket.hpp"
+#include <iostream>
 
 // constructors
 //client constructor
@@ -150,6 +151,7 @@ int UniSocket::recv(void *buf) const
 
     do
     {
+        memset(sizeBuf, 0, sizeof(sizeBuf));
         bytesReceived = ::recv(this->_socket, sizeBuf, 1, 0);
         if (bytesReceived > 0)
         {
@@ -169,6 +171,7 @@ int UniSocket::recv(void *buf) const
         size = std::stoi(sizeString.substr(0, sizeHeaderIndex));
     } catch (std::invalid_argument &e)
     {
+        std::cout << "Bad Size buf: " << sizeString << std::endl;
         throw UniSocketException(UniSocketException::BAD_SIZE_HEADER);
     }
     ::recv(this->_socket, static_cast<char *>(buf), size, 0);
