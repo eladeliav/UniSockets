@@ -51,6 +51,7 @@ UniSocket::UniSocket(sockaddr_in address, int sock)
 // helper functions
 
 #ifdef _WIN32
+
 // init winsock
 bool UniSocket::initWinsock(WSADATA &wsaData)
 {
@@ -58,6 +59,7 @@ bool UniSocket::initWinsock(WSADATA &wsaData)
     int iResult = ::WSAStartup(MAKEWORD(2, 2), &wsaData);
     return iResult == 0;
 }
+
 #endif
 
 // returns number of digits in a given number
@@ -117,7 +119,7 @@ int UniSocket::send(const void *data, int bufLen) const
     return result;
 }
 
-int UniSocket::send(const std::string& data) const
+int UniSocket::send(const std::string &data) const
 {
     return send(data.c_str(), data.length());
 }
@@ -136,7 +138,7 @@ int UniSocket::raw_send(const void *data, int bufLen) const
     return result;
 }
 
-int UniSocket::raw_send(const std::string& data) const
+int UniSocket::raw_send(const std::string &data) const
 {
     return raw_send(data.c_str(), data.length());
 }
@@ -222,6 +224,43 @@ void UniSocket::broadcastToSet(std::string msg, std::vector<UniSocket> socks, bo
             outSock.send(msg.c_str(), msg.length());
     }
 }
+
+std::vector<UniSocket> UniSocket::select(std::vector<UniSocket> &socks, int timeout)
+{
+    fd_set set;
+    struct timeval tv;
+    if (timeout > DEFAULT_TIMEOUT)
+        tv.tv_sec = timeout;
+    else
+        tv.tv_sec = 0;
+    tv.tv_usec = 0;
+
+    FD_ZERO(&set);
+    int biggest = socks.at(0)._socket;
+    for (auto const &s : socks)
+    {
+        FD_SET(s._socket, &set);
+        if (biggest < (int) s._socket)
+            biggest = s._socket;
+    }
+
+    std::vector<UniSocket> readable;
+    int rv = 0;
+    rv = ::select((biggest + 1), &set, nullptr, nullptr, &tv);
+    if (rv)
+    {
+        for (size_t i = 0; i < socks.size() && rv; i++)
+        {
+            if(FD_ISSET(socks.at(i)._socket, &set))
+            {
+                readable.push_back(socks.at(i));
+                rv--;
+            }
+        }
+    }
+    return readable;
+}
+
 
 void UniSocket::close()
 {

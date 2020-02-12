@@ -83,6 +83,8 @@ public:
     // broadcasts a given message to a all sockets in the given vector
     static void broadcastToSet(std::string msg, std::vector<UniSocket> socks, bool raw=true, UniSocket ignoreSock = UniSocket());
 
+    static std::vector<UniSocket> select(std::vector<UniSocket>& socks, int timeout=0);
+
     // cleanup for winsock
 
     static void cleanup();
