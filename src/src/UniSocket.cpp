@@ -5,6 +5,10 @@
 #include "UniSockets/UniSocket.hpp"
 #include <iostream>
 
+#ifndef _WIN32
+#include <cstring>
+#endif
+
 // constructors
 //client constructor
 UniSocket::UniSocket(std::string ip, int port, int timeout)
